@@ -2,6 +2,8 @@
 #include "include/raylib.h"
 #include "src/Planet.h"
 #include "src/Particle.h"
+#include "src/Ship.h"
+
 
 int main(int charc, char** argv) {
 
