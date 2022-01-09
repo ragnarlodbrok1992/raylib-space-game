@@ -27,12 +27,7 @@ Particle::Particle(Vector2 position, Vector2 velocity, Color color) : Object(pos
 	this->velocity.y = velocity.y;
 	this->color = color;
 }
-/*
-void Particle::RegisterPlanet(Planet* planet)
-{
-	this->planets.push_back(planet);
-}
-*/
+
 void Particle::Update(Vector2 acceleration)
 {
 	this->UpdatePosition();

@@ -19,7 +19,6 @@ public:
 	Particle(Vector2 position, Vector2 velocity);
 	Particle(Vector2 position, Vector2 velocity, Color color);
 
-	//void RegisterPlanet(Planet* planet);
 	virtual void Draw();
 	virtual void Update(Vector2 acceleration);
 };
