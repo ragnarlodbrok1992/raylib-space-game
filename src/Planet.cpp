@@ -1,11 +1,7 @@
-#include<raylib.h>
+#include"../include/raylib.h"
 #include "Planet.h"
+#include "Utils.h"
 #include<math.h>
-
-float GetDistance(Vector2 firstObj, Vector2 secondObj) { //TODO: move to different file
-	return sqrtf(powf(secondObj.x - firstObj.x,2) + powf(secondObj.y-firstObj.y,2));
-}
-
 
 Vector2 Planet::GetVersorDirection(Vector2 objectPosition)
 {
@@ -18,29 +14,24 @@ Vector2 Planet::GetVersorDirection(Vector2 objectPosition)
 	return vector;
 }
 
-Planet::Planet(Vector2 position, double radius, double mass)
+Planet::Planet(Vector2 position, double radius, double mass, Color color):Object(position)
 {
-	this->position.x = position.x;
-	this->position.y = position.y;
 	this->radius = radius;
 	this->mass = mass;
-}
-
-Vector2 Planet::GetPlanetPosition()
-{
-	return this->position;
-}
-float Planet::GetPlanetRadius()
-{
-	return this->radius;
+	this->color = color;
 }
 
 Vector2 Planet::GetAcceleration(Vector2 objectPosition)
 {
 	float distance = GetDistance(this->position, objectPosition);
-	float force = (GRAV_CONSTANT * this->mass) / powf(distance, 2);
+	float force = (float)(GRAV_CONSTANT * this->mass) / powf(distance, 2);
 	Vector2 acceleration = Planet::GetVersorDirection(objectPosition);
 	acceleration.x *= force;
 	acceleration.y *= force;
 	return acceleration;
+}
+
+void Planet::Draw()
+{
+	DrawCircleV(this->position, this->radius, this->color);
 }
