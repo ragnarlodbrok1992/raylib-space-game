@@ -1,25 +1,24 @@
 #pragma once
-#include<raylib.h>
+#include"../include/raylib.h"
 #include"Planet.h"
+#include"Object.h"
+#include <list>
 
-class Particle
+class Particle : public Object
 {
 private:
-	Vector2 position;
 	Vector2 velocity;
-	Color color;	
-	Planet* planet=NULL;
+	
+	std::list <Planet*> planets;
 
-	void UpdateVelocity();
+	void UpdateVelocity(Vector2 acceleration);
 	void UpdatePosition();
 
 public:
+	Color color;
 	Particle(Vector2 position, Vector2 velocity);
 	Particle(Vector2 position, Vector2 velocity, Color color);
 
-	void RegisterPlanet(Planet* planet);
-
-	Vector2 GetPosition();
-	Color GetColor();
-	void Update();
+	virtual void Draw();
+	virtual void Update(Vector2 acceleration);
 };
