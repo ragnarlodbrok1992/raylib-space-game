@@ -3,6 +3,10 @@
 #include "src/Planet.h"
 #include "src/Particle.h"
 #include "src/Ship.h"
+#include "src/Utils.h"
+
+// Temporary include - remove before commit
+#include <iostream>
 
 
 int main(int charc, char** argv) {
@@ -14,16 +18,25 @@ int main(int charc, char** argv) {
 
   SetTargetFPS(60);
 
+  // Init control values here
+  double angle = 0.04f;
+  Vector2 shipMoveVector = {0.0f, -1.0f};
+
+  // Init control structures here
   std::list <Planet*> gravitySources;
   std::list <Particle*> gravityConsumers;
-  //init objects here
+
+
+  // Init objects here
+  Ship ship(Vector2{150.0f, 250.0f}, 50.0f);
+
   Particle* particle;
   for (int ii = 0; ii < 400; ii++)
   {
       particle = new Particle(Vector2{ 100.0f+ii,400.0f+ii/2 }, Vector2{ 3.0f+ii/10.0f,0.0f }, BLACK);
       gravityConsumers.push_back(particle);
   }
-  Planet planet(Vector2{ 400.0f,400.0f }, 50, 50000, BLUE);
+  Planet planet (Vector2{ 400.0f,400.0f }, 50, 50000, BLUE);
   Planet planet2(Vector2{ 650.0f,250.0f }, 60, 70000, DARKBLUE);
   Planet planet3(Vector2{ 100.0f,120.0f }, 30, 30000, BROWN);
   gravitySources.push_back(&planet);
@@ -34,8 +47,25 @@ int main(int charc, char** argv) {
   while (!WindowShouldClose()) {
 
     // Get input
-    //
-
+    if (IsKeyDown (KEY_A)) {
+      ship.Rotate(-angle);
+      RotateUnitVector(shipMoveVector, -angle);
+    }
+    if (IsKeyDown (KEY_D)) {
+      ship.Rotate(angle);
+      RotateUnitVector(shipMoveVector, angle);
+    }
+    if (IsKeyDown (KEY_W)) {
+      ship.MoveByVector(shipMoveVector);
+    }
+    if (IsKeyDown (KEY_S)) {
+      Vector2 revVec;
+      revVec.x = shipMoveVector.x * -1;
+      revVec.y = shipMoveVector.y * -1;
+      ship.MoveByVector(revVec);
+    }
+ 
+    // Frame begins here
     BeginDrawing();
 
     ClearBackground(RAYWHITE);
@@ -61,6 +91,9 @@ int main(int charc, char** argv) {
     {
         currentParticle->Draw();
     }
+
+    // Drawing ship
+    ship.Draw();
 
     EndDrawing();
   }
