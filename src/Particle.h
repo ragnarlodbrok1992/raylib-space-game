@@ -1,8 +1,9 @@
 #pragma once
-#include"../include/raylib.h"
-#include"Planet.h"
-#include"Object.h"
+#include "../include/raylib.h"
+#include "Planet.h"
+#include "Object.h"
 #include <list>
+#include <cstddef>
 
 class Particle : public Object
 {
@@ -21,4 +22,10 @@ public:
 
 	virtual void Draw();
 	virtual void Update(Vector2 acceleration);
+	void RegisterPlanet(Planet* planet);
+
+	Vector2 GetPosition();
+	Color GetColor();
+	void Update();
 };
+

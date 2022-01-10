@@ -1,7 +1,7 @@
-#include"../include/raylib.h"
+#include "../include/raylib.h"
 #include "Planet.h"
 #include "Utils.h"
-#include<math.h>
+#include <math.h>
 
 Vector2 Planet::GetVersorDirection(Vector2 objectPosition)
 {
@@ -35,3 +35,4 @@ void Planet::Draw()
 {
 	DrawCircleV(this->position, this->radius, this->color);
 }
+

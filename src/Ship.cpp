@@ -1,7 +1,6 @@
-#include "../include/Ship.h"
+#include "../include/raylib.h"
+#include "Ship.h"
 
-class Ship {
 
-};
 
 

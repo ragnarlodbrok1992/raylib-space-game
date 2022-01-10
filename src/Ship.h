@@ -1,6 +1,5 @@
 #pragma once
-#ifndef H_SHIP
-#define H_SHIP
+#include "../include/raylib.h"
 
 class Ship {
 public:
@@ -17,4 +16,3 @@ public:
 
 };
 
-#endif /* H_SHIP */

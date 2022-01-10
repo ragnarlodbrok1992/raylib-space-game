@@ -1,7 +1,7 @@
-#include"../include/raylib.h"
-#include"Particle.h"
-#include"planet.h"
-#include"Utils.h"
+#include "../include/raylib.h"
+#include "Particle.h"
+#include "Planet.h"
+#include "Utils.h"
 
 void Particle::UpdatePosition()
 {
@@ -38,3 +38,4 @@ void Particle::Draw()
 {
 	DrawCircleV(this->position, 2.0f, this->color);
 }
+
