@@ -5,9 +5,6 @@
 #include "src/Ship.h"
 #include "src/Utils.h"
 
-// Temporary include - remove before commit
-#include <iostream>
-
 
 int main(int charc, char** argv) {
 
