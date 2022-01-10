@@ -96,6 +96,7 @@ int main(int charc, char** argv) {
         }
         else
         {
+            delete (*iterator);
             gravityConsumers.remove(*iterator++);
         }
     }
