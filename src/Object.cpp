@@ -1,7 +1,7 @@
-#include"../include/raylib.h"
-#include"Object.h"
+#include "raylib.h"
+#include "Object.h"
 
-unsigned int Object::objectCount =0;
+unsigned int Object::objectCount = 0;
 
 
 Object::Object(Vector2 position)

@@ -1,4 +1,4 @@
-#include "../include/raylib.h"
+#include "raylib.h"
 #include "Planet.h"
 #include "Utils.h"
 #include <math.h>

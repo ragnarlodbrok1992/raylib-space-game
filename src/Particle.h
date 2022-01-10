@@ -1,5 +1,5 @@
 #pragma once
-#include "../include/raylib.h"
+#include "raylib.h"
 #include "Planet.h"
 #include "Object.h"
 #include <list>
