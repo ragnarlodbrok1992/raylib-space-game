@@ -5,4 +5,5 @@ const float GRAV_CONSTANT = 1.0f; //may be useful for fine tuning the effect of 
 const float SIMULATION_SPEED = 1.0f / FPS;
 
 float GetDistance(Vector2 firstObj, Vector2 secondObj);
+void RotateUnitVector(Vector2& vectorToRotate, double angle);
 
