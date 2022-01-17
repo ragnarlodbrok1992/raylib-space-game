@@ -1,15 +1,19 @@
 #include<list>
+#include<random>
 #include "src/raylib.h"
 #include "src/Planet.h"
 #include "src/Particle.h"
 #include "src/Ship.h"
 #include "src/Utils.h"
 #include "src/Collisions.h"
+#include "src/SmokeParticle.h"
 
 int main(int charc, char** argv) {
 
-  const int screenWidth = 1366;
-  const int screenHeight = 768;
+  //prepare random number generator
+  std::random_device rand;
+  std::mt19937_64 randGen(rand());
+  std::uniform_int_distribution<> distr(-100, 100);
 
   InitWindow(screenWidth, screenHeight, "RayLib Space Game");
 
@@ -23,6 +27,8 @@ int main(int charc, char** argv) {
   std::list <Planet*> gravitySources;
   std::list <InertObject*> gravityConsumers;
   std::list <InertObject*>::iterator iterator;
+  std::list <SmokeParticle*> smokeParticles;
+  std::list <SmokeParticle*>::iterator smokeIterator;
 
 
   // Init objects here
@@ -60,6 +66,11 @@ int main(int charc, char** argv) {
     if (IsKeyDown (KEY_W)) {
         ship.velocity.x += shipMoveVector.x* ship.thrustAcceleration;
         ship.velocity.y += shipMoveVector.y * ship.thrustAcceleration;
+        Vector2 revVec;
+        revVec.x = shipMoveVector.x * -15 + distr(randGen) / 30.0f;
+        revVec.y = shipMoveVector.y * -15 + distr(randGen) / 30.0f;
+        SmokeParticle* smoke = new SmokeParticle(ship.position, revVec, 150+distr(randGen));
+        smokeParticles.push_back(smoke);
     }
     /* backward thrust to be deleted?
     if (IsKeyDown (KEY_S)) {
@@ -103,10 +114,34 @@ int main(int charc, char** argv) {
         }
     }
 
+    //calculate smoke
+    smokeIterator = smokeParticles.begin();
+    while (smokeIterator != smokeParticles.end())
+    {
+        (*smokeIterator)->Update({ 0.0f,0.0f });
+        if (0 == (*smokeIterator)->lifetime)
+        {
+            delete (*smokeIterator);
+            smokeParticles.remove(*smokeIterator++);
+        }
+        else
+        {
+            smokeIterator++;
+        }
+    }
+
+    //ship status
+    WriteMessage("Velocity", VectorLength(ship.velocity), 20, screenHeight - 20);
+
     //drawing
     for (Planet* currentPlanet : gravitySources)
     {
         currentPlanet->Draw();
+    }
+    //draw smoke
+    for (SmokeParticle* smoke : smokeParticles)
+    {
+        smoke->Draw();
     }
     //ship is an inert object so it will be drawn here
     for (InertObject* currentParticle : gravityConsumers)

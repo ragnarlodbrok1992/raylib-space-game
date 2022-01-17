@@ -8,13 +8,14 @@
 */
 class InertObject : public Object
 {
-private:
+protected:
 	virtual void UpdateVelocity(Vector2 acceleration);
 	virtual void UpdatePosition();
 
 public:
 	Vector2 velocity;
 	InertObject(Vector2 position);
+	InertObject(Vector2 position, Vector2 velocity);
 	InertObject(Vector2 position, objType objectType);
 	InertObject(Vector2 position, Vector2 velocity, objType objectType);
 

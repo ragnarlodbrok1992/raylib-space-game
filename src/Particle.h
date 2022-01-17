@@ -16,6 +16,5 @@ public:
 	Particle(Vector2 position, Vector2 velocity, Color color);
 
 	virtual void Draw();
-
 };
 

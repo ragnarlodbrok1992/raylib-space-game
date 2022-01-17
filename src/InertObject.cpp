@@ -5,6 +5,11 @@ InertObject::InertObject(Vector2 position) : Object(position)
 	this->velocity = { 0.0f, 0.0f };
 }
 
+InertObject::InertObject(Vector2 position, Vector2 velocity) : Object(position)
+{
+	this->velocity = velocity;
+}
+
 InertObject::InertObject(Vector2 position, objType objectType) : Object(position, objectType)
 {
 	this->velocity = { 0.0f, 0.0f };
