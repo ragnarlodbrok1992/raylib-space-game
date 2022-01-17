@@ -4,7 +4,7 @@
 
 #include <math.h>
 
-Ship::Ship(Vector2 position, const double size) : Object(position), Size(size){
+Ship::Ship(Vector2 position, const double size) : InertObject(position), Size(size){
   calculate_ship_shape();
   this->velocity = { 0.0f, 0.0f };
 }
@@ -68,15 +68,3 @@ void Ship::UpdatePosition()
         ship_coords[x].y += yChange;
     }
 };
-
-void Ship::UpdateVelocity(Vector2 acceleration)
-{
-    this->velocity.x += acceleration.x * SIMULATION_SPEED;
-    this->velocity.y += acceleration.y * SIMULATION_SPEED;
-};
-
-void Ship::Update(Vector2 acceleration)
-{
-    this->UpdatePosition();
-    this->UpdateVelocity(acceleration);
-}

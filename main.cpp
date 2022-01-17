@@ -6,7 +6,6 @@
 #include "src/Utils.h"
 #include "src/Collisions.h"
 
-
 int main(int charc, char** argv) {
 
   const int screenWidth = 1366;
@@ -19,16 +18,16 @@ int main(int charc, char** argv) {
   // Init control values here
   double angle = 0.04f;
   Vector2 shipMoveVector = {0.0f, -1.0f};
-  Vector2 shipAcceleration = { 0.0f, 0.0f };
 
   // Init control structures here
   std::list <Planet*> gravitySources;
-  std::list <Particle*> gravityConsumers;
-  std::list <Particle*>::iterator iterator;
+  std::list <InertObject*> gravityConsumers;
+  std::list <InertObject*>::iterator iterator;
 
 
   // Init objects here
-  Ship ship(Vector2{150.0f, 250.0f}, 50.0f); //TODO: ship and particle should have the same inheritance for usage of gravityConsumers list
+  Ship ship(Vector2{150.0f, 250.0f}, 20.0f);
+  gravityConsumers.push_back(&ship);
 
   Particle* particle;
   for (int ii = 0; ii < 400; ii++)
@@ -49,7 +48,6 @@ int main(int charc, char** argv) {
   //end init objects
 
   while (!WindowShouldClose()) {
-    shipAcceleration = { 0.0f, 0.0f };
     // Get input
     if (IsKeyDown (KEY_A)) {
       ship.Rotate(-angle);
@@ -60,8 +58,8 @@ int main(int charc, char** argv) {
       RotateUnitVector(shipMoveVector, angle);
     }
     if (IsKeyDown (KEY_W)) {
-        shipAcceleration.x = shipMoveVector.x* ship.thrustAcceleration;
-        shipAcceleration.y = shipMoveVector.y * ship.thrustAcceleration;
+        ship.velocity.x += shipMoveVector.x* ship.thrustAcceleration;
+        ship.velocity.y += shipMoveVector.y * ship.thrustAcceleration;
     }
     /* backward thrust to be deleted?
     if (IsKeyDown (KEY_S)) {
@@ -105,27 +103,16 @@ int main(int charc, char** argv) {
         }
     }
 
-    //ship acceleration from planets
-    for (Planet* currentPlanet : gravitySources)
-    {
-        Vector2 partialAcceleration = currentPlanet->GetAcceleration(ship.position);
-        shipAcceleration.x += partialAcceleration.x;
-        shipAcceleration.y += partialAcceleration.y;
-    }
-    ship.Update(shipAcceleration);
-
     //drawing
     for (Planet* currentPlanet : gravitySources)
     {
         currentPlanet->Draw();
     }
-    for (Particle* currentParticle : gravityConsumers)
+    //ship is an inert object so it will be drawn here
+    for (InertObject* currentParticle : gravityConsumers)
     {
         currentParticle->Draw();
     }
-
-    // Drawing ship
-    ship.Draw();
 
     EndDrawing();
   }

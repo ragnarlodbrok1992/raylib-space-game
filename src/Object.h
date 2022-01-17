@@ -5,7 +5,8 @@ enum class objType
 {
 	PARTICLE,
 	PLANET,
-	SHIP
+	SHIP,
+	UNKNOWN
 };
 
 class Object
@@ -17,6 +18,7 @@ public:
 	Vector2 position;
 	unsigned int objectId;
 	objType objectType;
+
 	Object(Vector2 position);
 	Object(Vector2 position, objType objectType);
 

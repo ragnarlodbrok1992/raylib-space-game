@@ -1,17 +1,13 @@
 #pragma once
 #include "raylib.h"
 #include "Planet.h"
-#include "Object.h"
+#include "InertObject.h"
 #include <list>
 #include <cstddef>
 
-class Particle : public Object
+class Particle : public InertObject
 {
 private:
-	Vector2 velocity;
-
-	void UpdateVelocity(Vector2 acceleration);
-	void UpdatePosition();
 
 public:
 	Color color;
@@ -20,8 +16,6 @@ public:
 	Particle(Vector2 position, Vector2 velocity, Color color);
 
 	virtual void Draw();
-	virtual void Update(Vector2 acceleration);
 
-	void Update();
 };
 

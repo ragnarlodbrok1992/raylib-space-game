@@ -1,18 +1,17 @@
 #pragma once
 #include "raylib.h"
-#include "Object.h"
+#include "InertObject.h"
+#include "Utils.h"
 
-class Ship: public Object {
+class Ship: public InertObject {
 public:
   const double Size;
-  const float thrustAcceleration = 6.0f; //how fast will ship accelerate
-  Vector2 velocity;
+  const float thrustAcceleration = 6.0f/FPS; //how fast will ship accelerate
 
 private:
   void calculate_ship_shape();
   Vector2 ship_coords[4];
 
-  void UpdateVelocity(Vector2 acceleration);
   void UpdatePosition();
   
 public:
@@ -22,8 +21,5 @@ public:
   void Draw();
   void Rotate(double angle);
   void MoveByVector(Vector2& move_vector);
-
-  void Update(Vector2 acceleration);
-
 };
 
