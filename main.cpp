@@ -9,7 +9,7 @@
 
 int main(int charc, char** argv) {
 
-  const int screenWidth = 1024;
+  const int screenWidth = 1366;
   const int screenHeight = 768;
 
   InitWindow(screenWidth, screenHeight, "RayLib Space Game");
@@ -19,6 +19,7 @@ int main(int charc, char** argv) {
   // Init control values here
   double angle = 0.04f;
   Vector2 shipMoveVector = {0.0f, -1.0f};
+  Vector2 shipAcceleration = { 0.0f, 0.0f };
 
   // Init control structures here
   std::list <Planet*> gravitySources;
@@ -27,7 +28,7 @@ int main(int charc, char** argv) {
 
 
   // Init objects here
-  Ship ship(Vector2{150.0f, 250.0f}, 50.0f);
+  Ship ship(Vector2{150.0f, 250.0f}, 50.0f); //TODO: ship and particle should have the same inheritance for usage of gravityConsumers list
 
   Particle* particle;
   for (int ii = 0; ii < 400; ii++)
@@ -36,8 +37,8 @@ int main(int charc, char** argv) {
       particle->objectType = objType::PARTICLE;
       gravityConsumers.push_back(particle);
   }
-  Planet planet (Vector2{ 400.0f,400.0f }, 50, 50000, BLUE);
-  Planet planet2(Vector2{ 650.0f,250.0f }, 60, 70000, DARKBLUE);
+  Planet planet (Vector2{ 1000.0f,600.0f }, 50, 50000, BLUE);
+  Planet planet2(Vector2{ 650.0f,350.0f }, 60, 170000, DARKBLUE);
   Planet planet3(Vector2{ 100.0f,120.0f }, 30, 30000, BROWN);
   planet.objectType  = objType::PLANET;
   planet2.objectType = objType::PLANET;
@@ -48,7 +49,7 @@ int main(int charc, char** argv) {
   //end init objects
 
   while (!WindowShouldClose()) {
-
+    shipAcceleration = { 0.0f, 0.0f };
     // Get input
     if (IsKeyDown (KEY_A)) {
       ship.Rotate(-angle);
@@ -59,14 +60,17 @@ int main(int charc, char** argv) {
       RotateUnitVector(shipMoveVector, angle);
     }
     if (IsKeyDown (KEY_W)) {
-      ship.MoveByVector(shipMoveVector);
+        shipAcceleration.x = shipMoveVector.x* ship.thrustAcceleration;
+        shipAcceleration.y = shipMoveVector.y * ship.thrustAcceleration;
     }
+    /* backward thrust to be deleted?
     if (IsKeyDown (KEY_S)) {
       Vector2 revVec;
       revVec.x = shipMoveVector.x * -1;
       revVec.y = shipMoveVector.y * -1;
       ship.MoveByVector(revVec);
     }
+    */
  
     // Frame begins here
     BeginDrawing();
@@ -100,6 +104,15 @@ int main(int charc, char** argv) {
             gravityConsumers.remove(*iterator++);
         }
     }
+
+    //ship acceleration from planets
+    for (Planet* currentPlanet : gravitySources)
+    {
+        Vector2 partialAcceleration = currentPlanet->GetAcceleration(ship.position);
+        shipAcceleration.x += partialAcceleration.x;
+        shipAcceleration.y += partialAcceleration.y;
+    }
+    ship.Update(shipAcceleration);
 
     //drawing
     for (Planet* currentPlanet : gravitySources)
