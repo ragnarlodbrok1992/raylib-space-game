@@ -1,10 +1,12 @@
 #include "raylib.h"
 #include "Ship.h"
+#include "Utils.h"
 
 #include <math.h>
 
 Ship::Ship(Vector2 position, const double size) : Object(position), Size(size){
   calculate_ship_shape();
+  this->velocity = { 0.0f, 0.0f };
 }
 
 void Ship::calculate_ship_shape() {
@@ -53,4 +55,28 @@ void Ship::MoveByVector(Vector2& move_vector) {
     ship_coords[x].x += move_vector.x;
     ship_coords[x].y += move_vector.y;
   }
+}
+
+void Ship::UpdatePosition()
+{
+    float xChange = this->velocity.x * SIMULATION_SPEED;
+    float yChange = this->velocity.y * SIMULATION_SPEED;
+    this->position.x += xChange;
+    this->position.y += yChange;
+    for (int x = 0; x < 4; x++) {
+        ship_coords[x].x += xChange;
+        ship_coords[x].y += yChange;
+    }
+};
+
+void Ship::UpdateVelocity(Vector2 acceleration)
+{
+    this->velocity.x += acceleration.x * SIMULATION_SPEED;
+    this->velocity.y += acceleration.y * SIMULATION_SPEED;
+};
+
+void Ship::Update(Vector2 acceleration)
+{
+    this->UpdatePosition();
+    this->UpdateVelocity(acceleration);
 }
