@@ -37,6 +37,6 @@ void Particle::Update(Vector2 acceleration)
 
 void Particle::Draw()
 {
-	DrawCircleV(this->position, 2.0f, this->color);
+	DrawCircleV(this->position, this->radius, this->color);
 };
 

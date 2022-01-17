@@ -4,6 +4,7 @@
 #include "src/Particle.h"
 #include "src/Ship.h"
 #include "src/Utils.h"
+#include "src/Collisions.h"
 
 
 int main(int charc, char** argv) {
@@ -22,6 +23,7 @@ int main(int charc, char** argv) {
   // Init control structures here
   std::list <Planet*> gravitySources;
   std::list <Particle*> gravityConsumers;
+  std::list <Particle*>::iterator iterator;
 
 
   // Init objects here
@@ -31,11 +33,15 @@ int main(int charc, char** argv) {
   for (int ii = 0; ii < 400; ii++)
   {
       particle = new Particle(Vector2{ 100.0f+ii,400.0f+ii/2 }, Vector2{ 3.0f+ii/10.0f,0.0f }, BLACK);
+      particle->objectType = objType::PARTICLE;
       gravityConsumers.push_back(particle);
   }
   Planet planet (Vector2{ 400.0f,400.0f }, 50, 50000, BLUE);
   Planet planet2(Vector2{ 650.0f,250.0f }, 60, 70000, DARKBLUE);
   Planet planet3(Vector2{ 100.0f,120.0f }, 30, 30000, BROWN);
+  planet.objectType  = objType::PLANET;
+  planet2.objectType = objType::PLANET;
+  planet3.objectType = objType::PLANET;
   gravitySources.push_back(&planet);
   gravitySources.push_back(&planet2);
   gravitySources.push_back(&planet3);
@@ -67,16 +73,32 @@ int main(int charc, char** argv) {
 
     ClearBackground(RAYWHITE);
     //calculating forces
-    for (Particle* currentParticle : gravityConsumers)
+    iterator = gravityConsumers.begin();
+    while(iterator!=gravityConsumers.end())
     {
         Vector2 acceleration{ 0.0f,0.0f };
+        bool particleCollided = false;
         for (Planet* currentPlanet : gravitySources)
         {
-            Vector2 partialAcceleration = currentPlanet->GetAcceleration(currentParticle->position);
+            Vector2 partialAcceleration = currentPlanet->GetAcceleration((*iterator)->position);
             acceleration.x += partialAcceleration.x;
             acceleration.y += partialAcceleration.y;
+            if (!particleCollided)
+            { 
+                particleCollided = CheckCollision(*iterator, currentPlanet);
+            }
+
         }
-        currentParticle->Update(acceleration);
+        if (!particleCollided)
+        {
+            (*iterator)->Update(acceleration);
+            iterator++;
+        }
+        else
+        {
+            delete (*iterator);
+            gravityConsumers.remove(*iterator++);
+        }
     }
 
     //drawing
