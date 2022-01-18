@@ -9,6 +9,7 @@ Object::Object(Vector2 position)
 	this->objectId = objectCount;
 	this->position = position;
 	objectCount++;
+	this->objectType = objType::UNKNOWN;
 }
 
 Object::Object(Vector2 position, objType objectType)

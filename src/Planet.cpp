@@ -14,7 +14,7 @@ Vector2 Planet::GetVersorDirection(Vector2 objectPosition)
 	return vector;
 }
 
-Planet::Planet(Vector2 position, double radius, double mass, Color color):Object(position)
+Planet::Planet(Vector2 position, float radius, float mass, Color color):Object(position)
 {
 	this->radius = radius;
 	this->mass = mass;

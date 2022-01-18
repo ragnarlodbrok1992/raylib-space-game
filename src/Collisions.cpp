@@ -16,9 +16,8 @@ void GetSphereAttribute(void* obj, objType objectType, Vector2* returnPosition, 
 
 bool IsThisTypesCollide(objType first, objType second)
 {
-	if ((first == objType::PARTICLE) && (second == objType::PARTICLE)) return false;
 	if ((first == objType::PLANET) && (second == objType::PARTICLE))   return true;
-	if ((first == objType::PARTICLE) && (second == objType::PLANET))   return true;
+	else if ((first == objType::PARTICLE) && (second == objType::PLANET))   return true;
 	return false;
 }
 

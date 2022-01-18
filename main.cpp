@@ -1,16 +1,19 @@
 #include<list>
+#include<random>
 #include "src/raylib.h"
 #include "src/Planet.h"
 #include "src/Particle.h"
 #include "src/Ship.h"
 #include "src/Utils.h"
 #include "src/Collisions.h"
-
+#include "src/SmokeParticle.h"
 
 int main(int charc, char** argv) {
 
-  const int screenWidth = 1366;
-  const int screenHeight = 768;
+  //prepare random number generator
+  std::random_device rand;
+  std::mt19937_64 randGen(rand());
+  std::uniform_int_distribution<> distr(-100, 100);
 
   InitWindow(screenWidth, screenHeight, "RayLib Space Game");
 
@@ -19,16 +22,18 @@ int main(int charc, char** argv) {
   // Init control values here
   double angle = 0.04f;
   Vector2 shipMoveVector = {0.0f, -1.0f};
-  Vector2 shipAcceleration = { 0.0f, 0.0f };
 
   // Init control structures here
   std::list <Planet*> gravitySources;
-  std::list <Particle*> gravityConsumers;
-  std::list <Particle*>::iterator iterator;
+  std::list <InertObject*> gravityConsumers;
+  std::list <InertObject*>::iterator iterator;
+  std::list <SmokeParticle*> smokeParticles;
+  std::list <SmokeParticle*>::iterator smokeIterator;
 
 
   // Init objects here
-  Ship ship(Vector2{150.0f, 250.0f}, 50.0f); //TODO: ship and particle should have the same inheritance for usage of gravityConsumers list
+  Ship ship(Vector2{150.0f, 250.0f}, 20.0f);
+  gravityConsumers.push_back(&ship);
 
   Particle* particle;
   for (int ii = 0; ii < 400; ii++)
@@ -49,7 +54,6 @@ int main(int charc, char** argv) {
   //end init objects
 
   while (!WindowShouldClose()) {
-    shipAcceleration = { 0.0f, 0.0f };
     // Get input
     if (IsKeyDown (KEY_A)) {
       ship.Rotate(-angle);
@@ -60,8 +64,13 @@ int main(int charc, char** argv) {
       RotateUnitVector(shipMoveVector, angle);
     }
     if (IsKeyDown (KEY_W)) {
-        shipAcceleration.x = shipMoveVector.x* ship.thrustAcceleration;
-        shipAcceleration.y = shipMoveVector.y * ship.thrustAcceleration;
+        ship.velocity.x += shipMoveVector.x* ship.thrustAcceleration;
+        ship.velocity.y += shipMoveVector.y * ship.thrustAcceleration;
+        Vector2 revVec;
+        revVec.x = shipMoveVector.x * -15 + distr(randGen) / 30.0f;
+        revVec.y = shipMoveVector.y * -15 + distr(randGen) / 30.0f;
+        SmokeParticle* smoke = new SmokeParticle(ship.position, revVec, 150+distr(randGen));
+        smokeParticles.push_back(smoke);
     }
     /* backward thrust to be deleted?
     if (IsKeyDown (KEY_S)) {
@@ -105,27 +114,40 @@ int main(int charc, char** argv) {
         }
     }
 
-    //ship acceleration from planets
-    for (Planet* currentPlanet : gravitySources)
+    //calculate smoke
+    smokeIterator = smokeParticles.begin();
+    while (smokeIterator != smokeParticles.end())
     {
-        Vector2 partialAcceleration = currentPlanet->GetAcceleration(ship.position);
-        shipAcceleration.x += partialAcceleration.x;
-        shipAcceleration.y += partialAcceleration.y;
+        (*smokeIterator)->Update({ 0.0f,0.0f });
+        if (0 == (*smokeIterator)->lifetime)
+        {
+            delete (*smokeIterator);
+            smokeParticles.remove(*smokeIterator++);
+        }
+        else
+        {
+            smokeIterator++;
+        }
     }
-    ship.Update(shipAcceleration);
+
+    //ship status
+    WriteMessage("Velocity", VectorLength(ship.velocity), 20, screenHeight - 20);
 
     //drawing
     for (Planet* currentPlanet : gravitySources)
     {
         currentPlanet->Draw();
     }
-    for (Particle* currentParticle : gravityConsumers)
+    //draw smoke
+    for (SmokeParticle* smoke : smokeParticles)
+    {
+        smoke->Draw();
+    }
+    //ship is an inert object so it will be drawn here
+    for (InertObject* currentParticle : gravityConsumers)
     {
         currentParticle->Draw();
     }
-
-    // Drawing ship
-    ship.Draw();
 
     EndDrawing();
   }
