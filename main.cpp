@@ -19,10 +19,6 @@ int main(int charc, char** argv) {
 
   SetTargetFPS(60);
 
-  // Init control values here
-  double angle = 0.04f;
-  Vector2 shipMoveVector = {0.0f, -1.0f};
-
   // Init control structures here
   std::list <Planet*> gravitySources;
   std::list <InertObject*> gravityConsumers;
@@ -35,13 +31,6 @@ int main(int charc, char** argv) {
   Ship ship(Vector2{150.0f, 250.0f}, 20.0f);
   gravityConsumers.push_back(&ship);
 
-  Particle* particle;
-  for (int ii = 0; ii < 400; ii++)
-  {
-      particle = new Particle(Vector2{ 100.0f+ii,400.0f+ii/2 }, Vector2{ 3.0f+ii/10.0f,0.0f }, BLACK);
-      particle->objectType = objType::PARTICLE;
-      gravityConsumers.push_back(particle);
-  }
   Planet planet (Vector2{ 1000.0f,600.0f }, 50, 50000, BLUE);
   Planet planet2(Vector2{ 650.0f,350.0f }, 60, 170000, DARKBLUE);
   Planet planet3(Vector2{ 100.0f,120.0f }, 30, 30000, BROWN);
@@ -55,22 +44,53 @@ int main(int charc, char** argv) {
 
   while (!WindowShouldClose()) {
     // Get input
-    if (IsKeyDown (KEY_A)) {
-      ship.Rotate(-angle);
-      RotateUnitVector(shipMoveVector, -angle);
+    if (IsKeyDown (KEY_A)) 
+    {
+      ship.Rotate(Ship::COUNTERCLOCKWISE);
     }
-    if (IsKeyDown (KEY_D)) {
-      ship.Rotate(angle);
-      RotateUnitVector(shipMoveVector, angle);
+    if (IsKeyDown (KEY_D)) 
+    {
+      ship.Rotate(Ship::CLOCKWISE);
     }
-    if (IsKeyDown (KEY_W)) {
-        ship.velocity.x += shipMoveVector.x* ship.thrustAcceleration;
-        ship.velocity.y += shipMoveVector.y * ship.thrustAcceleration;
+    if (IsKeyDown (KEY_W)) 
+    {
+        ship.velocity.x += ship.shipMoveVector.x* ship.thrustAcceleration;
+        ship.velocity.y += ship.shipMoveVector.y * ship.thrustAcceleration;
         Vector2 revVec;
-        revVec.x = shipMoveVector.x * -15 + distr(randGen) / 30.0f;
-        revVec.y = shipMoveVector.y * -15 + distr(randGen) / 30.0f;
+        revVec.x = ship.shipMoveVector.x * -15 + distr(randGen) / 30.0f;
+        revVec.y = ship.shipMoveVector.y * -15 + distr(randGen) / 30.0f;
         SmokeParticle* smoke = new SmokeParticle(ship.position, revVec, 150+distr(randGen));
+        //ship.Accelerate(smoke);
         smokeParticles.push_back(smoke);
+    }
+    if (IsKeyPressed(KEY_SPACE))
+    {
+        if (ship.reload >= ship.reloaded)
+        {
+            ship.chargingMissile = true;
+            ship.missileSpeed = 3.0f;
+            ship.reload = 0;
+        }
+    }
+    if (IsKeyDown(KEY_SPACE))
+    {
+        if (true == ship.chargingMissile)
+        {
+            ship.missileSpeed += 0.5;
+        }
+    }
+    if (IsKeyReleased(KEY_SPACE))
+    {
+        if (ship.chargingMissile == true)
+        {
+            gravityConsumers.push_back(ship.FireMissile());
+            ship.missileSpeed = 0.0f;
+            ship.chargingMissile = false;
+        }
+    }
+    if (!ship.chargingMissile)
+    {
+        if(ship.reload<ship.reloaded) ship.reload++;
     }
     /* backward thrust to be deleted?
     if (IsKeyDown (KEY_S)) {
@@ -131,7 +151,9 @@ int main(int charc, char** argv) {
     }
 
     //ship status
-    WriteMessage("Velocity", VectorLength(ship.velocity), 20, screenHeight - 20);
+    WriteMessage("Velocity ", VectorLength(ship.velocity), 20, screenHeight - 60);
+    WriteMessage("Reload: ", (float)ship.reload, 20, screenHeight - 40); //function to write ints are needed
+    WriteMessage("Missile speed: ", ship.missileSpeed, 20, screenHeight - 20);
 
     //drawing
     for (Planet* currentPlanet : gravitySources)
