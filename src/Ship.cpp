@@ -1,8 +1,7 @@
+#include <math.h>
 #include "raylib.h"
 #include "Ship.h"
 #include "Utils.h"
-
-#include <math.h>
 
 Ship::Ship(Vector2 position, const float size) : InertObject(position), Size(size){
   calculate_ship_shape();

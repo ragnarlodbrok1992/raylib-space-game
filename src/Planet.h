@@ -2,9 +2,6 @@
 #include "raylib.h"
 #include "Object.h"
 
-float GetDistance(Vector2 firstObj, Vector2 secondObj); //TODO: move to different file
-
-
 class Planet : public Object
 {
 private:

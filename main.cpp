@@ -1,5 +1,5 @@
-#include<list>
-#include<random>
+#include <list>
+#include <random>
 #include "src/raylib.h"
 #include "src/Planet.h"
 #include "src/Particle.h"
@@ -28,7 +28,7 @@ int main(int charc, char** argv) {
 
 
   // Init objects here
-  Ship ship(Vector2{150.0f, 250.0f}, 20.0f);
+  Ship ship(Vector2{250.0f, 200.0f}, 20.0f);
   gravityConsumers.push_back(&ship);
 
   Planet planet (Vector2{ 1000.0f,600.0f }, 50, 50000, BLUE);
@@ -151,8 +151,8 @@ int main(int charc, char** argv) {
     }
 
     //ship status
-    WriteMessage("Velocity ", VectorLength(ship.velocity), 20, screenHeight - 60);
-    WriteMessage("Reload: ", (float)ship.reload, 20, screenHeight - 40); //function to write ints are needed
+    WriteMessage("Velocity: ", VectorLength(ship.velocity), 20, screenHeight - 60);
+    WriteMessage("Reload: ", ship.reload, 20, screenHeight - 40);
     WriteMessage("Missile speed: ", ship.missileSpeed, 20, screenHeight - 20);
 
     //drawing
