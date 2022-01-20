@@ -7,6 +7,9 @@
 #include "src/Utils.h"
 #include "src/Collisions.h"
 #include "src/SmokeParticle.h"
+#include "src/Scene.h"
+#include "src/SceneMainMenu.h"
+
 
 int main(int charc, char** argv) {
 
@@ -18,6 +21,13 @@ int main(int charc, char** argv) {
   InitWindow(screenWidth, screenHeight, "RayLib Space Game");
 
   SetTargetFPS(60);
+
+  // Init scenes here
+  // TODO: Should here we have all the scenes? Or construct them/ destruct at runtime?
+
+  // Init control values here
+  double angle = 0.04f;
+  Vector2 shipMoveVector = {0.0f, -1.0f};
 
   // Init control structures here
   std::list <Planet*> gravitySources;
@@ -105,6 +115,12 @@ int main(int charc, char** argv) {
     BeginDrawing();
 
     ClearBackground(RAYWHITE);
+
+    // Select scene to render
+
+    //scene.render();
+    //scene.simulate();
+
     //calculating forces
     iterator = gravityConsumers.begin();
     while(iterator!=gravityConsumers.end())
