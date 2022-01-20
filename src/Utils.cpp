@@ -1,6 +1,6 @@
+#include <math.h>
 #include "raylib.h"
 #include "Utils.h"
-#include <math.h>
 
 float GetDistance(Vector2 firstObj, Vector2 secondObj)
 { 
@@ -20,12 +20,23 @@ void RotateUnitVector(Vector2& VectorToRotate, double angle) {
                     ((VectorToRotate.x * casted_sin) + (VectorToRotate.y * casted_cos))};
 }
 
-void WriteMessage(std::string message, float value, int x, int y)
+void WriteMessage(const std::string message, float value, int x, int y)
 {
-    std::string tempString = message; //TODO: check how string behaves when passed to function
+    std::string tempString = message;
     std::stringstream stream;
     stream << std::fixed << std::setprecision(3) << value;
     tempString += stream.str();
+    char* fullMessage = new char[tempString.size() + 1];
+    fullMessage[tempString.size()] = '\0';
+    std::copy(tempString.begin(), tempString.end(), fullMessage);
+    DrawText(fullMessage, x, y, 12, BLACK);
+    delete[] fullMessage;
+}
+
+void WriteMessage(const std::string message, int value, int x, int y)
+{
+    std::string tempString = message;
+    tempString += std::to_string(value);
     char* fullMessage = new char[tempString.size() + 1];
     fullMessage[tempString.size()] = '\0';
     std::copy(tempString.begin(), tempString.end(), fullMessage);
