@@ -37,3 +37,4 @@ void InertObject::Update(Vector2 acceleration)
 	this->UpdateVelocity(acceleration);
 	this->UpdatePosition();
 };
+

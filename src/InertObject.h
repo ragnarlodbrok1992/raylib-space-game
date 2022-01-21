@@ -20,4 +20,5 @@ public:
 	InertObject(Vector2 position, Vector2 velocity, objType objectType);
 
 	virtual void Update(Vector2 acceleration);
+
 };

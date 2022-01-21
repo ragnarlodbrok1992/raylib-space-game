@@ -50,7 +50,7 @@ int main(int charc, char** argv) {
   gravitySources.push_back(&planet2);
   gravitySources.push_back(&planet3);
   //end init objects
-  */
+TODO: MOLIWA: code has been moved*/
   
   InitWindow(screenWidth, screenHeight, "RayLib Space Game");
 
@@ -66,7 +66,6 @@ int main(int charc, char** argv) {
 
   // Start scene is main menu
   selectedScene = sceneMainMenu;
-
 
   while (!WindowShouldClose()) {
 
@@ -147,7 +146,6 @@ int main(int charc, char** argv) {
  
     // Frame begins here
     BeginDrawing();
-
     ClearBackground(RAYWHITE);
 
     // Select scene to render

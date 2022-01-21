@@ -7,7 +7,7 @@
 
 class Ship: public InertObject {
 public:
-	enum rotationDirection { CLOCKWISE, COUNTERCLOCKWISE };
+  enum rotationDirection { CLOCKWISE, COUNTERCLOCKWISE };
   const float Size;
   const float thrustAcceleration = 6.0f/FPS; //how fast will ship accelerate
   const float rotationSpeed = 0.04f;

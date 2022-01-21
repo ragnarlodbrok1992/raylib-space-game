@@ -14,5 +14,5 @@ public:
 	Planet(Vector2 position, float radius, float mass, Color color);
 
 	Vector2 GetAcceleration(Vector2 objectPosition);
-	virtual void Draw();
+	void Draw();
 };

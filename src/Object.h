@@ -22,5 +22,5 @@ public:
 	Object(Vector2 position);
 	Object(Vector2 position, objType objectType);
 
-	virtual void Draw();
+	virtual void Draw(); // <-- FIXME: here function cannot be virtual (why?)
 };
