@@ -15,7 +15,7 @@ void Scene::simulate() {
 }
 
 Scene::Scene(SceneEnum se) {
-
+  this->scene = se;
 }
 
 Scene::~Scene() {

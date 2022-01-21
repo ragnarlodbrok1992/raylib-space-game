@@ -17,3 +17,4 @@ void RotateUnitVector(Vector2& vectorToRotate, double angle);
 //utils for writingg messages using raylib
 void WriteMessage(const std::string message, float value, int x, int y); //writes string and float with precision of 3
 void WriteMessage(const std::string message, int value, int x, int y);   //writes string and int
+void WriteMessage(const std::string message, int x, int y);              //writes string

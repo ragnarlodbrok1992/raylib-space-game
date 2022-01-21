@@ -9,21 +9,21 @@
 #include "src/SmokeParticle.h"
 #include "src/Scene.h"
 #include "src/SceneMainMenu.h"
+#include "src/SceneGame.h"
+#include "src/SceneEditor.h"
+
+// TEMP INCLUDES
+#include <iostream>
 
 
 int main(int charc, char** argv) {
 
+  /* TEMP COMMENT FOR TESTING CODE REFACTORING 
   //prepare random number generator
+  // I think this will go into SceneGame
   std::random_device rand;
   std::mt19937_64 randGen(rand());
   std::uniform_int_distribution<> distr(-100, 100);
-
-  InitWindow(screenWidth, screenHeight, "RayLib Space Game");
-
-  SetTargetFPS(60);
-
-  // Init scenes here
-  // TODO: Should here we have all the scenes? Or construct them/ destruct at runtime?
 
   // Init control values here
   double angle = 0.04f;
@@ -35,7 +35,6 @@ int main(int charc, char** argv) {
   std::list <InertObject*>::iterator iterator;
   std::list <SmokeParticle*> smokeParticles;
   std::list <SmokeParticle*>::iterator smokeIterator;
-
 
   // Init objects here
   Ship ship(Vector2{250.0f, 200.0f}, 20.0f);
@@ -51,8 +50,27 @@ int main(int charc, char** argv) {
   gravitySources.push_back(&planet2);
   gravitySources.push_back(&planet3);
   //end init objects
+  */
+  
+  InitWindow(screenWidth, screenHeight, "RayLib Space Game");
+
+  SetTargetFPS(60);
+
+  // Init scenes here
+  // TODO: Should here we have all the scenes? Or construct them/ destruct at runtime?
+  // Entry scene: main menu for now
+  SceneMainMenu* sceneMainMenu = new SceneMainMenu(SceneEnum::MAINMENU);
+  SceneGame*     sceneGame     = new SceneGame(SceneEnum::GAMESCENE);
+  SceneEditor*   sceneEditor   = new SceneEditor(SceneEnum::EDITOR);
+  Scene*         selectedScene;
+
+  // Start scene is main menu
+  selectedScene = sceneMainMenu;
+
 
   while (!WindowShouldClose()) {
+
+    /* TEMP COMMENT FOR TESTING CODE REFACTORING 
     // Get input
     if (IsKeyDown (KEY_A)) 
     {
@@ -102,14 +120,30 @@ int main(int charc, char** argv) {
     {
         if(ship.reload<ship.reloaded) ship.reload++;
     }
-    /* backward thrust to be deleted?
+
+    backward thrust to be deleted?
     if (IsKeyDown (KEY_S)) {
       Vector2 revVec;
       revVec.x = shipMoveVector.x * -1;
       revVec.y = shipMoveVector.y * -1;
       ship.MoveByVector(revVec);
     }
+    
     */
+
+    // Selecting scene - right now with 1,2,3 keys
+    if      (IsKeyPressed(KEY_ONE)) {
+      selectedScene = sceneMainMenu;
+      std::cout << "Pressing 1!\n";
+    }
+    else if (IsKeyPressed(KEY_TWO)) {
+      selectedScene = sceneGame;
+      std::cout << "Pressing 2!\n";
+    }
+    else if (IsKeyPressed(KEY_THREE)) {
+      selectedScene = sceneEditor;
+      std::cout << "Pressing 3!\n";
+    }
  
     // Frame begins here
     BeginDrawing();
@@ -117,10 +151,10 @@ int main(int charc, char** argv) {
     ClearBackground(RAYWHITE);
 
     // Select scene to render
+    selectedScene->render();
+    selectedScene->simulate();
 
-    //scene.render();
-    //scene.simulate();
-
+    /* TEMP COMMENT FOR TESTING CODE REFACTORING 
     //calculating forces
     iterator = gravityConsumers.begin();
     while(iterator!=gravityConsumers.end())
@@ -186,6 +220,7 @@ int main(int charc, char** argv) {
     {
         currentParticle->Draw();
     }
+    */
 
     EndDrawing();
   }

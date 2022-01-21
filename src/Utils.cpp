@@ -43,3 +43,12 @@ void WriteMessage(const std::string message, int value, int x, int y)
     DrawText(fullMessage, x, y, 12, BLACK);
     delete[] fullMessage;
 }
+
+void WriteMessage(const std::string message, int x, int y) {
+  std::string tempMsg = message;
+  char* drawMsg = new char[tempMsg.size() + 1];
+  drawMsg[tempMsg.size()] = '\0';
+  std::copy(tempMsg.begin(), tempMsg.end(), drawMsg);
+  DrawText(drawMsg, x, y, 12, BLACK);
+  delete[] drawMsg;
+};
