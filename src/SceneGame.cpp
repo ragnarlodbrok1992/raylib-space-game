@@ -10,7 +10,7 @@ SceneGame :: SceneGame(SceneEnum se) : Scene(se) {
   std::uniform_int_distribution<> distr(-100, 100);  
 
   // Init objects here
-  Ship* ship = new Ship(shipPlacement, 20.0f);
+  this->ship = new Ship(shipPlacement, 20.0f);
 
   this->gravityConsumers.push_back(ship);
 
@@ -63,59 +63,118 @@ void SceneGame::render() {
   }
     
 };
+
+
 void SceneGame::simulate() {
-
-
  if (IsKeyDown (KEY_A)) 
  {
-   ship.Rotate(Ship::COUNTERCLOCKWISE);
+   this->ship->Rotate(Ship::COUNTERCLOCKWISE);
  }
  if (IsKeyDown (KEY_D)) 
  {
-   ship.Rotate(Ship::CLOCKWISE);
+   this->ship->Rotate(Ship::CLOCKWISE);
  }
+
+ 
  if (IsKeyDown (KEY_W)) 
  {
-     ship.velocity.x += ship.shipMoveVector.x* ship.thrustAcceleration;
-     ship.velocity.y += ship.shipMoveVector.y * ship.thrustAcceleration;
+     this->ship->velocity.x += this->ship->shipMoveVector.x * this->ship->thrustAcceleration;
+     this->ship->velocity.y += this->ship->shipMoveVector.y * this->ship->thrustAcceleration;
      Vector2 revVec;
-     revVec.x = ship.shipMoveVector.x * -15 + distr(randGen) / 30.0f;
-     revVec.y = ship.shipMoveVector.y * -15 + distr(randGen) / 30.0f;
-     SmokeParticle* smoke = new SmokeParticle(ship.position, revVec, 150+distr(randGen));
+
+     //TODO (moliwa): This stuff here for randomness requiress some mangling
+     revVec.x = this->ship->shipMoveVector.x * -15 + distr(randGen) / 30.0f;
+     revVec.y = this->ship->shipMoveVector.y * -15 + distr(randGen) / 30.0f;
+     SmokeParticle* smoke = new SmokeParticle(this->ship->position, revVec, 150+distr(randGen));
      //ship.Accelerate(smoke);
      smokeParticles.push_back(smoke);
  }
+
+ 
  if (IsKeyPressed(KEY_SPACE))
  {
-     if (ship.reload >= ship.reloaded)
+     if (this->ship->reload >= this->ship->reloaded)
      {
-         ship.chargingMissile = true;
-         ship.missileSpeed = 3.0f;
-         ship.reload = 0;
+         this->ship->chargingMissile = true;
+         this->ship->missileSpeed = 3.0f;
+         this->ship->reload = 0;
      }
  }
  if (IsKeyDown(KEY_SPACE))
  {
-     if (true == ship.chargingMissile)
+     if (true == this->ship->chargingMissile)
      {
-         ship.missileSpeed += 0.5;
+         this->ship->missileSpeed += 0.5;
      }
  }
  if (IsKeyReleased(KEY_SPACE))
  {
-     if (ship.chargingMissile == true)
+     if (this->ship->chargingMissile == true)
      {
-         gravityConsumers.push_back(ship.FireMissile());
-         ship.missileSpeed = 0.0f;
-         ship.chargingMissile = false;
+         gravityConsumers.push_back(ship->FireMissile());
+         this->ship->missileSpeed = 0.0f;
+         this->ship->chargingMissile = false;
      }
  }
- if (!ship.chargingMissile)
+
+
+ if (!this->ship->chargingMissile)
  {
-     if(ship.reload<ship.reloaded) ship.reload++;
+     if(this->ship->reload < this->ship->reloaded) this->ship->reload++;
  }
 
  // End of gathering input
+ //calculating forces
+ // TODO(moliwa): Fix stuff here
+ 
+ iterator = gravityConsumers.begin();
+ while (iterator != gravityConsumers.end())
+ {
+     Vector2 acceleration{ 0.0f,0.0f };
+     bool particleCollided = false;
+     for (Planet* currentPlanet : gravitySources)
+     {
+         Vector2 partialAcceleration = currentPlanet->GetAcceleration((*iterator)->position);
+         acceleration.x += partialAcceleration.x;
+         acceleration.y += partialAcceleration.y;
+         if (!particleCollided)
+         { 
+             particleCollided = CheckCollision(*iterator, currentPlanet);
+         }
 
+     }
+     if (!particleCollided)
+     {
+         (*iterator)->Update(acceleration);
+         iterator++;
+     }
+     else
+     {
+         delete (*iterator);
+         gravityConsumers.remove(*iterator++);
+     }
+ }
+
+ // Calculate smoke
+ smokeIterator = smokeParticles.begin();
+ while (smokeIterator != smokeParticles.end())
+ {
+     (*smokeIterator)->Update({ 0.0f,0.0f });
+     if (0 == (*smokeIterator)->lifetime)
+     {
+         delete (*smokeIterator);
+         smokeParticles.remove(*smokeIterator++);
+     }
+     else
+     {
+         smokeIterator++;
+     }
+ }
+ 
+
+ // Ship status
+ WriteMessage("Velocity: ", VectorLength(ship->velocity), 20, screenHeight - 60);
+ WriteMessage("Reload: ", ship->reload, 20, screenHeight - 40);
+ WriteMessage("Missile speed: ", ship->missileSpeed, 20, screenHeight - 20);
 
 };

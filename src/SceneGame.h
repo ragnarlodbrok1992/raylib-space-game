@@ -8,12 +8,16 @@
 #include "InertObject.h"
 #include "SmokeParticle.h"
 #include "Ship.h"
+#include "Collisions.h"
 
 
 class SceneGame : public Scene {
 private:
   // Randomness stuff
   std::random_device rand;
+  std::mt19937_64 randGen;
+  std::uniform_int_distribution<> distr;
+  //std::mt19937_64 randGen(rand());
   //std::mt19937_64 randGen(rand());
   //std::uniform_int_distribution<> distr(-100, 100);
 
@@ -34,8 +38,9 @@ private:
   Vector2 planet2Placement = {650.0f,  350.0f};
   Vector2 planet3Placement = {100.0f,  120.0f};
 
+public:
   // Init objects here
-  //Ship ship(shipPlacement, 20.0f);
+  Ship* ship;
   //gravityConsumers.push_back(&ship);
 
   //Planet planet (planetPlacement,  50, 50000,  BLUE);
