@@ -1,4 +1,6 @@
 #pragma once
+#ifndef H_PARTICLE
+#define H_PARTICLE
 #include "raylib.h"
 #include "Planet.h"
 #include "InertObject.h"
@@ -17,4 +19,6 @@ public:
 
 	virtual void Draw();
 };
+
+#endif /* H_OBJECT */
 

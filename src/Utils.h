@@ -1,7 +1,11 @@
 #pragma once
+#ifndef H_UTILS
+#define H_UTILS
 #include <sstream>
+#include <random>
 #include <iomanip>
 #include "raylib.h"
+#include "math.h"
 
 const int screenWidth = 1366;
 const int screenHeight = 768;
@@ -17,3 +21,11 @@ void RotateUnitVector(Vector2& vectorToRotate, double angle);
 //utils for writingg messages using raylib
 void WriteMessage(const std::string message, float value, int x, int y); //writes string and float with precision of 3
 void WriteMessage(const std::string message, int value, int x, int y);   //writes string and int
+void WriteMessage(const std::string message, int x, int y);              //writes string
+
+// Random stuff
+extern std::random_device randDev;
+extern std::mt19937_64 randGen;
+extern std::uniform_int_distribution<> distr;
+
+#endif /* H_UTILS */

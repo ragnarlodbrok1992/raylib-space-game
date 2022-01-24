@@ -1,5 +1,3 @@
-#include <math.h>
-#include "raylib.h"
 #include "Utils.h"
 
 float GetDistance(Vector2 firstObj, Vector2 secondObj)
@@ -43,3 +41,17 @@ void WriteMessage(const std::string message, int value, int x, int y)
     DrawText(fullMessage, x, y, 12, BLACK);
     delete[] fullMessage;
 }
+
+void WriteMessage(const std::string message, int x, int y) {
+  std::string tempMsg = message;
+  char* drawMsg = new char[tempMsg.size() + 1];
+  drawMsg[tempMsg.size()] = '\0';
+  std::copy(tempMsg.begin(), tempMsg.end(), drawMsg);
+  DrawText(drawMsg, x, y, 12, BLACK);
+  delete[] drawMsg;
+};
+
+std::random_device randDev;
+std::mt19937_64 randGen(randDev());
+std::uniform_int_distribution<> distr(-100, 100);
+

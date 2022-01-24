@@ -1,5 +1,6 @@
 #include "SmokeParticle.h"
 
+
 SmokeParticle::SmokeParticle(Vector2 position, Vector2 velocity, unsigned int lifetime) : InertObject(position, velocity), fadingStrength(255.0f / lifetime)
 {
 	this->lifetime = lifetime;
@@ -19,3 +20,4 @@ void SmokeParticle::Draw()
 {
 	DrawCircleV(this->position, this->radius, this->color);
 }
+

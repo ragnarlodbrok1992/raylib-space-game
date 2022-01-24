@@ -3,6 +3,13 @@
 #include "Planet.h"
 #include "Utils.h"
 
+Planet::Planet(Vector2 position, float radius, float mass, Color color):Object(position)
+{
+	this->radius = radius;
+	this->mass = mass;
+	this->color = color;
+}
+
 Vector2 Planet::GetVersorDirection(Vector2 objectPosition)
 {
 	Vector2 vector;
@@ -14,12 +21,6 @@ Vector2 Planet::GetVersorDirection(Vector2 objectPosition)
 	return vector;
 }
 
-Planet::Planet(Vector2 position, float radius, float mass, Color color):Object(position)
-{
-	this->radius = radius;
-	this->mass = mass;
-	this->color = color;
-}
 
 Vector2 Planet::GetAcceleration(Vector2 objectPosition)
 {
@@ -33,5 +34,6 @@ Vector2 Planet::GetAcceleration(Vector2 objectPosition)
 
 void Planet::Draw()
 {
-	DrawCircleV(this->position, this->radius, this->color);
+  DrawCircleV(this->position, this->radius, this->color);
 }
+

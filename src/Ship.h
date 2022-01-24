@@ -1,4 +1,6 @@
 #pragma once
+#ifndef H_SHIP
+#define H_SHIP
 #include "raylib.h"
 #include "InertObject.h"
 #include "Utils.h"
@@ -7,7 +9,7 @@
 
 class Ship: public InertObject {
 public:
-	enum rotationDirection { CLOCKWISE, COUNTERCLOCKWISE };
+  enum rotationDirection { CLOCKWISE, COUNTERCLOCKWISE };
   const float Size;
   const float thrustAcceleration = 6.0f/FPS; //how fast will ship accelerate
   const float rotationSpeed = 0.04f;
@@ -33,4 +35,6 @@ public:
   //void Accelerate(SmokeParticle* smoke);
   Particle* FireMissile();
 };
+
+#endif /* H_SHIP */
 

@@ -1,4 +1,6 @@
 #pragma once
+#ifndef H_OBJECT
+#define H_OBJECT
 #include "raylib.h"
 
 enum class objType
@@ -24,3 +26,6 @@ public:
 
 	virtual void Draw();
 };
+
+#endif /* H_OBJECT */
+

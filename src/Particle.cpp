@@ -18,3 +18,4 @@ void Particle::Draw()
 {
 	DrawCircleV(this->position, this->radius, this->color);
 };
+

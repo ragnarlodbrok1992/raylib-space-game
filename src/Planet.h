@@ -1,4 +1,6 @@
 #pragma once
+#ifndef H_PLANET
+#define H_PLANET
 #include "raylib.h"
 #include "Object.h"
 
@@ -14,5 +16,8 @@ public:
 	Planet(Vector2 position, float radius, float mass, Color color);
 
 	Vector2 GetAcceleration(Vector2 objectPosition);
-	virtual void Draw();
+	void Draw();
 };
+
+#endif /* H_PLANET */
+
