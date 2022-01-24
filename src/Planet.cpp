@@ -3,9 +3,6 @@
 #include "Planet.h"
 #include "Utils.h"
 
-// TEMP INCLUDE
-#include <iostream>
-
 Planet::Planet(Vector2 position, float radius, float mass, Color color):Object(position)
 {
 	this->radius = radius;
@@ -39,3 +36,4 @@ void Planet::Draw()
 {
   DrawCircleV(this->position, this->radius, this->color);
 }
+

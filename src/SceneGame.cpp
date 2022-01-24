@@ -1,13 +1,7 @@
 #include "SceneGame.h"
 
-// TEMP INCLUDE
-#include <iostream>
 
 SceneGame :: SceneGame(SceneEnum se) : Scene(se) {
-
-  // Randomness init
-  std::mt19937_64 randGen(rand());
-  std::uniform_int_distribution<> distr(-100, 100);  
 
   // Init objects here
   this->ship = new Ship(shipPlacement, 20.0f);
@@ -28,35 +22,22 @@ SceneGame :: SceneGame(SceneEnum se) : Scene(se) {
 };
 
 SceneGame::~SceneGame() {
-
-  // This might not be correct
-  // delete[] this->gravitySources;
-  // delete[] this->gravityConsumers;
-
-  //delete* this->planet;
-  //delete* this->planet2;
-  //delete* this->planet3;
 };
 
 void SceneGame::render() {
-  WriteMessage("SceneGame is here!", 20, 20);
-
-  //drawing
-  //
-  
+  // Drawing planets
   for (Planet* currentPlanet : gravitySources)
   {
       currentPlanet->Draw();
   }
-  //draw smoke
-  
+
+  // Drawing smoke
   for (SmokeParticle* smoke : smokeParticles)
   {
       smoke->Draw();
   }
-  //ship is an inert object so it will be drawn here
-  // TODO(moliwa): maybe seperate that after some time?
 
+  // Drawing particles
   for (InertObject* currentParticle : gravityConsumers)
   {
       currentParticle->Draw();
@@ -81,12 +62,10 @@ void SceneGame::simulate() {
      this->ship->velocity.x += this->ship->shipMoveVector.x * this->ship->thrustAcceleration;
      this->ship->velocity.y += this->ship->shipMoveVector.y * this->ship->thrustAcceleration;
      Vector2 revVec;
-
-     //TODO (moliwa): This stuff here for randomness requiress some mangling
      revVec.x = this->ship->shipMoveVector.x * -15 + distr(randGen) / 30.0f;
      revVec.y = this->ship->shipMoveVector.y * -15 + distr(randGen) / 30.0f;
      SmokeParticle* smoke = new SmokeParticle(this->ship->position, revVec, 150+distr(randGen));
-     //ship.Accelerate(smoke);
+     //ship->Accelerate(smoke);
      smokeParticles.push_back(smoke);
  }
 
@@ -123,10 +102,6 @@ void SceneGame::simulate() {
      if(this->ship->reload < this->ship->reloaded) this->ship->reload++;
  }
 
- // End of gathering input
- //calculating forces
- // TODO(moliwa): Fix stuff here
- 
  iterator = gravityConsumers.begin();
  while (iterator != gravityConsumers.end())
  {
@@ -157,10 +132,12 @@ void SceneGame::simulate() {
 
  // Calculate smoke
  smokeIterator = smokeParticles.begin();
+ int howMany = 0;
  while (smokeIterator != smokeParticles.end())
  {
-     (*smokeIterator)->Update({ 0.0f,0.0f });
-     if (0 == (*smokeIterator)->lifetime)
+  howMany++;
+  (*smokeIterator)->Update({ 0.0f,0.0f });
+    if (0 == (*smokeIterator)->lifetime)
      {
          delete (*smokeIterator);
          smokeParticles.remove(*smokeIterator++);
@@ -171,10 +148,10 @@ void SceneGame::simulate() {
      }
  }
  
-
  // Ship status
  WriteMessage("Velocity: ", VectorLength(ship->velocity), 20, screenHeight - 60);
  WriteMessage("Reload: ", ship->reload, 20, screenHeight - 40);
  WriteMessage("Missile speed: ", ship->missileSpeed, 20, screenHeight - 20);
 
 };
+

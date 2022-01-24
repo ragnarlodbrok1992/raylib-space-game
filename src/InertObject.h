@@ -1,4 +1,6 @@
 #pragma once
+#ifndef H_INERTOBJECT
+#define H_INERTOBJECT
 #include"Object.h"
 #include"raylib.h"
 #include"Utils.h"
@@ -22,3 +24,6 @@ public:
 	virtual void Update(Vector2 acceleration);
 
 };
+
+#endif /* H_INERTOBJECT */
+

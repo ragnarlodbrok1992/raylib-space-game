@@ -1,4 +1,6 @@
 #pragma once
+#ifndef H_SCENE
+#define H_SCENE
 #include "raylib.h"
 #include <stdexcept>
 
@@ -30,3 +32,6 @@ public:
   virtual void render();    // Function to draw all scene objects
   virtual void simulate();  // Function to simulate internal state of scene
 };
+
+#endif /* H_SCENE */
+

@@ -20,6 +20,7 @@ Object::Object(Vector2 position, objType objectType)
 	this->objectType = objectType;
 }
 
+// TODO: Should this function be defined?
 void Object::Draw()
 {
 

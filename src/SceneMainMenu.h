@@ -1,4 +1,6 @@
 #pragma once
+#ifndef H_SCENEMAINMENU
+#define H_SCENEMAINMENU
 #include "Scene.h"
 #include "raylib.h"
 #include "Utils.h"
@@ -12,4 +14,6 @@ public:
   void render();
   void simulate();
 };
+
+#endif /* SCENEMAINMENU */
 

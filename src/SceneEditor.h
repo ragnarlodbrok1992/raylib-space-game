@@ -1,4 +1,6 @@
 #pragma once
+#ifndef H_SCENEEDITOR
+#define H_SCENEEDITOR
 #include "raylib.h"
 #include "Scene.h"
 #include "Utils.h"
@@ -12,3 +14,6 @@ public:
   void render();
   void simulate();
 };
+
+#endif /* H_SCENEEDITOR */
+

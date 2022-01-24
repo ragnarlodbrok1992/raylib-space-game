@@ -1,4 +1,6 @@
 #pragma once
+#ifndef H_SHIP
+#define H_SHIP
 #include "raylib.h"
 #include "InertObject.h"
 #include "Utils.h"
@@ -33,4 +35,6 @@ public:
   //void Accelerate(SmokeParticle* smoke);
   Particle* FireMissile();
 };
+
+#endif /* H_SHIP */
 

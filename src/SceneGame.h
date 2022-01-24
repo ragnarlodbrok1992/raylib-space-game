@@ -1,6 +1,7 @@
 #pragma once
+#ifndef H_SCENEGAME
+#define H_SCENEGAME
 #include <list>
-#include <random>
 #include "raylib.h"
 #include "Scene.h"
 #include "Utils.h"
@@ -13,14 +14,6 @@
 
 class SceneGame : public Scene {
 private:
-  // Randomness stuff
-  std::random_device rand;
-  std::mt19937_64 randGen;
-  std::uniform_int_distribution<> distr;
-  //std::mt19937_64 randGen(rand());
-  //std::mt19937_64 randGen(rand());
-  //std::uniform_int_distribution<> distr(-100, 100);
-
   // Init control values here
   double angle = 0.04f;
   Vector2 shipMoveVector = {0.0f, -1.0f};
@@ -41,11 +34,6 @@ private:
 public:
   // Init objects here
   Ship* ship;
-  //gravityConsumers.push_back(&ship);
-
-  //Planet planet (planetPlacement,  50, 50000,  BLUE);
-  //Planet planet2(planet2Placement, 60, 170000, DARKBLUE);
-  //Planet planet3(planet3Placement, 30, 30000,  BROWN);
 
 public:
   SceneGame(SceneEnum se);
@@ -54,4 +42,6 @@ public:
   void render();
   void simulate();
 };
+
+#endif /* H_SCENEGAME */
 

@@ -3,9 +3,6 @@
 #include "Ship.h"
 #include "Utils.h"
 
-// TEMP INCLUDE
-#include <iostream>
-
 Ship::Ship(Vector2 position, const float size) : InertObject(position), Size(size){
   calculate_ship_shape();
   this->velocity = { 0.0f, 0.0f };

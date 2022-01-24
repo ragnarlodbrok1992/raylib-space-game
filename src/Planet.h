@@ -1,4 +1,6 @@
 #pragma once
+#ifndef H_PLANET
+#define H_PLANET
 #include "raylib.h"
 #include "Object.h"
 
@@ -16,3 +18,6 @@ public:
 	Vector2 GetAcceleration(Vector2 objectPosition);
 	void Draw();
 };
+
+#endif /* H_PLANET */
+

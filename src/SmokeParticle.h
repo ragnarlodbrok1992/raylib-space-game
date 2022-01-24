@@ -1,4 +1,6 @@
 #pragma once
+#ifndef H_SMOKEPARTICLE
+#define H_SMOKEPARTICLE
 #include"InertObject.h"
 
 class SmokeParticle : public InertObject
@@ -16,3 +18,6 @@ public:
 	void Update(Vector2 acceleration);
 	void Draw();
 };
+
+#endif /* H_SMOKEPARTICLE */
+

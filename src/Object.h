@@ -1,4 +1,6 @@
 #pragma once
+#ifndef H_OBJECT
+#define H_OBJECT
 #include "raylib.h"
 
 enum class objType
@@ -22,5 +24,8 @@ public:
 	Object(Vector2 position);
 	Object(Vector2 position, objType objectType);
 
-	virtual void Draw(); // <-- FIXME: here function cannot be virtual (why?)
+	virtual void Draw();
 };
+
+#endif /* H_OBJECT */
+
