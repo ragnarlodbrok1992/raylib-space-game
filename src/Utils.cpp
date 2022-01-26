@@ -83,6 +83,13 @@ void WriteMessage(const std::string message, int value, int x, int y)
     delete[] fullMessage;
 }
 
+void WriteMessage(const std::string message, unsigned int value, int x, int y)
+{
+  // FIXME: this is not right
+  value = (int) value;
+  WriteMessage(message, value, x, y);
+}
+
 void WriteMessage(const std::string message, int x, int y) {
   std::string tempMsg = message;
   char* drawMsg = new char[tempMsg.size() + 1];
