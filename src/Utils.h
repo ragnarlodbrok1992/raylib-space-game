@@ -21,9 +21,10 @@ float DistancePointToSegment(Vector2 segmentFirst, Vector2 segmentSecond, Vector
 void SwapPointers(void** first, void** second); //swaps two pointers
 
 //utils for writingg messages using raylib
-void WriteMessage(const std::string message, float value, int x, int y); //writes string and float with precision of 3
-void WriteMessage(const std::string message, int value, int x, int y);   //writes string and int
-void WriteMessage(const std::string message, int x, int y);              //writes string
+void WriteMessage(const std::string message, float value, int x, int y);          //writes string and float with precision of 3
+void WriteMessage(const std::string message, int value, int x, int y);            //writes string and int
+void WriteMessage(const std::string message, unsigned int value, int x, int y);   //writes string and unsigned int
+void WriteMessage(const std::string message, int x, int y);                       //writes string
 
 // Random stuff
 extern std::random_device randDev;
