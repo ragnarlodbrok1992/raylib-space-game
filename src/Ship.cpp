@@ -6,6 +6,9 @@
 Ship::Ship(Vector2 position, const float size) : InertObject(position), Size(size){
   calculate_ship_shape();
   this->velocity = { 0.0f, 0.0f };
+  this->objectType = objType::SHIP;
+  this->objectShape = objShape::POLYGON;
+  this->shapeClassObject = new ShapePolygon(this->ship_coords, 4, size);
 }
 
 void Ship::calculate_ship_shape() {
@@ -74,17 +77,18 @@ void Ship::UpdatePosition()
     }
 };
 
-/* Problem - random number generator should be placed in another class available for the rest of code?
-void Ship::Accelerate(SmokeParticle* smoke)
+// Returns new smoke pointer - should be handled otherwise memory leak
+SmokeParticle* Ship::Accelerate()
 {
     this->velocity.x += this->shipMoveVector.x * this->thrustAcceleration;
     this->velocity.y += this->shipMoveVector.y * this->thrustAcceleration;
     Vector2 revVec;
-    revVec.x = ship.shipMoveVector.x * -15 + distr(randGen) / 30.0f;
-    revVec.y = ship.shipMoveVector.y * -15 + distr(randGen) / 30.0f;
-    SmokeParticle* smoke = new SmokeParticle(ship.position, revVec, 150 + distr(randGen));
+    revVec.x = this->shipMoveVector.x * -15 + distr(randGen) / 30.0f;
+    revVec.y = this->shipMoveVector.y * -15 + distr(randGen) / 30.0f;
+    SmokeParticle* smoke = new SmokeParticle(this->position, revVec, 150 + distr(randGen));
+    return smoke;
 }
-*/
+
 
 //Returns new particle pointer - should be handled otherwise memory leak
 Particle* Ship::FireMissile()
@@ -93,9 +97,8 @@ Particle* Ship::FireMissile()
     Vector2 missilePosition;
     missileVelocity.x = this->velocity.x + this->shipMoveVector.x * this->missileSpeed;
     missileVelocity.y = this->velocity.y + this->shipMoveVector.y * this->missileSpeed;
-    missilePosition.x = this->position.x + this->shipMoveVector.x * this->Size / 2;
-    missilePosition.y = this->position.y + this->shipMoveVector.y * this->Size / 2;
+    missilePosition.x = this->position.x + this->shipMoveVector.x * this->Size*2/3;
+    missilePosition.y = this->position.y + this->shipMoveVector.y * this->Size*2/3;
     Particle* missile = new Particle(missilePosition, missileVelocity, BLUE);
-    missile->objectType = objType::PARTICLE;
     return missile;
 }

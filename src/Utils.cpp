@@ -18,6 +18,47 @@ void RotateUnitVector(Vector2& VectorToRotate, double angle) {
                     ((VectorToRotate.x * casted_sin) + (VectorToRotate.y * casted_cos))};
 }
 
+// source: https://math.stackexchange.com/questions/2248617/shortest-distance-between-a-point-and-a-line-segment
+// 2 situations to be considered: 
+// 1 - line going thru point can create perpendicular line intersecting with given segment
+// 2 - there is no line going thru point that can create perpendicular line intersecting with given segment
+float DistancePointToSegment(Vector2 segmentFirst, Vector2 segmentSecond, Vector2 point)
+{
+    float y1 = segmentFirst.y;
+    float x1 = segmentFirst.x;
+    float y2 = segmentSecond.y;
+    float x2 = segmentSecond.x;
+    float y = point.y;
+    float x = point.x;
+    //check for first condition
+    
+    float tNominator = -(((x1 - x) * (x2 - x1)) + ((y1 - y) * (y2 - y1)));
+    float tDenominator = powf(x2 - x1, 2) + powf(y2 - y1,2);
+    float t = tNominator / tDenominator;
+    if ((t >= 0) && (t <= 1))
+    {
+        //point can create perpendicular line intersecting with given segment
+        float nominator = abs(((x2 - x1) * (y1 - y)) - ((x1 - x) * (y2 - y1)));
+        float denominator = sqrtf(powf(x2 - x1, 2) + powf(y2 - y1, 2));
+        return nominator / denominator;
+    }
+    else
+    {
+        //point cannot create perpendicular line intersecting with given segment
+        float d1 = sqrtf(powf(x2 - x, 2) + powf(y2 - y, 2));
+        float d2 = sqrtf(powf(x1 - x, 2) + powf(y1 - y, 2));
+        return d1 >= d2 ? d2 : d1;
+    }
+
+}
+
+void SwapPointers(void** first, void** second)
+{
+    void* temp = *first;
+    *first = *second;
+    *second = temp;
+}
+
 void WriteMessage(const std::string message, float value, int x, int y)
 {
     std::string tempString = message;

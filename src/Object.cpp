@@ -10,19 +10,14 @@ Object::Object(Vector2 position)
 	this->position = position;
 	objectCount++;
 	this->objectType = objType::UNKNOWN;
+	this->objectShape = objShape::UNKNOWN;
+	this->shapeClassObject = nullptr;
 }
 
-Object::Object(Vector2 position, objType objectType)
+Object::~Object()
 {
-	this->objectId = objectCount;
-	this->position = position;
-	objectCount++;
-	this->objectType = objectType;
+	if (nullptr != this->shapeClassObject)
+	{
+		delete this->shapeClassObject;
+	}
 }
-
-// TODO: Should this function be defined?
-void Object::Draw()
-{
-
-}
-

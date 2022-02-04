@@ -6,6 +6,7 @@
 #include "Utils.h"
 #include "Particle.h"
 #include "SmokeParticle.h"
+#include "ShapePolygon.h"
 
 class Ship: public InertObject {
 public:
@@ -32,7 +33,7 @@ public:
   void Draw();
   void Rotate(rotationDirection direction);
   void MoveByVector(Vector2& move_vector);
-  //void Accelerate(SmokeParticle* smoke);
+  SmokeParticle* Accelerate();
   Particle* FireMissile();
 };
 

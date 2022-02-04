@@ -12,9 +12,6 @@ SceneGame :: SceneGame(SceneEnum se) : Scene(se) {
   Planet* planet2 = new Planet(planet2Placement, 60, 170000, DARKBLUE);
   Planet* planet3 = new Planet(planet3Placement, 30, 30000,  BROWN);
 
-  planet->objectType  = objType::PLANET;
-  planet2->objectType = objType::PLANET;
-  planet3->objectType = objType::PLANET;
   this->gravitySources.push_back(planet);
   this->gravitySources.push_back(planet2);
   this->gravitySources.push_back(planet3);
@@ -64,9 +61,7 @@ void SceneGame::simulate() {
      Vector2 revVec;
      revVec.x = this->ship->shipMoveVector.x * -15 + distr(randGen) / 30.0f;
      revVec.y = this->ship->shipMoveVector.y * -15 + distr(randGen) / 30.0f;
-     SmokeParticle* smoke = new SmokeParticle(this->ship->position, revVec, 150+distr(randGen));
-     //ship->Accelerate(smoke);
-     smokeParticles.push_back(smoke);
+     smokeParticles.push_back(ship->Accelerate());
  }
 
  
@@ -102,6 +97,7 @@ void SceneGame::simulate() {
      if(this->ship->reload < this->ship->reloaded) this->ship->reload++;
  }
 
+ //calculate acceleration from planets and collisions with planets.
  iterator = gravityConsumers.begin();
  while (iterator != gravityConsumers.end())
  {
@@ -114,7 +110,7 @@ void SceneGame::simulate() {
          acceleration.y += partialAcceleration.y;
          if (!particleCollided)
          { 
-             particleCollided = CheckCollision(*iterator, currentPlanet);
+             particleCollided = CheckCollision((Object*)*iterator, (Object*)currentPlanet);
          }
 
      }
@@ -127,6 +123,44 @@ void SceneGame::simulate() {
      {
          delete (*iterator);
          gravityConsumers.remove(*iterator++);
+     }
+ }
+
+ //check collisions between other objects - WARNING - BRUTFORCE. TBD - do it better
+ if (gravityConsumers.size() > 1)
+ {
+     iterator = gravityConsumers.begin();
+     iterator2 = gravityConsumers.begin();
+     std::list <InertObject*> objectToDelete;
+     while (iterator != gravityConsumers.end())
+     {
+         while (iterator2 != gravityConsumers.end())
+         {
+             if (iterator != iterator2)
+             {
+                 //if collision occured
+                 if (CheckCollision((Object*)*iterator, (Object*)*iterator2))
+                 {
+                     //delete both objects
+                     objectToDelete.push_back(*iterator);
+                     objectToDelete.push_back(*iterator2);
+                 }
+             }
+             iterator2++;
+         } 
+         iterator++;
+         iterator2 = gravityConsumers.begin();
+     } 
+     objectToDelete.sort();
+     objectToDelete.unique();
+     if (objectToDelete.size() > 0)
+     {
+         iterator = objectToDelete.begin();
+         while (iterator != objectToDelete.end())
+         {
+             delete (*iterator);
+             gravityConsumers.remove(*iterator++);
+         }
      }
  }
 

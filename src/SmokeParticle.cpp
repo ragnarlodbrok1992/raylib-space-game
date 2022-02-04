@@ -5,6 +5,8 @@ SmokeParticle::SmokeParticle(Vector2 position, Vector2 velocity, unsigned int li
 {
 	this->lifetime = lifetime;
 	this->color = RED;
+	this->objectType = objType::UNKNOWN;
+	this->objectShape = objShape::CIRCLE;
 }
 
 //not using acceleration. It is just for type prototype compatibility
