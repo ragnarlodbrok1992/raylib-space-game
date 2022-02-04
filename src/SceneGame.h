@@ -22,6 +22,7 @@ private:
   std::list <Planet*>                  gravitySources;
   std::list <InertObject*>             gravityConsumers;
   std::list <InertObject*>::iterator   iterator;
+  std::list <InertObject*>::iterator   iterator2;
   std::list <SmokeParticle*>           smokeParticles;
   std::list <SmokeParticle*>::iterator smokeIterator;
 
