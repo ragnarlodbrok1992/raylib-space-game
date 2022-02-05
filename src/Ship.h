@@ -16,6 +16,7 @@ public:
   const float rotationSpeed = 0.04f;
   bool chargingMissile = false; //indicates whether attack button is pressed
   float missileSpeed = 0.0f;
+  float health = 100.0f;
   int reload = 0; //when 100 you will be able to fire. Currently checked in main
   const int reloaded = 100;
   Vector2 shipMoveVector = { 0.0f, -1.0f };

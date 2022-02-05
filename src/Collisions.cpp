@@ -17,8 +17,8 @@ static bool CollisionDoCircleCollidedWithPolygon(Vector2 polygonEdges[], unsigne
 		float distance = DistancePointToSegment(polygonEdges[current], polygonEdges[next], circleCenter);
 		if (circleRadius > distance)
 		{
-			WriteMessage("collision", 50, 50);
-	        return false;//TBD: change to true when ship need to be destroyed
+			WriteMessage("collision", 50, 50);//TBD: delete... only for debug purpose for now
+	        return true;
 			
 		}
 		current++;
