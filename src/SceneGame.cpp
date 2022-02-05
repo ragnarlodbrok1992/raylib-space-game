@@ -12,6 +12,7 @@ static inline bool UpdateGivenObjectAndCheckPlanetCollision(std::list<Planet*> p
         acceleration.y += partialAcceleration.y;
         if (!particleCollided)
         {
+            //after first collision no need to search for other collisions
             particleCollided = CheckCollision((Object*)object, (Object*)currentPlanet);
         }
     }
@@ -32,8 +33,7 @@ static void CalculatePlanetsEffects(std::list<Planet*> &planets, std::list<Inert
     collisionIterator = object.begin();
     while (collisionIterator != object.end())
     {
-        bool particleCollided = false;
-        particleCollided = UpdateGivenObjectAndCheckPlanetCollision(planets, (InertObject*)*collisionIterator);
+        bool particleCollided = UpdateGivenObjectAndCheckPlanetCollision(planets, (InertObject*)*collisionIterator);
         if (!particleCollided)
         {
             collisionIterator++;
@@ -58,8 +58,7 @@ static void CalculatePlanetsEffects(std::list<Planet*> &planets, std::list<Ship*
     collisionIterator = object.begin();
     while (collisionIterator != object.end())
     {
-        bool particleCollided = false;
-        particleCollided = UpdateGivenObjectAndCheckPlanetCollision(planets, (InertObject*)*collisionIterator);
+        bool particleCollided = UpdateGivenObjectAndCheckPlanetCollision(planets, (InertObject*)*collisionIterator);
         if (!particleCollided)
         {
             collisionIterator++;
