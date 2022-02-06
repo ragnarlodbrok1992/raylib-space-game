@@ -11,6 +11,13 @@ enum class objType
 	UNKNOWN
 };
 
+enum class objShape
+{
+	CIRCLE,
+	POLYGON,
+	UNKNOWN
+};
+
 class Object
 {
 protected:
@@ -20,11 +27,14 @@ public:
 	Vector2 position;
 	unsigned int objectId;
 	objType objectType;
+	objShape objectShape;
+
+	void* shapeClassObject;
 
 	Object(Vector2 position);
-	Object(Vector2 position, objType objectType);
+	~Object();
 
-	virtual void Draw();
+	virtual void Draw() = 0;
 };
 
 #endif /* H_OBJECT */

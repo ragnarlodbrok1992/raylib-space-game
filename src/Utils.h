@@ -17,6 +17,8 @@ const float SIMULATION_SPEED = 1.0f / FPS;
 float GetDistance(Vector2 firstObj, Vector2 secondObj);
 float VectorLength(Vector2 vector);
 void RotateUnitVector(Vector2& vectorToRotate, double angle);
+float DistancePointToSegment(Vector2 segmentFirst, Vector2 segmentSecond, Vector2 point);
+void SwapPointers(void** first, void** second); //swaps two pointers
 
 //utils for writingg messages using raylib
 void WriteMessage(const std::string message, float value, int x, int y); //writes string and float with precision of 3

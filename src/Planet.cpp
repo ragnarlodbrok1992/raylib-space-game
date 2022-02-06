@@ -5,9 +5,11 @@
 
 Planet::Planet(Vector2 position, float radius, float mass, Color color):Object(position)
 {
-	this->radius = radius;
 	this->mass = mass;
 	this->color = color;
+	this->objectShape = objShape::CIRCLE;
+	this->objectType = objType::PLANET;
+	this->shapeClassObject = new ShapeCircle(radius);
 }
 
 Vector2 Planet::GetVersorDirection(Vector2 objectPosition)
@@ -34,6 +36,7 @@ Vector2 Planet::GetAcceleration(Vector2 objectPosition)
 
 void Planet::Draw()
 {
-  DrawCircleV(this->position, this->radius, this->color);
+  float radius = (static_cast<ShapeCircle*>(shapeClassObject))->radius;
+  DrawCircleV(this->position, radius, this->color);
 }
 

@@ -21,9 +21,8 @@ private:
   // Init control structures here
   std::list <Planet*>                  gravitySources;
   std::list <InertObject*>             gravityConsumers;
-  std::list <InertObject*>::iterator   iterator;
+  std::list <Ship*>					   shipsList;
   std::list <SmokeParticle*>           smokeParticles;
-  std::list <SmokeParticle*>::iterator smokeIterator;
 
   // Placement vectors
   Vector2 shipPlacement    = {250.0f,  200.0f};

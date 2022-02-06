@@ -8,10 +8,12 @@
 #include "Object.h"
 #include "Particle.h"
 #include "Planet.h"
+#include "ShapePolygon.h"
+#include "ShapeCircle.h"
 
-bool IsCollisionCircleCircle(Vector2 firstPosition, float firstRadius, Vector2 secondPosition, float secondRadius);
+bool IsCollisionCircleCircle(Object* firstCircle, Object* secondCircle);
 
-bool CheckCollision(void* firstObj, void* secondObj);
+bool CheckCollision(Object* firstObj, Object* secondObj);
 
 #endif /* H_COLLISIONS */
 
