@@ -15,7 +15,7 @@ int main(int charc, char** argv) {
 
   SetTargetFPS(60);
 
-  // Init redner control values here
+  // Init render control values here
   bool dropdown_console = false;
 
   // Console initialization
