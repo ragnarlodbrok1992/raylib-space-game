@@ -135,7 +135,12 @@ static void HandleSmoke(std::list<SmokeParticle*> &smokeParticles)
 SceneGame :: SceneGame(SceneEnum se) : Scene(se) {
 
   // Init objects here
-  this->ship = new Ship(shipPlacement, 20.0f);
+    playerKeyMap_t player1Keys;
+    player1Keys.accelerate = KEY_W;
+    player1Keys.fire = KEY_SPACE;
+    player1Keys.rotateClockwise = KEY_D;
+    player1Keys.rotateCounterclockwise = KEY_A;
+  PlayerShip* ship = new PlayerShip(shipPlacement, 20.0f, player1Keys);
 
   this->shipsList.push_back(ship);
 
@@ -179,55 +184,20 @@ void SceneGame::render() {
 
 
 void SceneGame::simulate() {
-  if (IsKeyDown (KEY_A)) 
-  {
-    this->ship->Rotate(Ship::COUNTERCLOCKWISE);
-  }
-  if (IsKeyDown (KEY_D)) 
-  {
-    this->ship->Rotate(Ship::CLOCKWISE);
-  }
-
-  if (IsKeyDown (KEY_W)) 
-  {
-      this->ship->velocity.x += this->ship->shipMoveVector.x * this->ship->thrustAcceleration;
-      this->ship->velocity.y += this->ship->shipMoveVector.y * this->ship->thrustAcceleration;
-      Vector2 revVec;
-      revVec.x = this->ship->shipMoveVector.x * -15 + distr(randGen) / 30.0f;
-      revVec.y = this->ship->shipMoveVector.y * -15 + distr(randGen) / 30.0f;
-      smokeParticles.push_back(ship->Accelerate());
-  }
-
-  if (IsKeyPressed(KEY_SPACE))
-  {
-      if (this->ship->reload >= this->ship->reloaded)
-      {
-          this->ship->chargingMissile = true;
-          this->ship->missileSpeed = 3.0f;
-          this->ship->reload = 0;
-      }
-  }
-  if (IsKeyDown(KEY_SPACE))
-  {
-      if (true == this->ship->chargingMissile)
-      {
-          this->ship->missileSpeed += 0.5;
-      }
-  }
-  if (IsKeyReleased(KEY_SPACE))
-  {
-      if (this->ship->chargingMissile == true)
-      {
-          gravityConsumers.push_back(ship->FireMissile());
-          this->ship->missileSpeed = 0.0f;
-          this->ship->chargingMissile = false;
-      }
-  }
-
-  if (!this->ship->chargingMissile)
-  {
-      if(this->ship->reload < this->ship->reloaded) this->ship->reload++;
-  }
+  
+    for (Ship* ship : shipsList)
+    {
+        // if ship is not "player ship" player will be null pointer
+        if (PlayerShip* player = dynamic_cast<PlayerShip*>(ship))
+        {
+            if (PlayerType::LOCAL == player->playerType)
+            {
+                player->HandlePressedKeys();
+            }  
+        }       
+    }
+    GetSmokeParticleFromPipe(smokeParticles);
+    GetInertObjectFromPipe(gravityConsumers);
 
   //calculate acceleration from planets and collisions with planets.
   CalculatePlanetsEffects(gravitySources,gravityConsumers);
@@ -240,17 +210,20 @@ void SceneGame::simulate() {
   HandleSmoke(smokeParticles);
 
   // Ship status
-  if (ship->health > 0) 
+  for (Ship* ship : shipsList)
   {
-      WriteMessage("Ship health: ", ship->health, 20, screenHeight - 80);
-      WriteMessage("Velocity: ", VectorLength(ship->velocity), 20, screenHeight - 60);
-      WriteMessage("Reload: ", ship->reload, 20, screenHeight - 40);
-      WriteMessage("Missile speed: ", ship->missileSpeed, 20, screenHeight - 20);
+      if (ship->health > 0)
+      {
+          WriteMessage("Ship health: ", ship->health, 20, screenHeight - 80);
+          WriteMessage("Velocity: ", VectorLength(ship->velocity), 20, screenHeight - 60);
+          WriteMessage("Reload: ", ship->reload, 20, screenHeight - 40);
+          WriteMessage("Missile speed: ", ship->missileSpeed, 20, screenHeight - 20);
+      }
   }
-  //TBD: This is working don't know why. After destruction ship is deallocated so there is garbage inside class fields.
-  else
+  if(0==shipsList.size())
   {
       WriteMessage("Ship ded", 20, screenHeight - 80);
   }
+
 };
 

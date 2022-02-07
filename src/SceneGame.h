@@ -10,6 +10,8 @@
 #include "SmokeParticle.h"
 #include "Ship.h"
 #include "Collisions.h"
+#include "ObjectPipe.h"
+#include "PlayerShip.h"
 
 
 class SceneGame : public Scene {
@@ -29,10 +31,6 @@ private:
   Vector2 planetPlacement  = {1000.0f, 600.0f};
   Vector2 planet2Placement = {650.0f,  350.0f};
   Vector2 planet3Placement = {100.0f,  120.0f};
-
-public:
-  // Init objects here
-  Ship* ship;
 
 public:
   SceneGame(SceneEnum se);

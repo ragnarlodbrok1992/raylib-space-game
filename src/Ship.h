@@ -7,6 +7,7 @@
 #include "Particle.h"
 #include "SmokeParticle.h"
 #include "ShapePolygon.h"
+#include "ObjectPipe.h"
 
 class Ship: public InertObject {
 public:
@@ -21,7 +22,7 @@ public:
   const int reloaded = 100;
   Vector2 shipMoveVector = { 0.0f, -1.0f };
 
-private:
+protected:
   void calculate_ship_shape();
   Vector2 ship_coords[4];
 
