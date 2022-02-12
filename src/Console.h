@@ -12,7 +12,8 @@ class Console {
 
     // Console geometry
     Rectangle rect = {};
-    Rectangle input_rect = {}; // TODO: add constraints to whole console rect
+    Rectangle input_rect = {};
+    Rectangle cursor = {};
     unsigned int render_time = 0;
     unsigned int cursor_blink = 0;
     bool should_anim = false;

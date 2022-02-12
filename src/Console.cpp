@@ -4,7 +4,11 @@
 Console::Console(float x, float y, float width, float height) {
   // Assume font is 20 px in height
   this->rect = {x, y, width, height};
-  this->input_rect = {x + (width * 0.01f), y + height - 25.0f, width * 0.98f, 22};
+  float input_rect_x = x + (width * 0.01f);
+  float input_rect_y = y + height - 25.0f;
+  this->input_rect = {input_rect_x, input_rect_y, width * 0.98f, 22};
+  this->cursor = {input_rect_x + 1, input_rect_y + 1, 8, 20};  // 8 px width for cursor
+  // Font in raylib by default (I think) are 7 px width for capital and 6 px width for normal
 };
 
 Console::~Console() {};
@@ -68,5 +72,10 @@ inline void Console::render_cursor() {
   if (this->cursor_blink >= 60) { this->cursor_blink = 0; }
 
   // Proper render
-
+  if (this->cursor_blink < 30) {
+    DrawRectangleRec(this->cursor, this->cursor_color);
+    } else {
+      // Pass
+    }
+  
 };
