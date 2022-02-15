@@ -2,6 +2,7 @@
 #define H_CONSOLE
 
 #include "Utils.h"
+#include <vector>
 
 class Console {
   public:
@@ -25,8 +26,14 @@ class Console {
             float height);
     ~Console();
 
+    // Console command buffer
+    std::vector<char> command_buffer;
+
     void render(bool should_render);
+    void clear_cmd_buf();
     inline void render_cursor();
+
+    void process_input();
 };
 
 #endif /* H_CONSOLE */

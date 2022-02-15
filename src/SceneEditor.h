@@ -11,6 +11,7 @@ public:
   SceneEditor(SceneEnum se);
   ~SceneEditor();
 
+  void process_input();
   void render();
   void simulate();
 };

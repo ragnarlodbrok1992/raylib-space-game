@@ -1,6 +1,9 @@
 #include "raylib.h"
 #include "Scene.h"
 
+void Scene::process_input() {
+
+}
 
 void Scene::render() {
 }

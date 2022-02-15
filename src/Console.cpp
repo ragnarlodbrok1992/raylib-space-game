@@ -1,5 +1,7 @@
 #include "Console.h"
 
+// DEBUG INCLUDES
+#include <iostream>
 
 Console::Console(float x, float y, float width, float height) {
   // Assume font is 20 px in height
@@ -79,3 +81,29 @@ inline void Console::render_cursor() {
     }
   
 };
+
+void Console::process_input() {
+  // DEBUG
+  WriteMessage("I am processing console input!", 20, 400);
+
+  // Get input chars
+  // Calling once per frame, the key are getting stored
+  // in a queue hidden in RayLib implementation
+  int key_code_event = GetKeyPressed();
+  if (key_code_event != 0) {
+    // DEBUG
+
+    // Store input into console command buffer
+    this->command_buffer.push_back(static_cast<char>(key_code_event));
+
+    // Move cursor
+  }
+
+  // Rendering command on console
+  std::string cmd_buf(this->command_buffer.begin(), this->command_buffer.end());
+  WriteMessage(cmd_buf, 20, 420);
+}
+
+void Console::clear_cmd_buf() {
+  this->command_buffer.clear();
+}

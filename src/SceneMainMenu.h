@@ -11,6 +11,7 @@ public:
   SceneMainMenu(SceneEnum se);
   ~SceneMainMenu();
 
+  void process_input();
   void render();
   void simulate();
 };

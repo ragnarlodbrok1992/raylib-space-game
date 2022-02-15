@@ -9,6 +9,10 @@
 // TEMP INCLUDES
 #include <iostream>
 
+// Invoking functions - TODO(moliwa): maybe this should be moved?
+void invoke_process_input(void (*func)()) {
+  return func();
+}
 
 int main(int charc, char** argv) {
   InitWindow(screenWidth, screenHeight, "RayLib Space Game");
@@ -39,15 +43,21 @@ int main(int charc, char** argv) {
 
   while (!WindowShouldClose()) {
     // Checking if rendering of dropdown-console
+    // This is not blockable by console input control
     if ((IsKeyPressed(KEY_GRAVE)) && (dropdown_console)) {
       std::cout << "Deactivating dropdown console!\n";
       dropdown_console = false;
+
+      // Clearing command
+      console.clear_cmd_buf();
+
     } else if (IsKeyPressed(KEY_GRAVE) && (!dropdown_console)) {
       std::cout << "Activating dropdown console!\n";
       dropdown_console = true;
     }
 
     // Selecting scene - right now with 1,2,3 keys
+    // Checking if scene control is scene or console
     if      (IsKeyPressed(KEY_ONE)) {
       selectedScene = sceneMainMenu;
     }
@@ -63,6 +73,12 @@ int main(int charc, char** argv) {
     ClearBackground(RAYWHITE);
 
     // Select scene to render
+    if (dropdown_console) {
+      console.process_input();
+    } else {
+      selectedScene->process_input();
+    }
+
     selectedScene->render();
     selectedScene->simulate();
 

@@ -8,6 +8,10 @@ SceneEditor::~SceneEditor() {
 
 };
 
+void SceneEditor::process_input() {
+
+}
+
 void SceneEditor::render() {
   WriteMessage("SceneEditor is here!", 20, 20);
 };
