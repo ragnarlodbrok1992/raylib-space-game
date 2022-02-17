@@ -7,9 +7,11 @@ Console::Console(float x, float y, float width, float height) {
   // Assume font is 20 px in height
   this->rect = {x, y, width, height};
   float input_rect_x = x + (width * 0.01f);
-  float input_rect_y = y + height - 25.0f;
-  this->input_rect = {input_rect_x, input_rect_y, width * 0.98f, 22};
-  this->cursor = {input_rect_x + 1, input_rect_y + 1, 8, 20};  // 8 px width for cursor
+  float input_rect_y = y + height - 16.0f;
+  this->input_rect = {input_rect_x, input_rect_y, width * 0.98f, 14};
+  this->cursor = {input_rect_x + 1, input_rect_y + 1, 8, 12};  // 8 px width for cursor
+  this->cursor_start_point.x = this->cursor.x;
+  this->cursor_start_point.y = this->cursor.y;
   // Font in raylib by default (I think) are 7 px width for capital and 6 px width for normal
 };
 
@@ -90,20 +92,37 @@ void Console::process_input() {
   // Calling once per frame, the key are getting stored
   // in a queue hidden in RayLib implementation
   int key_code_event = GetKeyPressed();
+
+  // Early break from processing input if keys are console controls
+  if (key_code_event == KEY_GRAVE) return;
   if (key_code_event != 0) {
     // DEBUG
+    std::cout << "Key code event: " << key_code_event << std::endl;
 
     // Store input into console command buffer
-    this->command_buffer.push_back(static_cast<char>(key_code_event));
+    char kce = static_cast<char>(key_code_event);
+    int char_measurement = MeasureText(&kce, 12);
+    std::cout << "Char width is: " << char_measurement << std::endl;
+    this->command_buffer.push_back(kce);
+    this->cmd_char_size.push_back(MeasureText(&kce, 12));
 
-    // Move cursor
+    // Move cursor forward
+    // TODO/FIXME(ragnar): This is almost done but there is some error that is going on here
+    this->cursor.x += static_cast<float>(char_measurement) + 1.0f;
+    //this->cursor.x += this->cursor.width;
   }
 
   // Rendering command on console
   std::string cmd_buf(this->command_buffer.begin(), this->command_buffer.end());
-  WriteMessage(cmd_buf, 20, 420);
+  // TODO(ragnar): This should be WriteMessage but console function to render commands
+  // TODO(ragnar): Use MeasureText for checking render option
+  WriteMessage(cmd_buf, this->cursor_start_point.x, this->cursor_start_point.y); // Some offset to put the font down
 }
 
 void Console::clear_cmd_buf() {
   this->command_buffer.clear();
+
+  // Move cursor back to start
+  this->cursor.x = this->cursor_start_point.x;
+  this->cursor.y = this->cursor_start_point.y;
 }
