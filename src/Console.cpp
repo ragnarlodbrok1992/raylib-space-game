@@ -85,9 +85,6 @@ inline void Console::render_cursor() {
 };
 
 void Console::process_input() {
-  // DEBUG
-  WriteMessage("I am processing console input!", 20, 400);
-
   // Get input chars
   // Calling once per frame, the key are getting stored
   // in a queue hidden in RayLib implementation
@@ -95,31 +92,64 @@ void Console::process_input() {
 
   // Early break from processing input if keys are console controls
   if (key_code_event == KEY_GRAVE) return;
+
+  if (key_code_event == KEY_LEFT) {
+      std::cout << "You are pushing left arrow!" << std::endl;
+      if (this->cursor_placement > 0) this->cursor_placement--;
+      return;
+    }
+  if (key_code_event == KEY_RIGHT) {
+      std::cout << "You are pushing right arrow!" << std::endl;
+      if (this->cursor_placement < this->cursor_max_placement) this->cursor_placement++;
+      return;
+    }
+  if (key_code_event == KEY_ENTER) {
+      std::cout << "You are pushing enter!" << std::endl;
+      return;
+    }
+  if (key_code_event == KEY_BACKSPACE) {
+      std::cout << "You are pushing backspace!" << std::endl;
+      if (this->cursor_max_placement > 0 && !(this->cursor_placement == 0)) this->cursor_max_placement--;
+      if (this->cursor_placement > 0) this->cursor_placement--;
+      return;
+    }
+  // TODO(ragnar): Restrict keypressed to only inputable characters
   if (key_code_event != 0) {
+    // Store input into console command buffer
+    //v.insert(v.begin() + i, valueToInsert);
+    char kce = static_cast<char>(key_code_event);
+
+    //this->command_buffer.push_back(kce);
+    this->command_buffer.insert(this->command_buffer.begin() + this->cursor_placement, kce);
+    
+    this->cursor_placement += 1;
+    this->cursor_max_placement += 1;
+
     // DEBUG
     std::cout << "Key code event: " << key_code_event << std::endl;
-
-    // Store input into console command buffer
-    char kce = static_cast<char>(key_code_event);
-    int char_measurement = MeasureText(&kce, 12);
-    std::cout << "Char width is: " << char_measurement << std::endl;
-    this->command_buffer.push_back(kce);
-    this->cmd_char_size.push_back(MeasureText(&kce, 12));
-
-    // Move cursor forward
-    // TODO/FIXME(ragnar): This is almost done but there is some error that is going on here
-    this->cursor.x += static_cast<float>(char_measurement) + 1.0f;
-    //this->cursor.x += this->cursor.width;
+    //std::cout << "Cursor placement is: " << this->cursor_placement << std::endl;
   }
 
   // Rendering command on console
-  std::string cmd_buf(this->command_buffer.begin(), this->command_buffer.end());
-  // TODO(ragnar): This should be WriteMessage but console function to render commands
-  // TODO(ragnar): Use MeasureText for checking render option
+  const std::string cmd_buf(this->command_buffer.begin(), this->command_buffer.end());
+  const char* text = cmd_buf.c_str();
+  //int text_measurement = MeasureText(text, 12);
+
+  const std::string cursor_pos_buf(this->command_buffer.begin(), this->command_buffer.begin() + this->cursor_placement);
+  const char* cursor_pos = cursor_pos_buf.c_str();
+  int cursor_pos_measurement = MeasureText(cursor_pos, 12);
+
+  this->cursor.x = this->cursor_start_point.x + static_cast<float>(cursor_pos_measurement) + 1.0f;
+
   WriteMessage(cmd_buf, this->cursor_start_point.x, this->cursor_start_point.y); // Some offset to put the font down
+
+  // Debug 
+  WriteMessage("This->cursor_placement: ", this->cursor_placement, 20, 400);
+  WriteMessage("This->cursor_max_placement: ", this->cursor_max_placement, 20, 420);
 }
 
 void Console::clear_cmd_buf() {
+  // This is not being cleaned?
   this->command_buffer.clear();
 
   // Move cursor back to start

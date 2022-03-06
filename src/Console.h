@@ -18,6 +18,8 @@ class Console {
     Vector2 cursor_start_point = {};
     unsigned int render_time = 0;
     unsigned int cursor_blink = 0;
+    unsigned int cursor_placement = 0;
+    unsigned int cursor_max_placement = 0;
     bool should_anim = false;
     bool full_open = false;
     Console(float x,
@@ -28,7 +30,6 @@ class Console {
 
     // Console command buffer
     std::vector<char> command_buffer;
-    std::vector<int> cmd_char_size;
 
     void render(bool should_render);
     void clear_cmd_buf();
