@@ -35,7 +35,11 @@ class Console {
     void clear_cmd_buf();
     inline void render_cursor();
 
+    // Working logic for text inputing
     void process_input();
+
+    // Logic for parsing command
+
 };
 
 #endif /* H_CONSOLE */

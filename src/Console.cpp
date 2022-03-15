@@ -109,17 +109,47 @@ void Console::process_input() {
     }
   if (key_code_event == KEY_BACKSPACE) {
       std::cout << "You are pushing backspace!" << std::endl;
-      if (this->cursor_max_placement > 0 && !(this->cursor_placement == 0)) this->cursor_max_placement--;
-      if (this->cursor_placement > 0) this->cursor_placement--;
+      bool should_erase = false;
+      // TODO: modify code to be able to remove characters BEFORE cursor
+      if (this->cursor_max_placement > 0 && !(this->cursor_placement == 0)) {
+        this->cursor_max_placement--;
+      }
+      if (this->cursor_placement > 0) {
+        this->cursor_placement--;
+        should_erase = true;
+      }
+      if (should_erase) {
+        command_buffer.erase(command_buffer.begin() + cursor_placement);
+      }
       return;
     }
+
+  if (key_code_event == KEY_DELETE) {
+    std::cout << "You are pushing DELETE key!" << std::endl;
+
+    if (this->cursor_placement == this->cursor_max_placement) {
+      std::cout << "We are at the end of string!" << std::endl;
+      return;
+      // In this case there is nothing to delete
+    } else {
+      // We are not at the end of string so there is always something to delete
+      // TODO: write code to delete character AFTER cursor
+      // This kills the program xD <-- while deleting the last character of buffer
+      command_buffer.erase(command_buffer.begin() + cursor_placement);
+      this->cursor_max_placement--;
+    }
+    return;
+  }
+
+  // Check press enter
+  if (key_code_event == KEY_ENTER) {
+    std::cout << "Pressed enter!" << std::endl;
+
+  }
+
   // TODO(ragnar): Restrict keypressed to only inputable characters
   if (key_code_event != 0) {
-    // Store input into console command buffer
-    //v.insert(v.begin() + i, valueToInsert);
     char kce = static_cast<char>(key_code_event);
-
-    //this->command_buffer.push_back(kce);
     this->command_buffer.insert(this->command_buffer.begin() + this->cursor_placement, kce);
     
     this->cursor_placement += 1;
@@ -133,7 +163,6 @@ void Console::process_input() {
   // Rendering command on console
   const std::string cmd_buf(this->command_buffer.begin(), this->command_buffer.end());
   const char* text = cmd_buf.c_str();
-  //int text_measurement = MeasureText(text, 12);
 
   const std::string cursor_pos_buf(this->command_buffer.begin(), this->command_buffer.begin() + this->cursor_placement);
   const char* cursor_pos = cursor_pos_buf.c_str();
@@ -155,4 +184,8 @@ void Console::clear_cmd_buf() {
   // Move cursor back to start
   this->cursor.x = this->cursor_start_point.x;
   this->cursor.y = this->cursor_start_point.y;
+
+  // Reset cursor values
+  this->cursor_max_placement = 0;
+  this->cursor_placement = 0;
 }
