@@ -1,13 +1,9 @@
-#pragma once
-#include "src/raylib.h"
-#include "src/Scene.h"
-#include "src/SceneMainMenu.h"
-#include "src/SceneGame.h"
-#include "src/SceneEditor.h"
-#include "src/Console.h"
+#include "main.h"
 
-// TEMP INCLUDES
-#include <iostream>
+// Engine commands
+namespace command {
+bool _EXIT = false;
+}
 
 // Invoking functions - TODO(moliwa): maybe this should be moved?
 void invoke_process_input(void (*func)()) {
@@ -41,18 +37,17 @@ int main(int charc, char** argv) {
   // Start scene is main menu
   selectedScene = sceneMainMenu;
 
-  while (!WindowShouldClose()) {
+  while (!WindowShouldClose() && !command::_EXIT) {
+  //while (!WindowShouldClose()) {
     // Checking if rendering of dropdown-console
     // This is not blockable by console input control
     if ((IsKeyPressed(KEY_GRAVE)) && (dropdown_console)) {
-      std::cout << "Deactivating dropdown console!\n";
       dropdown_console = false;
 
       // Clearing command
       console.clear_cmd_buf();
 
     } else if (IsKeyPressed(KEY_GRAVE) && (!dropdown_console)) {
-      std::cout << "Activating dropdown console!\n";
       dropdown_console = true;
     }
 
@@ -92,3 +87,4 @@ int main(int charc, char** argv) {
 
   return 0;
 }
+

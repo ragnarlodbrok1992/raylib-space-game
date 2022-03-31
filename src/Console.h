@@ -1,10 +1,12 @@
 #ifndef H_CONSOLE
 #define H_CONSOLE
 
-#include "Utils.h"
-#include <vector>
+#include "Parser.h"
 
 class Console {
+  private:
+    // Composite objects
+    Parser *parser;
   public:
     // Console colors and stuff
     Color blue_soft_transparent = {0, 121, 241, 127};
@@ -37,8 +39,6 @@ class Console {
 
     // Working logic for text inputing
     void process_input();
-
-    // Logic for parsing command
 
 };
 

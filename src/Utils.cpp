@@ -1,5 +1,12 @@
 #include "Utils.h"
 
+void Upper(std::string& str) {
+    // Code copypasted from internet
+    std::for_each(str.begin(), str.end(), [](char & c){
+        c = ::toupper(c);
+    }); 
+};
+
 float GetDistance(Vector2 firstObj, Vector2 secondObj)
 { 
 	return sqrtf(powf(secondObj.x - firstObj.x, 2) + powf(secondObj.y - firstObj.y, 2));

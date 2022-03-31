@@ -14,13 +14,19 @@ const int FPS = 60;
 const float GRAV_CONSTANT = 1.0f; //may be useful for fine tuning the effect of gravity
 const float SIMULATION_SPEED = 1.0f / FPS;
 
+// std::string operations
+void Upper(std::string& str);
+
+// Vector maths
 float GetDistance(Vector2 firstObj, Vector2 secondObj);
 float VectorLength(Vector2 vector);
 void RotateUnitVector(Vector2& vectorToRotate, double angle);
 float DistancePointToSegment(Vector2 segmentFirst, Vector2 segmentSecond, Vector2 point);
+
+// Code operations
 void SwapPointers(void** first, void** second); //swaps two pointers
 
-//utils for writingg messages using raylib
+// Utils for writingg messages using raylib
 void WriteMessage(const std::string message, float value, int x, int y);          //writes string and float with precision of 3
 void WriteMessage(const std::string message, int value, int x, int y);            //writes string and int
 void WriteMessage(const std::string message, unsigned int value, int x, int y);   //writes string and unsigned int
