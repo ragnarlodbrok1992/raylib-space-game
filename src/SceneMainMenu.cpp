@@ -9,6 +9,10 @@ SceneMainMenu::~SceneMainMenu() {
 
 };
 
+void SceneMainMenu::process_input() {
+
+}
+
 void SceneMainMenu::render() {
   WriteMessage("SceneMainMenu is here!", 20, 20);
 };

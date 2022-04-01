@@ -36,6 +36,7 @@ public:
   SceneGame(SceneEnum se);
   ~SceneGame();
 
+  void process_input();
   void render();
   void simulate();
 };

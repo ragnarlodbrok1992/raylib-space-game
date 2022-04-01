@@ -1,5 +1,12 @@
 #include "Utils.h"
 
+void Upper(std::string& str) {
+    // Code copypasted from internet
+    std::for_each(str.begin(), str.end(), [](char & c){
+        c = ::toupper(c);
+    }); 
+};
+
 float GetDistance(Vector2 firstObj, Vector2 secondObj)
 { 
 	return sqrtf(powf(secondObj.x - firstObj.x, 2) + powf(secondObj.y - firstObj.y, 2));
@@ -72,7 +79,21 @@ void WriteMessage(const std::string message, float value, int x, int y)
     delete[] fullMessage;
 }
 
+/* FIXME: below two functions should be just only one function, but I'm
+ * getting C4717 compiler warning */
+
 void WriteMessage(const std::string message, int value, int x, int y)
+{
+    std::string tempString = message;
+    tempString += std::to_string(value);
+    char* fullMessage = new char[tempString.size() + 1];
+    fullMessage[tempString.size()] = '\0';
+    std::copy(tempString.begin(), tempString.end(), fullMessage);
+    DrawText(fullMessage, x, y, 12, BLACK);
+    delete[] fullMessage;
+}
+
+void WriteMessage(const std::string message, unsigned int value, int x, int y)
 {
     std::string tempString = message;
     tempString += std::to_string(value);

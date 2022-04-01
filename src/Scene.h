@@ -29,8 +29,9 @@ public:
   Scene(SceneEnum se);
   ~Scene();
   SceneEnum scene;
-  virtual void render();    // Function to draw all scene objects
-  virtual void simulate();  // Function to simulate internal state of scene
+  virtual void process_input(); // Function to process input
+  virtual void render();        // Function to draw all scene objects
+  virtual void simulate();      // Function to simulate internal state of scene
 };
 
 #endif /* H_SCENE */

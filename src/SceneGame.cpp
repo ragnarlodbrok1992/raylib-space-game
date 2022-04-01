@@ -182,22 +182,25 @@ void SceneGame::render() {
   }
 };
 
+void SceneGame::process_input() {
+  // Handling input events
+  for (Ship* ship : shipsList)
+  {
+      // if ship is not "player ship" player will be null pointer
+      if (PlayerShip* player = dynamic_cast<PlayerShip*>(ship))
+      {
+          if (PlayerType::LOCAL == player->playerType)
+          {
+              player->HandlePressedKeys();
+          }  
+      }       
+  }
+}
 
 void SceneGame::simulate() {
-  
-    for (Ship* ship : shipsList)
-    {
-        // if ship is not "player ship" player will be null pointer
-        if (PlayerShip* player = dynamic_cast<PlayerShip*>(ship))
-        {
-            if (PlayerType::LOCAL == player->playerType)
-            {
-                player->HandlePressedKeys();
-            }  
-        }       
-    }
-    GetSmokeParticleFromPipe(smokeParticles);
-    GetInertObjectFromPipe(gravityConsumers);
+
+  GetSmokeParticleFromPipe(smokeParticles);
+  GetInertObjectFromPipe(gravityConsumers);
 
   //calculate acceleration from planets and collisions with planets.
   CalculatePlanetsEffects(gravitySources,gravityConsumers);
