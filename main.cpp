@@ -19,10 +19,10 @@ int main(int charc, char** argv) {
   bool dropdown_console = false;
 
   // Console initialization
-  int x      = 10;
-  int y      = 10;
-  int width  = GetScreenWidth() - (x * 2); // Obvious math for borders
-  int height = 10 + (GetScreenHeight() / 3);
+  const int x      = 10;
+  const int y      = 10;
+  const int width  = GetScreenWidth() - (x * 2); // Obvious math for borders
+  const int height = 10 + (GetScreenHeight() / 3);
   Console console(x, y, width, height);
 
   // DEBUG INFO
@@ -38,7 +38,6 @@ int main(int charc, char** argv) {
   selectedScene = sceneMainMenu;
 
   while (!WindowShouldClose() && !command::_EXIT) {
-  //while (!WindowShouldClose()) {
     // Checking if rendering of dropdown-console
     // This is not blockable by console input control
     if ((IsKeyPressed(KEY_GRAVE)) && (dropdown_console)) {
