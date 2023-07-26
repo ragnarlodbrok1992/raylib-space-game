@@ -8,7 +8,7 @@
 ### Build command (example) for Windows system using MinGW64
 1. C:\msys64\mingw64\bin\g++.exe main.cpp -o main.exe -O1 -Wall -Wno-missing-braces -I include/ -L lib/ -lraylib -lopengl32 -lgdi32 -lwinmm
 
-# Licence
+# License
 
 Since this software uses [RayLib](https://www.raylib.com/index.html), here is licence for it:
 

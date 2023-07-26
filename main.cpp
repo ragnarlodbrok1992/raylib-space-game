@@ -52,6 +52,7 @@ int main(int charc, char** argv) {
 
     // Selecting scene - right now with 1,2,3 keys
     // Checking if scene control is scene or console
+    // TODO (ragnar): Move scene selection into a main menu Interface
     if      (IsKeyPressed(KEY_ONE)) {
       selectedScene = sceneMainMenu;
     }
