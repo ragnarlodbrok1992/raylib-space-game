@@ -5,9 +5,9 @@
 #include <math.h>
 #include "raylib.h"
 #include "Utils.h"
-#include "Object.h"
-#include "Particle.h"
-#include "Planet.h"
+#include "objects/include/Object.h"
+#include "objects/include/Particle.h"
+#include "objects/include/Planet.h"
 #include "ShapePolygon.h"
 #include "ShapeCircle.h"
 

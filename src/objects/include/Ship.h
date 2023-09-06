@@ -1,13 +1,13 @@
 #pragma once
 #ifndef H_SHIP
 #define H_SHIP
-#include "raylib.h"
+
 #include "InertObject.h"
-#include "Utils.h"
+#include "../../Utils.h"
 #include "Particle.h"
 #include "SmokeParticle.h"
-#include "ShapePolygon.h"
-#include "ObjectPipe.h"
+#include "../../ShapePolygon.h"
+#include "../../ObjectPipe.h"
 
 class Ship: public InertObject {
 public:

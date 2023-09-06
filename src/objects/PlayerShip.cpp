@@ -1,4 +1,4 @@
-#include "PlayerShip.h"
+#include "include/PlayerShip.h"
 
 PlayerShip::PlayerShip(Vector2 position, const float size) : Ship(position, size)
 {

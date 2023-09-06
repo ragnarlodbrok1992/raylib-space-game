@@ -1,9 +1,9 @@
 #pragma once
 #ifndef H_PLANET
 #define H_PLANET
-#include "raylib.h"
 #include "Object.h"
-#include "ShapeCircle.h"
+#include "../../ShapeCircle.h"
+#include "../../Utils.h"
 
 class Planet : public Object
 {

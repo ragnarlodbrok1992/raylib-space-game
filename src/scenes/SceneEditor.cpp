@@ -1,4 +1,4 @@
-#include "SceneEditor.h"
+#include "include/SceneEditor.h"
 
 SceneEditor :: SceneEditor(SceneEnum se) : Scene(se) {
 

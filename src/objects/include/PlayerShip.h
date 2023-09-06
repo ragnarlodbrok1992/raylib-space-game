@@ -1,5 +1,4 @@
 #pragma once
-#include"raylib.h"
 #include"Ship.h"
 
 #define INVALID_KEY (KeyboardKey)0xff

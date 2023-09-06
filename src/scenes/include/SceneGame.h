@@ -2,16 +2,15 @@
 #ifndef H_SCENEGAME
 #define H_SCENEGAME
 #include <list>
-#include "raylib.h"
 #include "Scene.h"
-#include "Utils.h"
-#include "Planet.h"
-#include "InertObject.h"
-#include "SmokeParticle.h"
-#include "Ship.h"
-#include "Collisions.h"
-#include "ObjectPipe.h"
-#include "PlayerShip.h"
+#include "../../Utils.h"
+#include "../../objects/include/Planet.h"
+#include "../../objects/include/InertObject.h"
+#include "../../objects/include/SmokeParticle.h"
+#include "../../objects/include/Ship.h"
+#include "../../Collisions.h"
+#include "../../ObjectPipe.h"
+#include "../../objects/include/PlayerShip.h"
 
 
 class SceneGame : public Scene {
@@ -39,6 +38,8 @@ public:
   void process_input();
   void render();
   void simulate();
+  Vector2 get_player_position();
+  Vector2 get_player_velocity();
 };
 
 #endif /* H_SCENEGAME */

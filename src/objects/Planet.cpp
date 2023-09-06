@@ -1,7 +1,6 @@
 #include <math.h>
-#include "raylib.h"
-#include "Planet.h"
-#include "Utils.h"
+#include "include/Planet.h"
+
 
 Planet::Planet(Vector2 position, float radius, float mass, Color color):Object(position)
 {
