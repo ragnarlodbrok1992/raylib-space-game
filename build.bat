@@ -18,21 +18,22 @@ REM %compiler_dir% /EHsc main.cpp src/InertObject.cpp src/SmokeParticle.cpp src/
  /INCREMENTAL:NO^
  /Fe:"space-game"^
  main.cpp^
- src/InertObject.cpp^
- src/SmokeParticle.cpp^
- src/Collisions.cpp^
- src/Particle.cpp^
- src/Planet.cpp^
- src/Ship.cpp^
- src/Object.cpp^
+ src/objects/InertObject.cpp^
+ src/objects/SmokeParticle.cpp^
+ src/objects/Particle.cpp^
+ src/objects/Planet.cpp^
+ src/objects/Ship.cpp^
+ src/objects/Object.cpp^
+ src/scenes/Scene.cpp^
+ src/scenes/SceneMainMenu.cpp^
+ src/scenes/SceneGame.cpp^
+ src/scenes/SceneEditor.cpp^
  src/Utils.cpp^
- src/Scene.cpp^
- src/SceneMainMenu.cpp^
- src/SceneGame.cpp^
- src/SceneEditor.cpp^
+ src/Collisions.cpp^
+ src/CameraOperation.cpp^
  src/Console.cpp^
  src/ObjectPipe.cpp^
- src/PlayerShip.cpp^
+ src/objects/PlayerShip.cpp^
  src/Parser.cpp^
  /I%raylib_include_dir%^
  /link /LIBPATH:%raylib_link_dir% /NODEFAULTLIB:libcmt^
