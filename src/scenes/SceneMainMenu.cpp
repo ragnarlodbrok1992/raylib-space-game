@@ -1,4 +1,4 @@
-#include "SceneMainMenu.h"
+#include "include/SceneMainMenu.h"
 
 
 SceneMainMenu::SceneMainMenu(SceneEnum se) : Scene(se) {

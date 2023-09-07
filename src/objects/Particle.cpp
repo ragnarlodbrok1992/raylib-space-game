@@ -1,8 +1,4 @@
-#include "raylib.h"
-#include "Particle.h"
-#include "Planet.h"
-#include "Utils.h"
-#include "ShapeCircle.h"
+#include "include/Particle.h"
 
 Particle::Particle(Vector2 position, Vector2 velocity): InertObject(position, velocity)
 {

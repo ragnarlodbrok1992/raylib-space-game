@@ -24,6 +24,8 @@ int main(int charc, char** argv) {
   const int width  = GetScreenWidth() - (x * 2); // Obvious math for borders
   const int height = 10 + (GetScreenHeight() / 3);
   Console console(x, y, width, height);
+  Camera2D gameCamera;
+  CameraOperation* camera = new CameraOperation();
 
   // DEBUG INFO
   std::cout << "Console values: " << width << " : " << height << std::endl;
@@ -66,6 +68,10 @@ int main(int charc, char** argv) {
     // Frame begins here
     BeginDrawing();
     ClearBackground(RAYWHITE);
+    if (selectedScene == sceneGame)
+    {
+        BeginMode2D(*camera->calculate_player_camera(sceneGame->get_player_position(), sceneGame->get_player_velocity()));
+    }
 
     // Select scene to render
     if (dropdown_console) {

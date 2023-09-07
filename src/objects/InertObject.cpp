@@ -1,4 +1,4 @@
-#include "InertObject.h"
+#include "include/InertObject.h"
 
 InertObject::InertObject(Vector2 position) : Object(position)
 {

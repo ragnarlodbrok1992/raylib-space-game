@@ -1,10 +1,9 @@
 #pragma once
 #ifndef H_PARTICLE
 #define H_PARTICLE
-#include "raylib.h"
 #include "Planet.h"
 #include "InertObject.h"
-#include "ShapeCircle.h"
+#include "../../ShapeCircle.h"
 
 class Particle : public InertObject
 {

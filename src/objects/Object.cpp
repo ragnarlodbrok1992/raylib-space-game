@@ -1,5 +1,4 @@
-#include "raylib.h"
-#include "Object.h"
+#include "include/Object.h"
 
 unsigned int Object::objectCount = 0;
 

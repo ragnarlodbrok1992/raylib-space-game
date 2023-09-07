@@ -2,8 +2,7 @@
 #ifndef H_SCENEMAINMENU
 #define H_SCENEMAINMENU
 #include "Scene.h"
-#include "raylib.h"
-#include "Utils.h"
+#include "../../Utils.h"
 
 
 class SceneMainMenu : public Scene {

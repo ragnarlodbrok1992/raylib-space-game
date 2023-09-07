@@ -1,7 +1,7 @@
 #pragma once
 #ifndef H_OBJECT
 #define H_OBJECT
-#include "raylib.h"
+#include "../../raylib.h"
 
 enum class objType
 {

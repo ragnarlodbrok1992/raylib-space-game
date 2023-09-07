@@ -1,7 +1,6 @@
 #include <math.h>
-#include "raylib.h"
-#include "Ship.h"
-#include "Utils.h"
+#include "include/Ship.h"
+
 
 Ship::Ship(Vector2 position, const float size) : InertObject(position), Size(size){
   calculate_ship_shape();
@@ -83,9 +82,9 @@ SmokeParticle* Ship::Accelerate()
     this->velocity.x += this->shipMoveVector.x * this->thrustAcceleration;
     this->velocity.y += this->shipMoveVector.y * this->thrustAcceleration;
     Vector2 revVec;
-    revVec.x = this->shipMoveVector.x * -15 + distr(randGen) / 30.0f;
-    revVec.y = this->shipMoveVector.y * -15 + distr(randGen) / 30.0f;
-    SmokeParticle* smoke = new SmokeParticle(this->position, revVec, 150 + distr(randGen));
+    revVec.x = this->shipMoveVector.x * -30 + distr(randGen) / 30.0f;
+    revVec.y = this->shipMoveVector.y * -30 + distr(randGen) / 30.0f;
+    SmokeParticle* smoke = new SmokeParticle(this->position, revVec, 450 + distr(randGen));
     return smoke;
 }
 

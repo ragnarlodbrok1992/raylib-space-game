@@ -2,8 +2,7 @@
 #ifndef H_INERTOBJECT
 #define H_INERTOBJECT
 #include"Object.h"
-#include"raylib.h"
-#include"Utils.h"
+#include"../../Utils.h"
 
 /*
 * Class for every object that have velocity. It can be affected by gravity.

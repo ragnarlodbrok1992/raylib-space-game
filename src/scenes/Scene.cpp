@@ -1,5 +1,4 @@
-#include "raylib.h"
-#include "Scene.h"
+#include "include/Scene.h"
 
 void Scene::process_input() {
 

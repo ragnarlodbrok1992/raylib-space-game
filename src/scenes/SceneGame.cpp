@@ -1,4 +1,4 @@
-#include "SceneGame.h"
+#include "include/SceneGame.h"
 
 //true when collided with any planet
 static inline bool UpdateGivenObjectAndCheckPlanetCollision(std::list<Planet*> planets, InertObject* object)
@@ -132,6 +132,19 @@ static void HandleSmoke(std::list<SmokeParticle*> &smokeParticles)
     }
 }
 
+static bool is_local_player_ship(Ship* ship)
+{
+    // if ship is not "player ship" player will be null pointer
+    if (PlayerShip* player = dynamic_cast<PlayerShip*>(ship))
+    {
+        if (PlayerType::LOCAL == player->playerType)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 SceneGame :: SceneGame(SceneEnum se) : Scene(se) {
 
   // Init objects here
@@ -186,13 +199,9 @@ void SceneGame::process_input() {
   // Handling input events
   for (Ship* ship : shipsList)
   {
-      // if ship is not "player ship" player will be null pointer
-      if (PlayerShip* player = dynamic_cast<PlayerShip*>(ship))
+      if (is_local_player_ship(ship))
       {
-          if (PlayerType::LOCAL == player->playerType)
-          {
-              player->HandlePressedKeys();
-          }  
+          dynamic_cast<PlayerShip*>(ship)->HandlePressedKeys();
       }       
   }
 }
@@ -229,4 +238,26 @@ void SceneGame::simulate() {
   }
 
 };
+
+Vector2 SceneGame::get_player_position()
+{
+    for (Ship* ship : shipsList)
+    {
+        if (is_local_player_ship(ship))
+        {
+            return ship->position;
+        }
+    }
+}
+
+Vector2 SceneGame::get_player_velocity()
+{
+    for (Ship* ship : shipsList)
+    {
+        if (is_local_player_ship(ship))
+        {
+            return ship->velocity;
+        }
+    }
+}
 
