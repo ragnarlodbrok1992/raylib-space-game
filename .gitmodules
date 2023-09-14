@@ -1,0 +1,3 @@
+[submodule "submodules/network"]
+	path = submodules/network
+	url = https://github.com/KB1992pl/galax_network.git
