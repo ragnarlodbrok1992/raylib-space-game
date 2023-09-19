@@ -134,5 +134,11 @@
     <ClInclude Include="src\CameraOperation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\raylibTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\toRaylibConversion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

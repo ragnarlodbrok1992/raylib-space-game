@@ -1,4 +1,8 @@
 #include "main.h"
+#include "submodules/network/src/host.h"
+#include <Windows.h>
+
+rawData_t networkData = { 0 };
 
 // Engine commands
 namespace command {
@@ -11,9 +15,16 @@ void invoke_process_input(void (*func)()) {
 }
 
 int main(int charc, char** argv) {
-  InitWindow(screenWidth, screenHeight, "RayLib Space Game");
+    // Init scenes here
+    SceneMainMenu* sceneMainMenu = new SceneMainMenu(SceneEnum::MAINMENU);
+    SceneGame* sceneGame = new SceneGame(SceneEnum::GAMESCENE);
+    SceneEditor* sceneEditor = new SceneEditor(SceneEnum::EDITOR);
+    Scene* selectedScene;
 
-  SetTargetFPS(60);
+  CameraOperation* camera = new CameraOperation();
+  camera->register_scene(sceneGame);
+  camera->register_scene(sceneMainMenu);
+  camera->set_scene(SceneEnum::MAINMENU);
 
   // Init render control values here
   bool dropdown_console = false;
@@ -21,28 +32,28 @@ int main(int charc, char** argv) {
   // Console initialization
   const int x      = 10;
   const int y      = 10;
-  const int width  = GetScreenWidth() - (x * 2); // Obvious math for borders
-  const int height = 10 + (GetScreenHeight() / 3);
-  Console console(x, y, width, height);
-  Camera2D gameCamera;
-  CameraOperation* camera = new CameraOperation();
+  //const float width  = GetScreenWidth() - (x * 2.0f); // Obvious math for borders
+  //const float height = 10 + (GetScreenHeight() / 3.0f);
+  //Console console(x, y, width, height);
+  
 
   // DEBUG INFO
-  std::cout << "Console values: " << width << " : " << height << std::endl;
+  //std::cout << "Console values: " << width << " : " << height << std::endl;
 
-  // Init scenes here
-  SceneMainMenu* sceneMainMenu = new SceneMainMenu(SceneEnum::MAINMENU);
-  SceneGame*     sceneGame     = new SceneGame(SceneEnum::GAMESCENE);
-  SceneEditor*   sceneEditor   = new SceneEditor(SceneEnum::EDITOR);
-  Scene*         selectedScene;
+
 
   // Start scene is main menu
   selectedScene = sceneMainMenu;
-
-  while (!WindowShouldClose() && !command::_EXIT) {
+  int gownooo = 0;
+  HostNetwork *network;
+ 
+  while (1) {
+      //network.send_data(&networkData);
+      std::cout << "network data:  " << (networkData.dataLength) << std::endl;
     // Checking if rendering of dropdown-console
     // This is not blockable by console input control
-    if ((IsKeyPressed(KEY_GRAVE)) && (dropdown_console)) {
+      /*
+    if ((camera->is_key_pressed(rKEY_GRAVE)) && (dropdown_console)) {
       dropdown_console = false;
 
       // Clearing command
@@ -51,26 +62,30 @@ int main(int charc, char** argv) {
     } else if (IsKeyPressed(KEY_GRAVE) && (!dropdown_console)) {
       dropdown_console = true;
     }
+    */
 
     // Selecting scene - right now with 1,2,3 keys
     // Checking if scene control is scene or console
     // TODO (ragnar): Move scene selection into a main menu Interface
-    if      (IsKeyPressed(KEY_ONE)) {
-      selectedScene = sceneMainMenu;
+    if      (camera->is_key_pressed(rKEY_ONE)) {
+        camera->set_scene(SceneEnum::MAINMENU);
     }
-    else if (IsKeyPressed(KEY_TWO)) {
-      selectedScene = sceneGame;
+    else if (camera->is_key_pressed(rKEY_TWO)) {
+        camera->set_scene(SceneEnum::GAMESCENE);
     }
-    else if (IsKeyPressed(KEY_THREE)) {
-      selectedScene = sceneEditor;
-   }
- 
+    camera->render();
+    //else if (camera->is_key_pressed(rKEY_THREE)) {
+      //selectedScene = sceneEditor;
+   //}
+ /*
     // Frame begins here
     BeginDrawing();
     ClearBackground(RAYWHITE);
     if (selectedScene == sceneGame)
     {
-        BeginMode2D(*camera->calculate_player_camera(sceneGame->get_player_position(), sceneGame->get_player_velocity()));
+        BeginMode2D(*camera->calculate_player_camera(
+        sceneGame->get_player_position(),
+         sceneGame->get_player_velocity()));
     }
 
     // Select scene to render
@@ -87,9 +102,10 @@ int main(int charc, char** argv) {
     console.render(dropdown_console);
 
     EndDrawing();
+    */
   }
 
-  CloseWindow();
+  //CloseWindow();
 
   return 0;
 }

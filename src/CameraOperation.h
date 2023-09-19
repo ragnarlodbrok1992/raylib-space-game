@@ -1,20 +1,29 @@
 #pragma once
-#include "raylib.h"
 #include <math.h>
 #include "Utils.h"
+#include "scenes/include/Scene.h"
+#include "scenes/include/SceneEditor.h"
+#include "scenes/include/SceneGame.h"
+#include "scenes/include/SceneMainMenu.h"
 
 class CameraOperation
 {
 public:
-	Camera2D* calculate_player_camera(Vector2 playerPosition, Vector2 playerVelocityVector);
+	void calculate_player_camera(rVector2 playerPosition, rVector2 playerVelocityVector);
+	void render();
+	void set_scene(SceneEnum selectedScene);
+	void register_scene(SceneGame* sceneGame);
+	void register_scene(SceneMainMenu* sceneMainMenu);
 
-
+	bool is_key_pressed(uint16_t key);
 	CameraOperation() { init_camera(); }
 	~CameraOperation() {}
 
 private:
+	SceneEnum selectedScene;
+	SceneGame* sceneGame;
+	SceneMainMenu* sceneMainMenu;
 	void init_camera();
-	Camera2D cameraProperties;
 	const float maxZoom = 2.0f;
 	const float fullZoomMaxVelocity = 40.0f;
 	const float firstRangeAdd = 100.0f;

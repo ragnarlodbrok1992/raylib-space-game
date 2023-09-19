@@ -1,7 +1,7 @@
 #ifndef H_MAIN
 #define H_MAIN
 
-#include "src/raylib.h"
+//#include "src/raylib.h"
 #include "src/Utils.h"
 #include "src/scenes/include/Scene.h"
 #include "src/scenes/include/SceneMainMenu.h"

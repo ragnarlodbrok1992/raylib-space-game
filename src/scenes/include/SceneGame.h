@@ -3,6 +3,7 @@
 #define H_SCENEGAME
 #include <list>
 #include "Scene.h"
+#include "../../raylibTypes.h"
 #include "../../Utils.h"
 #include "../../objects/include/Planet.h"
 #include "../../objects/include/InertObject.h"
@@ -17,7 +18,7 @@ class SceneGame : public Scene {
 private:
   // Init control values here
   double angle = 0.04f;
-  Vector2 shipMoveVector = {0.0f, -1.0f};
+  rVector2 shipMoveVector;
 
   // Init control structures here
   std::list <Planet*>                  gravitySources;
@@ -26,10 +27,10 @@ private:
   std::list <SmokeParticle*>           smokeParticles;
 
   // Placement vectors
-  Vector2 shipPlacement    = {250.0f,  200.0f};
-  Vector2 planetPlacement  = {1000.0f, 600.0f};
-  Vector2 planet2Placement = {650.0f,  350.0f};
-  Vector2 planet3Placement = {100.0f,  120.0f};
+  rVector2 shipPlacement = { 250.0f,  200.0f };
+  rVector2 planetPlacement = { 1000.0f, 600.0f };
+  rVector2 planet2Placement = { 650.0f,  350.0f };
+  rVector2 planet3Placement = { 100.0f,  120.0f };
 
 public:
   SceneGame(SceneEnum se);
@@ -38,8 +39,8 @@ public:
   void process_input();
   void render();
   void simulate();
-  Vector2 get_player_position();
-  Vector2 get_player_velocity();
+  rVector2 get_player_position();
+  rVector2 get_player_velocity();
 };
 
 #endif /* H_SCENEGAME */

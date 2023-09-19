@@ -1,8 +1,15 @@
 #include "CameraOperation.h"
+#include "toRaylibConversion.h"
+#include "raylib.h"
 
+
+Camera2D cameraProperties;
 
 void CameraOperation::init_camera()
 {
+    InitWindow(screenWidth, screenHeight, "RayLib Space Game");
+
+    SetTargetFPS(60);
     cameraProperties.offset.x = GetScreenWidth() / 2;
     cameraProperties.offset.y = GetScreenHeight() / 2;
     cameraProperties.target.x = 0.0f;
@@ -11,12 +18,66 @@ void CameraOperation::init_camera()
     cameraProperties.zoom = 1.0f;
 }
 
-Camera2D* CameraOperation::calculate_player_camera(Vector2 playerPosition, Vector2 playerVelocityVector)
+void CameraOperation::set_scene(SceneEnum selectedScene)
+{
+    this->selectedScene = selectedScene;
+}
+
+void CameraOperation::register_scene(SceneGame* sceneGame)
+{
+    this->sceneGame = sceneGame;
+}
+
+void CameraOperation::register_scene(SceneMainMenu* sceneMainMenu)
+{
+    this->sceneMainMenu = sceneMainMenu;
+}
+
+bool CameraOperation::is_key_pressed(uint16_t key)
+{
+    return IsKeyPressed(KeyboardKey(key));
+}
+
+void CameraOperation::render()
+{
+    // Frame begins here
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+    if (this->selectedScene == SceneEnum::GAMESCENE)
+    {
+        calculate_player_camera(sceneGame->get_player_position(),
+            sceneGame->get_player_velocity());
+
+        BeginMode2D(cameraProperties);
+    }
+
+    // Select scene to render
+    //if (dropdown_console) {
+    //    console.process_input();
+    //}
+    //else {
+        //selectedScene->process_input();
+    //}
+    switch (this->selectedScene)
+    {
+    case SceneEnum::MAINMENU:
+        sceneMainMenu->render();
+        break;
+
+    case SceneEnum::GAMESCENE:
+        sceneGame->render();
+            break;
+    }
+    EndDrawing();
+    
+}
+
+void CameraOperation::calculate_player_camera(rVector2 playerPosition, rVector2 playerVelocityVector)
 {
     cameraProperties.offset.x = GetScreenWidth() / 2;
     cameraProperties.offset.y = GetScreenHeight() / 2;
     float playerVelocity = VectorLength(playerVelocityVector);
-    cameraProperties.target = playerPosition;
+    cameraProperties.target = convert(playerPosition);
     if (((GetScreenWidth() / 3) < abs(playerVelocityVector.x * speedToOffsetFactor)))
     {
         if (0 < playerVelocityVector.x)
@@ -65,5 +126,4 @@ Camera2D* CameraOperation::calculate_player_camera(Vector2 playerPosition, Vecto
     {
         cameraProperties.zoom = 0.5f;
     }
-    return &cameraProperties;
 }

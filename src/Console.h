@@ -8,16 +8,8 @@ class Console {
     // Composite objects
     Parser *parser;
   public:
-    // Console colors and stuff
-    Color blue_soft_transparent = {0, 121, 241, 127};
-    Color blue_soft_less_transparent = {5, 56, 107, 177};
-    Color cursor_color = {26, 8, 87, 200};
-
     // Console geometry
-    Rectangle rect = {};
-    Rectangle input_rect = {};
-    Rectangle cursor = {};
-    Vector2 cursor_start_point = {};
+    
     unsigned int render_time = 0;
     unsigned int cursor_blink = 0;
     unsigned int cursor_placement = 0;

@@ -1,7 +1,7 @@
 #pragma once
 #ifndef H_OBJECT
 #define H_OBJECT
-#include "../../raylib.h"
+#include "../../raylibTypes.h"
 
 enum class objType
 {
@@ -24,14 +24,14 @@ protected:
 	static unsigned int objectCount;
 
 public:
-	Vector2 position;
+	rVector2 position;
 	unsigned int objectId;
 	objType objectType;
 	objShape objectShape;
 
 	void* shapeClassObject;
 
-	Object(Vector2 position);
+	Object(rVector2 position);
 	~Object();
 
 	virtual void Draw() = 0;
