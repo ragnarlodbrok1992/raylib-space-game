@@ -7,21 +7,27 @@
 #include <string>
 #include <map>
 
-// Variables used in command console
-namespace command {
-extern bool _EXIT;
-}
+enum class Command
+{
+    NO_COMMAND,
+    EXIT,
+    RESTART,
+    CREATESERVER
+};
 
 class Parser {
 private:
     enum StringValue { evNonDefined,
-                       evExit };
+                       evExit,
+                       evRestart,
+                       evCreateServer};
     std::map<std::string, StringValue> s_mapStringValue;
     void Initialize();
 public:
     // Command stash    
     std::vector<std::string> command_history;
     std::string current_command;
+    Command parsed_command;
 
     //Const
     Parser();

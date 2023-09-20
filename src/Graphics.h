@@ -7,7 +7,7 @@
 #include "scenes/include/SceneMainMenu.h"
 #include "Console.h"
 
-class CameraOperation
+class Graphics
 {
 public:
 	void calculate_player_camera(rVector2 playerPosition, rVector2 playerVelocityVector);
@@ -20,8 +20,8 @@ public:
 	void register_console(Console* console);
 
 	bool is_key_pressed(uint16_t key);
-	CameraOperation() { init_camera(); }
-	~CameraOperation() {}
+	Graphics() { init_camera(); }
+	~Graphics() {}
 
 private:
 	SceneEnum selectedScene;

@@ -128,7 +128,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\CameraOperation.cpp" />
+    <ClCompile Include="src\Graphics.cpp" />
+    <ClCompile Include="src\cmd_handler\CmdHandler.cpp" />
     <ClCompile Include="src\Collisions.cpp" />
     <ClCompile Include="src\Console.cpp" />
     <ClCompile Include="src\objects\InertObject.cpp" />
@@ -148,7 +149,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
-    <ClInclude Include="src\CameraOperation.h" />
+    <ClInclude Include="src\Graphics.h" />
+    <ClInclude Include="src\cmd_handler\CmdHandler.h" />
     <ClInclude Include="src\Collisions.h" />
     <ClInclude Include="src\Console.h" />
     <ClInclude Include="src\objects\include\InertObject.h" />

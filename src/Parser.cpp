@@ -13,6 +13,8 @@ Parser::~Parser() {
 
 void Parser::Initialize() {
     s_mapStringValue["EXIT"] = evExit;
+    s_mapStringValue["RESTART"] = evRestart;
+    s_mapStringValue["CREATESERVER"] = evCreateServer;
 };
 
 bool Parser::parse_command(std::string command) {
@@ -28,7 +30,13 @@ bool Parser::parse_command(std::string command) {
     {
         case evExit:
             std::cout << "Exiting!" << std::endl;
-            command::_EXIT = true;
+            parsed_command = Command::EXIT;
+            break;
+        case evCreateServer:
+            parsed_command = Command::CREATESERVER;
+            break;
+        case evRestart:
+            parsed_command = Command::RESTART;
             break;
         default:
             std::cout << "Wrong command!" << std::endl;

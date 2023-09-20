@@ -1,24 +1,24 @@
-#include "CameraOperation.h"
+#include "Graphics.h"
 #include "toRaylibConversion.h"
 #include "raylib.h"
 
 
 Camera2D cameraProperties;
 
-void CameraOperation::init_camera()
+void Graphics::init_camera()
 {
     InitWindow(screenWidth, screenHeight, "RayLib Space Game");
 
     SetTargetFPS(60);
-    cameraProperties.offset.x = GetScreenWidth() / 2;
-    cameraProperties.offset.y = GetScreenHeight() / 2;
+    cameraProperties.offset.x = GetScreenWidth() / 2.0f;
+    cameraProperties.offset.y = GetScreenHeight() / 2.0f;
     cameraProperties.target.x = 0.0f;
     cameraProperties.target.y = 0.0f;
     cameraProperties.rotation = 0.0f;
     cameraProperties.zoom = 1.0f;
 }
 
-void CameraOperation::set_scene(SceneEnum selectedScene)
+void Graphics::set_scene(SceneEnum selectedScene)
 {
     this->selectedScene = selectedScene;
     switch (this->selectedScene)
@@ -32,27 +32,27 @@ void CameraOperation::set_scene(SceneEnum selectedScene)
     }
 }
 
-void CameraOperation::register_scene(SceneGame* sceneGame)
+void Graphics::register_scene(SceneGame* sceneGame)
 {
     this->sceneGame = sceneGame;
 }
 
-void CameraOperation::register_scene(SceneMainMenu* sceneMainMenu)
+void Graphics::register_scene(SceneMainMenu* sceneMainMenu)
 {
     this->sceneMainMenu = sceneMainMenu;
 }
 
-void CameraOperation::register_console(Console* console)
+void Graphics::register_console(Console* console)
 {
     this->console = console;
 }
 
-bool CameraOperation::is_key_pressed(uint16_t key)
+bool Graphics::is_key_pressed(uint16_t key)
 {
     return IsKeyPressed(KeyboardKey(key));
 }
 
-void CameraOperation::render()
+void Graphics::render()
 {
     // Frame begins here
     BeginDrawing();
@@ -71,19 +71,19 @@ void CameraOperation::render()
     EndDrawing();
 }
 
-void CameraOperation::close_window()
+void Graphics::close_window()
 {
    CloseWindow();
 }
-bool CameraOperation::should_window_close()
+bool Graphics::should_window_close()
 {
     return WindowShouldClose();
 }
 
-void CameraOperation::calculate_player_camera(rVector2 playerPosition, rVector2 playerVelocityVector)
+void Graphics::calculate_player_camera(rVector2 playerPosition, rVector2 playerVelocityVector)
 {
-    cameraProperties.offset.x = GetScreenWidth() / 2;
-    cameraProperties.offset.y = GetScreenHeight() / 2;
+    cameraProperties.offset.x = GetScreenWidth() / 2.0f;
+    cameraProperties.offset.y = GetScreenHeight() / 2.0f;
     float playerVelocity = VectorLength(playerVelocityVector);
     cameraProperties.target = convert(playerPosition);
     if (((GetScreenWidth() / 3) < abs(playerVelocityVector.x * speedToOffsetFactor)))

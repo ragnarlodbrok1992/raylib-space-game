@@ -251,6 +251,7 @@ rVector2 SceneGame::get_player_position()
             return ship->position;
         }
     }
+    return { 0.0f, 0.0f };
 }
 
 rVector2 SceneGame::get_player_velocity()
@@ -262,5 +263,6 @@ rVector2 SceneGame::get_player_velocity()
             return ship->velocity;
         }
     }
+    return { 0.0f, 0.0f };
 }
 

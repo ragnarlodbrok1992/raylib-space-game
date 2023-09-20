@@ -179,7 +179,7 @@ void Console::process_input() {
 
   cursor.x = cursor_start_point.x + static_cast<float>(cursor_pos_measurement) + 1.0f;
 
-  WriteMessage(cmd_buf, cursor_start_point.x, cursor_start_point.y); // Some offset to put the font down
+  WriteMessage(cmd_buf, (int)cursor_start_point.x, (int)cursor_start_point.y); // Some offset to put the font down
 }
 
 void Console::clear_cmd_buf() {

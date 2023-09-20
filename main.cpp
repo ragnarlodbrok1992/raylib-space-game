@@ -1,13 +1,7 @@
 #include "main.h"
-#include "submodules/network/src/host.h"
 
+static void handle_commands(Command cmd);
 rawData_t networkData = { 0 };
-HANDLE networkThreadHandle;
-
-// Engine commands
-namespace command {
-bool _EXIT = false;
-}
 
 // Invoking functions - TODO(moliwa): maybe this should be moved?
 void invoke_process_input(void (*func)()) {
@@ -15,46 +9,46 @@ void invoke_process_input(void (*func)()) {
 }
 
 int main(int charc, char** argv) {
+  mainResources_t mainRes;
+  int status = 0;
   // Init scenes here
-  SceneMainMenu* sceneMainMenu = new SceneMainMenu(SceneEnum::MAINMENU);
-  SceneGame* sceneGame = new SceneGame(SceneEnum::GAMESCENE);
-  SceneEditor* sceneEditor = new SceneEditor(SceneEnum::EDITOR);
-  Scene* selectedScene;
+  mainRes.sceneMainMenu = new SceneMainMenu(SceneEnum::MAINMENU);
+  mainRes.sceneGame = new SceneGame(SceneEnum::GAMESCENE);
  
 
-  CameraOperation* camera = new CameraOperation();
-  Console* console = new Console();
-  camera->register_scene(sceneGame);
-  camera->register_scene(sceneMainMenu);
-  camera->register_console(console);
-  camera->set_scene(SceneEnum::MAINMENU);
+  mainRes.camera = new Graphics();
+  mainRes.console = new Console();
+  mainRes.camera->register_scene(mainRes.sceneGame);
+  mainRes.camera->register_scene(mainRes.sceneMainMenu);
+  mainRes.camera->register_console(mainRes.console);
+  mainRes.camera->set_scene(SceneEnum::MAINMENU);
 
-  // Init render control values here
-  bool dropdown_console = false;
-
-  // Console initialization
-  
   // Start scene is main menu
-  selectedScene = sceneMainMenu;
-  int gownooo = 0;
-  HostNetwork* network = new HostNetwork(&gownooo,"10667");
-
-  network->start_thread();
+  mainRes.selectedScene = mainRes.sceneMainMenu;
+  
+  mainRes.network = new HostNetwork(&status, "10667");
+  if (0 != status)
+  {
+      delete mainRes.network;
+  }
+  if (mainRes.network != nullptr)
+  {
+      mainRes.network->start_thread();
+  }
  
-  while (!camera->should_window_close()) {
-      network->receive_data(&networkData);
-      std::cout << "network data:  " << (networkData.dataLength) << std::endl;
+  while (!mainRes.camera->should_window_close()) {
+
     // Checking if rendering of dropdown-console
     // This is not blockable by console input control
       
-    if ((camera->is_key_pressed(rKEY_GRAVE)) && (console->is_active)) {
-        console->is_active = false;
+    if ((mainRes.camera->is_key_pressed(rKEY_GRAVE)) && (mainRes.console->is_active)) {
+        mainRes.console->is_active = false;
 
       // Clearing command
-      console->clear_cmd_buf();
+        mainRes.console->clear_cmd_buf();
 
-    } else if (camera->is_key_pressed(rKEY_GRAVE) && (!console->is_active)) {
-        console->is_active = true;
+    } else if (mainRes.camera->is_key_pressed(rKEY_GRAVE) && (!mainRes.console->is_active)) {
+        mainRes.console->is_active = true;
     }
     
 
@@ -62,29 +56,26 @@ int main(int charc, char** argv) {
     // Checking if scene control is scene or console
     // TODO (ragnar): Move scene selection into a main menu Interface
    
-    camera->render();
-    if (console->is_active) 
+    mainRes.camera->render();
+    if (mainRes.console->is_active)
     {
-        console->process_input();
+        mainRes.console->process_input();
     }
     else 
     {
-        selectedScene->process_input();
-        if (camera->is_key_pressed(rKEY_ONE)) {
-            selectedScene = sceneMainMenu;
-            camera->set_scene(SceneEnum::MAINMENU);
+        mainRes.selectedScene->process_input();
+        if (mainRes.camera->is_key_pressed(rKEY_ONE)) {
+            mainRes.selectedScene = mainRes.sceneMainMenu;
+            mainRes.camera->set_scene(SceneEnum::MAINMENU);
         }
-        else if (camera->is_key_pressed(rKEY_TWO)) {
-            camera->set_scene(SceneEnum::GAMESCENE);
-            selectedScene = sceneGame;
+        else if (mainRes.camera->is_key_pressed(rKEY_TWO)) {
+            mainRes.camera->set_scene(SceneEnum::GAMESCENE);
+            mainRes.selectedScene = mainRes.sceneGame;
         }
     }
-    selectedScene->simulate();
-    
+    mainRes.selectedScene->simulate();
   }
-
-  camera->close_window();
+  mainRes.camera->close_window();
 
   return 0;
 }
-
