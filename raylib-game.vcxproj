@@ -128,7 +128,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\CameraOperation.cpp" />
+    <ClCompile Include="src\Graphics.cpp" />
+    <ClCompile Include="src\cmd_handler\CmdHandler.cpp" />
     <ClCompile Include="src\Collisions.cpp" />
     <ClCompile Include="src\Console.cpp" />
     <ClCompile Include="src\objects\InertObject.cpp" />
@@ -148,7 +149,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
-    <ClInclude Include="src\CameraOperation.h" />
+    <ClInclude Include="src\Graphics.h" />
+    <ClInclude Include="src\cmd_handler\CmdHandler.h" />
     <ClInclude Include="src\Collisions.h" />
     <ClInclude Include="src\Console.h" />
     <ClInclude Include="src\objects\include\InertObject.h" />
@@ -159,6 +161,7 @@
     <ClInclude Include="src\objects\include\Planet.h" />
     <ClInclude Include="src\objects\include\PlayerShip.h" />
     <ClInclude Include="src\raylib.h" />
+    <ClInclude Include="src\raylibTypes.h" />
     <ClInclude Include="src\scenes\include\Scene.h" />
     <ClInclude Include="src\scenes\include\SceneEditor.h" />
     <ClInclude Include="src\scenes\include\SceneGame.h" />
@@ -167,7 +170,13 @@
     <ClInclude Include="src\ShapePolygon.h" />
     <ClInclude Include="src\objects\include\Ship.h" />
     <ClInclude Include="src\objects\include\SmokeParticle.h" />
+    <ClInclude Include="src\toRaylibConversion.h" />
     <ClInclude Include="src\Utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="submodules\network\network.vcxproj">
+      <Project>{63b704cb-1ab7-4da7-84e8-59350f3e8fa7}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

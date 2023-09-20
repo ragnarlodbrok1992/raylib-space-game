@@ -1,13 +1,13 @@
 #pragma once
-#include"raylib.h"
+#include"raylibTypes.h"
 
 class ShapePolygon
 {
 public:
-	Vector2 *shipCoords;
+	rVector2 *shipCoords;
 	unsigned int vertexNumber;
 	float circumscribedCircleRadius;
-	ShapePolygon(Vector2 *shipCoords, unsigned int vertex, float circumscribedCircle)
+	ShapePolygon(rVector2 *shipCoords, unsigned int vertex, float circumscribedCircle)
 	{
 		this->shipCoords = shipCoords;
 		this->vertexNumber = vertex;

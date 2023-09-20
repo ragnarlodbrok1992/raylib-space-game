@@ -1,6 +1,5 @@
 #pragma once
 #include <list>
-#include "raylib.h"
 #include "objects/include/Ship.h"
 #include "objects/include/SmokeParticle.h"
 #include "objects/include/InertObject.h"

@@ -11,9 +11,9 @@ private:
 	void InitParticle();
 
 public:
-	Color color;
-	Particle(Vector2 position, Vector2 velocity);
-	Particle(Vector2 position, Vector2 velocity, Color color);
+	rColor color;
+	Particle(rVector2 position, rVector2 velocity);
+	Particle(rVector2 position, rVector2 velocity, rColor color);
 
 	virtual void Draw();
 };
