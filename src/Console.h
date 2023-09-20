@@ -16,6 +16,8 @@ class Console {
     unsigned int cursor_max_placement = 0;
     bool should_anim = false;
     bool full_open = false;
+    bool is_active = false;
+    Console(); //uses predefined size of console
     Console(float x,
             float y,
             float width,
@@ -25,7 +27,7 @@ class Console {
     // Console command buffer
     std::vector<char> command_buffer;
 
-    void render(bool should_render);
+    void render();
     void clear_cmd_buf();
     inline void render_cursor();
 

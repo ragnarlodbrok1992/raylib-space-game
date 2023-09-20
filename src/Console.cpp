@@ -13,6 +13,26 @@ static Rectangle input_rect = {};
 static Rectangle cursor = {};
 static Vector2 cursor_start_point = {};
 
+Console::Console()
+{
+    const float x = 10.0f;
+    const float y = 10.0f;
+    const float width = GetScreenWidth() - (x * 2.0f); // Obvious math for borders
+    const float height = 10 + (GetScreenHeight() / 3.0f);
+    // Create parser object
+    this->parser = new Parser();
+
+    // Assume font is 20 px in height
+    rect = { x, y, width, height };
+    float input_rect_x = x + (width * 0.01f);
+    float input_rect_y = y + height - 16.0f;
+    input_rect = { input_rect_x, input_rect_y, width * 0.98f, 14 };
+    cursor = { input_rect_x + 1, input_rect_y + 1, 8, 12 };  // 8 px width for cursor
+    cursor_start_point.x = cursor.x;
+    cursor_start_point.y = cursor.y;
+    // Font in raylib by default (I think) are 7 px width for capital and 6 px width for normal
+}
+
 Console::Console(float x, float y, float width, float height) {
   // Create parser object
   this->parser = new Parser();
@@ -32,9 +52,9 @@ Console::~Console() {
   delete this->parser;
 };
 
-void Console::render(bool should_render) {
+void Console::render() {
   // Actual render code goes here
-  if (should_render) {
+  if (this->is_active) {
     // Inside render counter for animations
     if (this->render_time == 0) {
       this->should_anim = true;

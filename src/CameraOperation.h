@@ -5,15 +5,19 @@
 #include "scenes/include/SceneEditor.h"
 #include "scenes/include/SceneGame.h"
 #include "scenes/include/SceneMainMenu.h"
+#include "Console.h"
 
 class CameraOperation
 {
 public:
 	void calculate_player_camera(rVector2 playerPosition, rVector2 playerVelocityVector);
 	void render();
+	void close_window();
+	bool should_window_close();
 	void set_scene(SceneEnum selectedScene);
 	void register_scene(SceneGame* sceneGame);
 	void register_scene(SceneMainMenu* sceneMainMenu);
+	void register_console(Console* console);
 
 	bool is_key_pressed(uint16_t key);
 	CameraOperation() { init_camera(); }
@@ -23,6 +27,8 @@ private:
 	SceneEnum selectedScene;
 	SceneGame* sceneGame;
 	SceneMainMenu* sceneMainMenu;
+	Scene* renderScene;
+	Console* console;
 	void init_camera();
 	const float maxZoom = 2.0f;
 	const float fullZoomMaxVelocity = 40.0f;

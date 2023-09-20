@@ -21,6 +21,15 @@ void CameraOperation::init_camera()
 void CameraOperation::set_scene(SceneEnum selectedScene)
 {
     this->selectedScene = selectedScene;
+    switch (this->selectedScene)
+    {
+    case SceneEnum::MAINMENU:
+        renderScene = sceneMainMenu;
+        break;
+    case SceneEnum::GAMESCENE:
+        renderScene = sceneGame;
+        break;
+    }
 }
 
 void CameraOperation::register_scene(SceneGame* sceneGame)
@@ -31,6 +40,11 @@ void CameraOperation::register_scene(SceneGame* sceneGame)
 void CameraOperation::register_scene(SceneMainMenu* sceneMainMenu)
 {
     this->sceneMainMenu = sceneMainMenu;
+}
+
+void CameraOperation::register_console(Console* console)
+{
+    this->console = console;
 }
 
 bool CameraOperation::is_key_pressed(uint16_t key)
@@ -50,26 +64,20 @@ void CameraOperation::render()
 
         BeginMode2D(cameraProperties);
     }
+    renderScene->render();
+    EndMode2D();
+    console->render();
 
-    // Select scene to render
-    //if (dropdown_console) {
-    //    console.process_input();
-    //}
-    //else {
-        //selectedScene->process_input();
-    //}
-    switch (this->selectedScene)
-    {
-    case SceneEnum::MAINMENU:
-        sceneMainMenu->render();
-        break;
-
-    case SceneEnum::GAMESCENE:
-        sceneGame->render();
-            break;
-    }
     EndDrawing();
-    
+}
+
+void CameraOperation::close_window()
+{
+   CloseWindow();
+}
+bool CameraOperation::should_window_close()
+{
+    return WindowShouldClose();
 }
 
 void CameraOperation::calculate_player_camera(rVector2 playerPosition, rVector2 playerVelocityVector)
