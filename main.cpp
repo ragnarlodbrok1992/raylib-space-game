@@ -1,7 +1,7 @@
 #include "main.h"
 
 static void handle_commands(Command cmd);
-rawData_t networkData = { 0 };
+// rawData_t networkData = { 0 };
 
 // Invoking functions - TODO(moliwa): maybe this should be moved?
 void invoke_process_input(void (*func)()) {
@@ -26,15 +26,15 @@ int main(int charc, char** argv) {
   // Start scene is main menu
   mainRes.selectedScene = mainRes.sceneMainMenu;
   
-  mainRes.network = new HostNetwork(&status, "10667");
-  if (0 != status)
-  {
-      delete mainRes.network;
-  }
-  if (mainRes.network != nullptr)
-  {
-      mainRes.network->start_thread();
-  }
+  // mainRes.network = new HostNetwork(&status, "10667");
+  // if (0 != status)
+  // {
+  //     delete mainRes.network;
+  // }
+  // if (mainRes.network != nullptr)
+  // {
+  //     mainRes.network->start_thread();
+  // }
  
   while (!mainRes.camera->should_window_close()) {
 

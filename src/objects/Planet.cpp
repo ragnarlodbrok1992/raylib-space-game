@@ -1,6 +1,7 @@
 #include <math.h>
+#include <raylib.h>
+
 #include "include/Planet.h"
-#include "../raylib.h"
 #include "../toRaylibConversion.h"
 
 

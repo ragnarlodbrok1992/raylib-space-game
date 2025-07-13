@@ -8,6 +8,7 @@
 #include <iomanip>
 
 #include "math.h"
+#include "raylibTypes.h"
 
 const int screenWidth = 1366;
 const int screenHeight = 768;

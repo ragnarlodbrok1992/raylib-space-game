@@ -9,7 +9,7 @@
 #include "src/Console.h"
 #include "src/Parser.h"
 #include "src/Graphics.h"
-#include "submodules/network/src/host.h"
+// #include "submodules/network/src/host.h"
 
 #include <raylib.h>
 
@@ -22,9 +22,9 @@ typedef struct
 	SceneGame* sceneGame;
 	//SceneEditor* sceneEditor; not implemented yet
 	Scene* selectedScene;
-	HostNetwork* network;
+	// HostNetwork* network;
 	Graphics* camera;
 	Console* console;
-}mainResources_t;
+} mainResources_t;
 
 #endif /* H_MAIN */

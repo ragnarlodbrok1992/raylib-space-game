@@ -1,5 +1,7 @@
 #include "include/SceneGame.h"
-#include "../raylib.h"
+
+#include <raylib.h>
+
 #include "../toRaylibConversion.h"
 
 

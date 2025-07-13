@@ -3,6 +3,7 @@
 #define H_OBJECT
 
 #include <raylib.h>
+#include "../../raylibTypes.h"
 
 enum class objType
 {

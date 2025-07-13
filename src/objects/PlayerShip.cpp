@@ -1,5 +1,6 @@
 #include "include/PlayerShip.h"
-#include "../raylib.h"
+
+#include <raylib.h>
 
 PlayerShip::PlayerShip(rVector2 position, const float size) : Ship(position, size)
 {

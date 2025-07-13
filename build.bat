@@ -39,9 +39,9 @@ pushd %BUILD_DIR%
  ../src/scenes/SceneMainMenu.cpp^
  ../src/scenes/SceneGame.cpp^
  ../src/scenes/SceneEditor.cpp^
+ ../src/Graphics.cpp^
  ../src/Utils.cpp^
  ../src/Collisions.cpp^
- ../src/CameraOperation.cpp^
  ../src/Console.cpp^
  ../src/ObjectPipe.cpp^
  ../src/objects/PlayerShip.cpp^
