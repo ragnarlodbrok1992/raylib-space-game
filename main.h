@@ -1,7 +1,6 @@
 #ifndef H_MAIN
 #define H_MAIN
 
-#include "src/raylib.h"
 #include "src/Utils.h"
 #include "src/scenes/include/Scene.h"
 #include "src/scenes/include/SceneMainMenu.h"
@@ -10,6 +9,8 @@
 #include "src/Console.h"
 #include "src/Parser.h"
 #include "src/cameraOperation.h"
+
+#include <raylib.h>
 
 // TEMP INCLUDES
 #include <iostream>

@@ -1,9 +1,11 @@
 #pragma once
 #ifndef H_COLLISIONS
 #define H_COLLISIONS
+
+#include <raylib.h>
 #include <inttypes.h>
 #include <math.h>
-#include "raylib.h"
+
 #include "Utils.h"
 #include "objects/include/Object.h"
 #include "objects/include/Particle.h"

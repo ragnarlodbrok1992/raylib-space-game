@@ -1,10 +1,12 @@
 #pragma once
 #ifndef H_UTILS
 #define H_UTILS
+
+#include <raylib.h>
 #include <sstream>
 #include <random>
 #include <iomanip>
-#include "raylib.h"
+
 #include "math.h"
 
 const int screenWidth = 1366;

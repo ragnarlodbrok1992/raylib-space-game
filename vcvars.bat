@@ -1,4 +1,7 @@
 @echo off
-REM Set your own compiler version if this doesn't work
-SET vcvarsall_bat="C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvarsall.bat"
-%vcvarsall_bat% x64
+
+set SCRIPT="D:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
+
+echo %SCRIPT%
+call %SCRIPT%
+

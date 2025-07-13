@@ -1,7 +1,8 @@
 #pragma once
 #ifndef H_SCENE
 #define H_SCENE
-#include "../../raylib.h"
+
+#include <raylib.h>
 #include <stdexcept>
 
 enum class SceneEnum
