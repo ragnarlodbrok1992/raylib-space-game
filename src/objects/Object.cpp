@@ -2,8 +2,7 @@
 
 unsigned int Object::objectCount = 0;
 
-
-Object::Object(Vector2 position)
+Object::Object(rVector2 position)
 {
 	this->objectId = objectCount;
 	this->position = position;

@@ -20,10 +20,10 @@ const float SIMULATION_SPEED = 1.0f / FPS;
 void Upper(std::string& str);
 
 // Vector maths
-float GetDistance(Vector2 firstObj, Vector2 secondObj);
-float VectorLength(Vector2 vector);
-void RotateUnitVector(Vector2& vectorToRotate, double angle);
-float DistancePointToSegment(Vector2 segmentFirst, Vector2 segmentSecond, Vector2 point);
+float GetDistance(rVector2 firstObj, rVector2 secondObj);
+float VectorLength(rVector2 vector);
+void RotateUnitVector(rVector2& vectorToRotate, double angle);
+float DistancePointToSegment(rVector2 segmentFirst, rVector2 segmentSecond, rVector2 point);
 
 // Code operations
 void SwapPointers(void** first, void** second); //swaps two pointers

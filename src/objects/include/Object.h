@@ -25,14 +25,14 @@ protected:
 	static unsigned int objectCount;
 
 public:
-	Vector2 position;
+	rVector2 position;
 	unsigned int objectId;
 	objType objectType;
 	objShape objectShape;
 
 	void* shapeClassObject;
 
-	Object(Vector2 position);
+	Object(rVector2 position);
 	~Object();
 
 	virtual void Draw() = 0;

@@ -1,20 +1,50 @@
 #include "Console.h"
-
+#include "raylib.h"
 // DEBUG INCLUDES
 #include <iostream>
+
+// Console colors and stuff
+static Color blue_soft_transparent = { 0, 121, 241, 127 };
+static Color blue_soft_less_transparent = { 5, 56, 107, 177 };
+static Color cursor_color = { 26, 8, 87, 200 };
+
+static Rectangle rect = {};
+static Rectangle input_rect = {};
+static Rectangle cursor = {};
+static Vector2 cursor_start_point = {};
+
+Console::Console()
+{
+    const float x = 10.0f;
+    const float y = 10.0f;
+    const float width = GetScreenWidth() - (x * 2.0f); // Obvious math for borders
+    const float height = 10 + (GetScreenHeight() / 3.0f);
+    // Create parser object
+    this->parser = new Parser();
+
+    // Assume font is 20 px in height
+    rect = { x, y, width, height };
+    float input_rect_x = x + (width * 0.01f);
+    float input_rect_y = y + height - 16.0f;
+    input_rect = { input_rect_x, input_rect_y, width * 0.98f, 14 };
+    cursor = { input_rect_x + 1, input_rect_y + 1, 8, 12 };  // 8 px width for cursor
+    cursor_start_point.x = cursor.x;
+    cursor_start_point.y = cursor.y;
+    // Font in raylib by default (I think) are 7 px width for capital and 6 px width for normal
+}
 
 Console::Console(float x, float y, float width, float height) {
   // Create parser object
   this->parser = new Parser();
 
   // Assume font is 20 px in height
-  this->rect = {x, y, width, height};
+  rect = {x, y, width, height};
   float input_rect_x = x + (width * 0.01f);
   float input_rect_y = y + height - 16.0f;
-  this->input_rect = {input_rect_x, input_rect_y, width * 0.98f, 14};
-  this->cursor = {input_rect_x + 1, input_rect_y + 1, 8, 12};  // 8 px width for cursor
-  this->cursor_start_point.x = this->cursor.x;
-  this->cursor_start_point.y = this->cursor.y;
+  input_rect = {input_rect_x, input_rect_y, width * 0.98f, 14};
+  cursor = {input_rect_x + 1, input_rect_y + 1, 8, 12};  // 8 px width for cursor
+  cursor_start_point.x = cursor.x;
+  cursor_start_point.y = cursor.y;
   // Font in raylib by default (I think) are 7 px width for capital and 6 px width for normal
 };
 
@@ -22,9 +52,9 @@ Console::~Console() {
   delete this->parser;
 };
 
-void Console::render(bool should_render) {
+void Console::render() {
   // Actual render code goes here
-  if (should_render) {
+  if (this->is_active) {
     // Inside render counter for animations
     if (this->render_time == 0) {
       this->should_anim = true;
@@ -45,17 +75,17 @@ void Console::render(bool should_render) {
       this->full_open = false;
 
       // Calculate colors
-      this->blue_soft_transparent.a = static_cast<int>(127.0f * ((float)this->render_time / 60.0f));
-      this->blue_soft_less_transparent.a = static_cast<int>(177.0f * ((float)this->render_time / 60.0f));
+      blue_soft_transparent.a = static_cast<int>(127.0f * ((float)this->render_time / 60.0f));
+      blue_soft_less_transparent.a = static_cast<int>(177.0f * ((float)this->render_time / 60.0f));
 
       // Draw elements
-      DrawRectangleRec(this->rect, this->blue_soft_transparent);
-      DrawRectangleRec(this->input_rect, this->blue_soft_less_transparent);
+      DrawRectangleRec(rect, blue_soft_transparent);
+      DrawRectangleRec(input_rect, blue_soft_less_transparent);
     } else {
       this->full_open = true;
 
-      DrawRectangleRec(this->rect, this->blue_soft_transparent);
-      DrawRectangleRec(this->input_rect, this->blue_soft_less_transparent);
+      DrawRectangleRec(rect, blue_soft_transparent);
+      DrawRectangleRec(input_rect, blue_soft_less_transparent);
 
       this->render_cursor();
     }
@@ -73,7 +103,7 @@ inline void Console::render_cursor() {
 
   // Proper render
   if (this->cursor_blink < 30) {
-    DrawRectangleRec(this->cursor, this->cursor_color);
+    DrawRectangleRec(cursor, cursor_color);
     } else {
       // Pass
     }
@@ -147,9 +177,9 @@ void Console::process_input() {
   const char* cursor_pos = cursor_pos_buf.c_str();
   int cursor_pos_measurement = MeasureText(cursor_pos, 12);
 
-  this->cursor.x = this->cursor_start_point.x + static_cast<float>(cursor_pos_measurement) + 1.0f;
+  cursor.x = cursor_start_point.x + static_cast<float>(cursor_pos_measurement) + 1.0f;
 
-  WriteMessage(cmd_buf, this->cursor_start_point.x, this->cursor_start_point.y); // Some offset to put the font down
+  WriteMessage(cmd_buf, (int)cursor_start_point.x, (int)cursor_start_point.y); // Some offset to put the font down
 }
 
 void Console::clear_cmd_buf() {
@@ -157,8 +187,8 @@ void Console::clear_cmd_buf() {
   this->command_buffer.clear();
 
   // Move cursor back to start
-  this->cursor.x = this->cursor_start_point.x;
-  this->cursor.y = this->cursor_start_point.y;
+  cursor.x = cursor_start_point.x;
+  cursor.y = cursor_start_point.y;
 
   // Reset cursor values
   this->cursor_max_placement = 0;

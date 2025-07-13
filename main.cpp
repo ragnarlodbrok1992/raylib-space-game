@@ -1,9 +1,7 @@
 #include "main.h"
 
-// Engine commands
-namespace command {
-bool _EXIT = false;
-}
+static void handle_commands(Command cmd);
+rawData_t networkData = { 0 };
 
 // Invoking functions - TODO(moliwa): maybe this should be moved?
 void invoke_process_input(void (*func)()) {
@@ -11,86 +9,73 @@ void invoke_process_input(void (*func)()) {
 }
 
 int main(int charc, char** argv) {
-  InitWindow(screenWidth, screenHeight, "RayLib Space Game");
-
-  SetTargetFPS(60);
-
-  // Init render control values here
-  bool dropdown_console = false;
-
-  // Console initialization
-  const int x      = 10;
-  const int y      = 10;
-  const int width  = GetScreenWidth() - (x * 2); // Obvious math for borders
-  const int height = 10 + (GetScreenHeight() / 3);
-  Console console(x, y, width, height);
-  Camera2D gameCamera;
-  CameraOperation* camera = new CameraOperation();
-
-  // DEBUG INFO
-  std::cout << "Console values: " << width << " : " << height << std::endl;
-
+  mainResources_t mainRes;
+  int status = 0;
   // Init scenes here
-  SceneMainMenu* sceneMainMenu = new SceneMainMenu(SceneEnum::MAINMENU);
-  SceneGame*     sceneGame     = new SceneGame(SceneEnum::GAMESCENE);
-  SceneEditor*   sceneEditor   = new SceneEditor(SceneEnum::EDITOR);
-  Scene*         selectedScene;
+  mainRes.sceneMainMenu = new SceneMainMenu(SceneEnum::MAINMENU);
+  mainRes.sceneGame = new SceneGame(SceneEnum::GAMESCENE);
+ 
+
+  mainRes.camera = new Graphics();
+  mainRes.console = new Console();
+  mainRes.camera->register_scene(mainRes.sceneGame);
+  mainRes.camera->register_scene(mainRes.sceneMainMenu);
+  mainRes.camera->register_console(mainRes.console);
+  mainRes.camera->set_scene(SceneEnum::MAINMENU);
 
   // Start scene is main menu
-  selectedScene = sceneMainMenu;
+  mainRes.selectedScene = mainRes.sceneMainMenu;
+  
+  mainRes.network = new HostNetwork(&status, "10667");
+  if (0 != status)
+  {
+      delete mainRes.network;
+  }
+  if (mainRes.network != nullptr)
+  {
+      mainRes.network->start_thread();
+  }
+ 
+  while (!mainRes.camera->should_window_close()) {
 
-  while (!WindowShouldClose() && !command::_EXIT) {
     // Checking if rendering of dropdown-console
     // This is not blockable by console input control
-    if ((IsKeyPressed(KEY_GRAVE)) && (dropdown_console)) {
-      dropdown_console = false;
+      
+    if ((mainRes.camera->is_key_pressed(rKEY_GRAVE)) && (mainRes.console->is_active)) {
+        mainRes.console->is_active = false;
 
       // Clearing command
-      console.clear_cmd_buf();
+        mainRes.console->clear_cmd_buf();
 
-    } else if (IsKeyPressed(KEY_GRAVE) && (!dropdown_console)) {
-      dropdown_console = true;
+    } else if (mainRes.camera->is_key_pressed(rKEY_GRAVE) && (!mainRes.console->is_active)) {
+        mainRes.console->is_active = true;
     }
+    
 
     // Selecting scene - right now with 1,2,3 keys
     // Checking if scene control is scene or console
     // TODO (ragnar): Move scene selection into a main menu Interface
-    if      (IsKeyPressed(KEY_ONE)) {
-      selectedScene = sceneMainMenu;
-    }
-    else if (IsKeyPressed(KEY_TWO)) {
-      selectedScene = sceneGame;
-    }
-    else if (IsKeyPressed(KEY_THREE)) {
-      selectedScene = sceneEditor;
-   }
- 
-    // Frame begins here
-    BeginDrawing();
-    ClearBackground(RAYWHITE);
-    if (selectedScene == sceneGame)
+   
+    mainRes.camera->render();
+    if (mainRes.console->is_active)
     {
-        BeginMode2D(*camera->calculate_player_camera(sceneGame->get_player_position(), sceneGame->get_player_velocity()));
+        mainRes.console->process_input();
     }
-
-    // Select scene to render
-    if (dropdown_console) {
-      console.process_input();
-    } else {
-      selectedScene->process_input();
+    else 
+    {
+        mainRes.selectedScene->process_input();
+        if (mainRes.camera->is_key_pressed(rKEY_ONE)) {
+            mainRes.selectedScene = mainRes.sceneMainMenu;
+            mainRes.camera->set_scene(SceneEnum::MAINMENU);
+        }
+        else if (mainRes.camera->is_key_pressed(rKEY_TWO)) {
+            mainRes.camera->set_scene(SceneEnum::GAMESCENE);
+            mainRes.selectedScene = mainRes.sceneGame;
+        }
     }
-
-    selectedScene->render();
-    selectedScene->simulate();
-
-    // Render above-scene elements (such as dropdown console - should work on every scene)
-    console.render(dropdown_console);
-
-    EndDrawing();
+    mainRes.selectedScene->simulate();
   }
-
-  CloseWindow();
+  mainRes.camera->close_window();
 
   return 0;
 }
-

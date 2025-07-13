@@ -3,27 +3,22 @@
 
 #include "Parser.h"
 
+
 class Console {
   private:
     // Composite objects
     Parser *parser;
-  public:
-    // Console colors and stuff
-    Color blue_soft_transparent = {0, 121, 241, 127};
-    Color blue_soft_less_transparent = {5, 56, 107, 177};
-    Color cursor_color = {26, 8, 87, 200};
 
+  public:
     // Console geometry
-    Rectangle rect = {};
-    Rectangle input_rect = {};
-    Rectangle cursor = {};
-    Vector2 cursor_start_point = {};
     unsigned int render_time = 0;
     unsigned int cursor_blink = 0;
     unsigned int cursor_placement = 0;
     unsigned int cursor_max_placement = 0;
     bool should_anim = false;
     bool full_open = false;
+    bool is_active = false;
+    Console(); //uses predefined size of console
     Console(float x,
             float y,
             float width,
@@ -33,7 +28,7 @@ class Console {
     // Console command buffer
     std::vector<char> command_buffer;
 
-    void render(bool should_render);
+    void render();
     void clear_cmd_buf();
     inline void render_cursor();
 

@@ -1,8 +1,10 @@
 #include <math.h>
 #include "include/Planet.h"
+#include "../raylib.h"
+#include "../toRaylibConversion.h"
 
 
-Planet::Planet(Vector2 position, float radius, float mass, Color color):Object(position)
+Planet::Planet(rVector2 position, float radius, float mass, rColor color):Object(position)
 {
 	this->mass = mass;
 	this->color = color;
@@ -11,9 +13,9 @@ Planet::Planet(Vector2 position, float radius, float mass, Color color):Object(p
 	this->shapeClassObject = new ShapeCircle(radius);
 }
 
-Vector2 Planet::GetVersorDirection(Vector2 objectPosition)
+rVector2 Planet::GetVersorDirection(rVector2 objectPosition)
 {
-	Vector2 vector;
+	rVector2 vector;
 	float lenght = GetDistance(this->position, objectPosition);
 	vector.x = this->position.x - objectPosition.x;
 	vector.y = this->position.y - objectPosition.y;
@@ -23,11 +25,11 @@ Vector2 Planet::GetVersorDirection(Vector2 objectPosition)
 }
 
 
-Vector2 Planet::GetAcceleration(Vector2 objectPosition)
+rVector2 Planet::GetAcceleration(rVector2 objectPosition)
 {
 	float distance = GetDistance(this->position, objectPosition);
 	float force = (float)(GRAV_CONSTANT * this->mass) / powf(distance, 2);
-	Vector2 acceleration = Planet::GetVersorDirection(objectPosition);
+	rVector2 acceleration = Planet::GetVersorDirection(objectPosition);
 	acceleration.x *= force;
 	acceleration.y *= force;
 	return acceleration;
@@ -36,6 +38,6 @@ Vector2 Planet::GetAcceleration(Vector2 objectPosition)
 void Planet::Draw()
 {
   float radius = (static_cast<ShapeCircle*>(shapeClassObject))->radius;
-  DrawCircleV(this->position, radius, this->color);
+  DrawCircleV(convert(this->position), radius, convert(this->color));
 }
 

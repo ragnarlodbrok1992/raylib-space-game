@@ -1,13 +1,16 @@
 #include "include/SceneGame.h"
+#include "../raylib.h"
+#include "../toRaylibConversion.h"
+
 
 //true when collided with any planet
 static inline bool UpdateGivenObjectAndCheckPlanetCollision(std::list<Planet*> planets, InertObject* object)
 {
-    Vector2 acceleration{ 0.0f,0.0f };
+    rVector2 acceleration{ 0.0f,0.0f };
     bool particleCollided = false;
     for (Planet* currentPlanet : planets)
     {
-        Vector2 partialAcceleration = currentPlanet->GetAcceleration((object)->position);
+        rVector2 partialAcceleration = currentPlanet->GetAcceleration((object)->position);
         acceleration.x += partialAcceleration.x;
         acceleration.y += partialAcceleration.y;
         if (!particleCollided)
@@ -146,7 +149,7 @@ static bool is_local_player_ship(Ship* ship)
 }
 
 SceneGame :: SceneGame(SceneEnum se) : Scene(se) {
-
+    this->shipMoveVector = { 0.0f, -1.0f };
   // Init objects here
     playerKeyMap_t player1Keys;
     player1Keys.accelerate = KEY_W;
@@ -157,9 +160,9 @@ SceneGame :: SceneGame(SceneEnum se) : Scene(se) {
 
   this->shipsList.push_back(ship);
 
-  Planet* planet  = new Planet(planetPlacement,  50, 50000,  BLUE);
-  Planet* planet2 = new Planet(planet2Placement, 60, 170000, DARKBLUE);
-  Planet* planet3 = new Planet(planet3Placement, 30, 30000,  BROWN);
+  Planet* planet  = new Planet(this->planetPlacement,  50, 50000,  convert(BLUE));
+  Planet* planet2 = new Planet(this->planet2Placement, 60, 170000, convert(DARKBLUE));
+  Planet* planet3 = new Planet(this->planet3Placement, 30, 30000,  convert(BROWN));
 
   this->gravitySources.push_back(planet);
   this->gravitySources.push_back(planet2);
@@ -239,7 +242,7 @@ void SceneGame::simulate() {
 
 };
 
-Vector2 SceneGame::get_player_position()
+rVector2 SceneGame::get_player_position()
 {
     for (Ship* ship : shipsList)
     {
@@ -248,9 +251,10 @@ Vector2 SceneGame::get_player_position()
             return ship->position;
         }
     }
+    return { 0.0f, 0.0f };
 }
 
-Vector2 SceneGame::get_player_velocity()
+rVector2 SceneGame::get_player_velocity()
 {
     for (Ship* ship : shipsList)
     {
@@ -259,5 +263,6 @@ Vector2 SceneGame::get_player_velocity()
             return ship->velocity;
         }
     }
+    return { 0.0f, 0.0f };
 }
 

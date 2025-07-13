@@ -8,11 +8,23 @@
 #include "src/scenes/include/SceneEditor.h"
 #include "src/Console.h"
 #include "src/Parser.h"
-#include "src/cameraOperation.h"
+#include "src/Graphics.h"
+#include "submodules/network/src/host.h"
 
 #include <raylib.h>
 
 // TEMP INCLUDES
 #include <iostream>
+
+typedef struct 
+{
+	SceneMainMenu* sceneMainMenu;
+	SceneGame* sceneGame;
+	//SceneEditor* sceneEditor; not implemented yet
+	Scene* selectedScene;
+	HostNetwork* network;
+	Graphics* camera;
+	Console* console;
+}mainResources_t;
 
 #endif /* H_MAIN */

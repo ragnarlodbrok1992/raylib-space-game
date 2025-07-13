@@ -1,6 +1,7 @@
 #include "include/PlayerShip.h"
+#include "../raylib.h"
 
-PlayerShip::PlayerShip(Vector2 position, const float size) : Ship(position, size)
+PlayerShip::PlayerShip(rVector2 position, const float size) : Ship(position, size)
 {
     this->keymap.accelerate = INVALID_KEY;
     this->keymap.fire = INVALID_KEY;
@@ -9,7 +10,7 @@ PlayerShip::PlayerShip(Vector2 position, const float size) : Ship(position, size
 	this->playerType = PlayerType::REMOTE;
 }
 
-PlayerShip::PlayerShip(Vector2 position, const float size, playerKeyMap_t keys) : Ship(position, size)
+PlayerShip::PlayerShip(rVector2 position, const float size, playerKeyMap_t keys) : Ship(position, size)
 {
 	this->playerType = PlayerType::LOCAL;
 	this->keymap.accelerate = keys.accelerate;
