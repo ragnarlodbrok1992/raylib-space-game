@@ -20,7 +20,7 @@ typedef struct
 {
 	SceneMainMenu* sceneMainMenu;
 	SceneGame* sceneGame;
-	//SceneEditor* sceneEditor; not implemented yet
+	SceneEditor* sceneEditor;
 	Scene* selectedScene;
 	// HostNetwork* network;
 	Graphics* camera;

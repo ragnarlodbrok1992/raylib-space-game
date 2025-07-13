@@ -9,11 +9,12 @@ void invoke_process_input(void (*func)()) {
 }
 
 int main(int charc, char** argv) {
-  mainResources_t mainRes;
+  mainResources_t mainRes = {0};
   int status = 0;
   // Init scenes here
   mainRes.sceneMainMenu = new SceneMainMenu(SceneEnum::MAINMENU);
   mainRes.sceneGame = new SceneGame(SceneEnum::GAMESCENE);
+  mainRes.sceneEditor = new SceneEditor(SceneEnum::EDITOR);
  
 
   mainRes.camera = new Graphics();
@@ -65,12 +66,16 @@ int main(int charc, char** argv) {
     {
         mainRes.selectedScene->process_input();
         if (mainRes.camera->is_key_pressed(rKEY_ONE)) {
-            mainRes.selectedScene = mainRes.sceneMainMenu;
             mainRes.camera->set_scene(SceneEnum::MAINMENU);
+            mainRes.selectedScene = mainRes.sceneMainMenu;
         }
         else if (mainRes.camera->is_key_pressed(rKEY_TWO)) {
             mainRes.camera->set_scene(SceneEnum::GAMESCENE);
             mainRes.selectedScene = mainRes.sceneGame;
+        }
+        else if (mainRes.camera->is_key_pressed(rKEY_THREE)) {
+            mainRes.camera->set_scene(SceneEnum::EDITOR);
+            mainRes.selectedScene = mainRes.sceneEditor;
         }
     }
     mainRes.selectedScene->simulate();
