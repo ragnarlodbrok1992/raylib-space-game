@@ -1,5 +1,4 @@
 #include "Graphics.h"
-#include "toRaylibConversion.h"
 #include "raylib.h"
 
 
@@ -24,12 +23,18 @@ void Graphics::set_scene(SceneEnum selectedScene)
     switch (this->selectedScene)
     {
     case SceneEnum::MAINMENU:
-        renderScene = sceneMainMenu;
+        change_scene(sceneMainMenu);
         break;
     case SceneEnum::GAMESCENE:
-        renderScene = sceneGame;
+        change_scene(sceneGame);
         break;
     }
+}
+
+void Graphics::change_scene(Scene* scene)
+{
+    renderScene = scene;
+    scene->prepare_scene();
 }
 
 void Graphics::register_scene(SceneGame* sceneGame)
@@ -54,6 +59,8 @@ bool Graphics::is_key_pressed(uint16_t key)
 
 void Graphics::render()
 {
+	this->zoom += 0.01f * GetMouseWheelMove(); // Adjust zoom with mouse wheel
+	if (this->zoom < this->minZoom) this->zoom = this->minZoom; // Prevent zooming out too much
     // Frame begins here
     BeginDrawing();
     ClearBackground(RAYWHITE);
@@ -62,10 +69,16 @@ void Graphics::render()
         calculate_player_camera(sceneGame->get_player_position(),
             sceneGame->get_player_velocity());
 
+		sceneGame->cameraZoom = cameraProperties.zoom;
+        sceneGame->cameraTarget.x = cameraProperties.target.x;
+		sceneGame->cameraTarget.y = cameraProperties.target.y;
+		sceneGame->cameraOffset.x = cameraProperties.offset.x;
+		sceneGame->cameraOffset.y = cameraProperties.offset.y;
         BeginMode2D(cameraProperties);
     }
     renderScene->render();
     EndMode2D();
+	renderScene->render_cursor();
     console->render();
 
     EndDrawing();
@@ -80,12 +93,12 @@ bool Graphics::should_window_close()
     return WindowShouldClose();
 }
 
-void Graphics::calculate_player_camera(rVector2 playerPosition, rVector2 playerVelocityVector)
+void Graphics::calculate_player_camera(Vector2 playerPosition, Vector2 playerVelocityVector)
 {
     cameraProperties.offset.x = GetScreenWidth() / 2.0f;
     cameraProperties.offset.y = GetScreenHeight() / 2.0f;
     float playerVelocity = VectorLength(playerVelocityVector);
-    cameraProperties.target = convert(playerPosition);
+    cameraProperties.target = playerPosition;
     if (((GetScreenWidth() / 3) < abs(playerVelocityVector.x * speedToOffsetFactor)))
     {
         if (0 < playerVelocityVector.x)
@@ -134,4 +147,5 @@ void Graphics::calculate_player_camera(rVector2 playerPosition, rVector2 playerV
     {
         cameraProperties.zoom = 0.5f;
     }
+	cameraProperties.zoom *= this->zoom; // Apply zoom factor from Graphics class
 }

@@ -1,13 +1,12 @@
 #include "include/Particle.h"
-#include "../toRaylibConversion.h"
 
-Particle::Particle(rVector2 position, rVector2 velocity): InertObject(position, velocity)
+Particle::Particle(Vector2 position, Vector2 velocity): InertObject(position, velocity)
 {
-	this->color = convert(BLACK);
+	this->color = BLACK;
 	InitParticle();
 };
 
-Particle::Particle(rVector2 position, rVector2 velocity, rColor color): InertObject(position, velocity)
+Particle::Particle(Vector2 position, Vector2 velocity, Color color): InertObject(position, velocity)
 {
 	this->color = color;
 	InitParticle();
@@ -24,6 +23,6 @@ void Particle::InitParticle()
 void Particle::Draw()
 {
 	float radius = (static_cast<ShapeCircle*>(shapeClassObject))->radius;
-	DrawCircleV(convert(this->position), radius, convert(this->color));
+	DrawCircleV(this->position, radius, this->color);
 };
 

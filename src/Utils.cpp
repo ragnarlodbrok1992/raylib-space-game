@@ -1,5 +1,4 @@
 #include "Utils.h"
-#include "raylib.h"
 
 void Upper(std::string& str) {
     // Code copypasted from internet
@@ -8,17 +7,17 @@ void Upper(std::string& str) {
     }); 
 };
 
-float GetDistance(rVector2 firstObj, rVector2 secondObj)
+float GetDistance(Vector2 firstObj, Vector2 secondObj)
 { 
 	return sqrtf(powf(secondObj.x - firstObj.x, 2) + powf(secondObj.y - firstObj.y, 2));
 };
 
-float VectorLength(rVector2 vector)
+float VectorLength(Vector2 vector)
 {
 	return sqrtf(powf(vector.x, 2) + powf(vector.y, 2));
 }
 
-void RotateUnitVector(rVector2& VectorToRotate, double angle) {
+void RotateUnitVector(Vector2& VectorToRotate, double angle) {
   float casted_sin = static_cast<float>(sin(angle));
   float casted_cos = static_cast<float>(cos(angle));
 
@@ -30,7 +29,7 @@ void RotateUnitVector(rVector2& VectorToRotate, double angle) {
 // 2 situations to be considered: 
 // 1 - line going thru point can create perpendicular line intersecting with given segment
 // 2 - there is no line going thru point that can create perpendicular line intersecting with given segment
-float DistancePointToSegment(rVector2 segmentFirst, rVector2 segmentSecond, rVector2 point)
+float DistancePointToSegment(Vector2 segmentFirst, Vector2 segmentSecond, Vector2 point)
 {
     float y1 = segmentFirst.y;
     float x1 = segmentFirst.x;

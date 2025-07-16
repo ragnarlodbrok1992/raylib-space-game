@@ -27,7 +27,7 @@ private:
 
 public:
 	PlayerType playerType;
-	PlayerShip(rVector2 position, const float size);
-	PlayerShip(rVector2 position, const float size, playerKeyMap_t keys);
+	PlayerShip(Vector2 position, const float size);
+	PlayerShip(Vector2 position, const float size, playerKeyMap_t keys);
 	void HandlePressedKeys();
 };

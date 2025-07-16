@@ -10,7 +10,7 @@
 class Graphics
 {
 public:
-	void calculate_player_camera(rVector2 playerPosition, rVector2 playerVelocityVector);
+	void calculate_player_camera(Vector2 playerPosition, Vector2 playerVelocityVector);
 	void render();
 	void close_window();
 	bool should_window_close();
@@ -29,7 +29,11 @@ private:
 	SceneMainMenu* sceneMainMenu;
 	Scene* renderScene;
 	Console* console;
+	Cursor cursor;
 	void init_camera();
+	void change_scene(Scene*);
+	float zoom = 1.0f;
+	const float minZoom = 0.04f; // Minimum zoom to prevent too much zoom out
 	const float maxZoom = 2.0f;
 	const float fullZoomMaxVelocity = 40.0f;
 	const float firstRangeAdd = 100.0f;

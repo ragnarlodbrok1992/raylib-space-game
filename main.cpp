@@ -42,13 +42,13 @@ int main(int charc, char** argv) {
     // Checking if rendering of dropdown-console
     // This is not blockable by console input control
       
-    if ((mainRes.camera->is_key_pressed(rKEY_GRAVE)) && (mainRes.console->is_active)) {
+    if ((mainRes.camera->is_key_pressed(KEY_GRAVE)) && (mainRes.console->is_active)) {
         mainRes.console->is_active = false;
 
       // Clearing command
         mainRes.console->clear_cmd_buf();
 
-    } else if (mainRes.camera->is_key_pressed(rKEY_GRAVE) && (!mainRes.console->is_active)) {
+    } else if (mainRes.camera->is_key_pressed(KEY_GRAVE) && (!mainRes.console->is_active)) {
         mainRes.console->is_active = true;
     }
     
@@ -65,15 +65,15 @@ int main(int charc, char** argv) {
     else 
     {
         mainRes.selectedScene->process_input();
-        if (mainRes.camera->is_key_pressed(rKEY_ONE)) {
+        if (mainRes.camera->is_key_pressed(KEY_ONE)) {
             mainRes.camera->set_scene(SceneEnum::MAINMENU);
             mainRes.selectedScene = mainRes.sceneMainMenu;
         }
-        else if (mainRes.camera->is_key_pressed(rKEY_TWO)) {
+        else if (mainRes.camera->is_key_pressed(KEY_TWO)) {
             mainRes.camera->set_scene(SceneEnum::GAMESCENE);
             mainRes.selectedScene = mainRes.sceneGame;
         }
-        else if (mainRes.camera->is_key_pressed(rKEY_THREE)) {
+        else if (mainRes.camera->is_key_pressed(KEY_THREE)) {
             mainRes.camera->set_scene(SceneEnum::EDITOR);
             mainRes.selectedScene = mainRes.sceneEditor;
         }
