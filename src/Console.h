@@ -2,7 +2,10 @@
 #define H_CONSOLE
 
 #include "Parser.h"
+#include "globals.h"
 
+#include <unordered_map>
+#include <functional>
 
 class Console {
   private:
@@ -27,13 +30,23 @@ class Console {
 
     // Console command buffer
     std::vector<char> command_buffer;
+    
+    // Callbacks register
+    std::unordered_map<Command, std::function<void()>> callbacks;
 
+    // Register function
+    void register_callbacks();
+
+    // Methods
     void render();
     void clear_cmd_buf();
     inline void render_cursor();
 
     // Working logic for text inputing
     void process_input();
+
+    // Running callbacks
+    void commands_callbacks(Command command); 
 
 };
 

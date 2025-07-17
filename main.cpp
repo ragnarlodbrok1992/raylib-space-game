@@ -1,5 +1,6 @@
 #include "main.h"
 
+// TODO(moliwa): is this used?
 static void handle_commands(Command cmd);
 // rawData_t networkData = { 0 };
 
@@ -8,8 +9,9 @@ void invoke_process_input(void (*func)()) {
   return func();
 }
 
+mainResources_t mainRes = {0};
+
 int main(int charc, char** argv) {
-  mainResources_t mainRes = {0};
   int status = 0;
   // Init scenes here
   mainRes.sceneMainMenu = new SceneMainMenu(SceneEnum::MAINMENU);
@@ -37,6 +39,7 @@ int main(int charc, char** argv) {
   //     mainRes.network->start_thread();
   // }
  
+  // TODO(moliwa): why window behaviour is in camera?
   while (!mainRes.camera->should_window_close()) {
 
     // Checking if rendering of dropdown-console

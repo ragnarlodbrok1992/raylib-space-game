@@ -29,7 +29,6 @@ bool Parser::parse_command(std::string command) {
     switch(s_mapStringValue[command])
     {
         case evExit:
-            std::cout << "Exiting!" << std::endl;
             parsed_command = Command::EXIT;
             break;
         case evCreateServer:
