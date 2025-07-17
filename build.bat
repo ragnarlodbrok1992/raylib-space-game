@@ -1,5 +1,7 @@
 @echo off
 
+set CL_ALWAYS_STOP_ON_FIRST_ERROR=1
+
 SET BUILD_DIR="build"
 SET compiler_dir="C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.43.34808\bin\Hostx64\x64\cl.exe"
 
@@ -23,9 +25,9 @@ IF NOT EXIST %BUILD_DIR% (
 
 pushd %BUILD_DIR%
 
-%compiler_dir% /EHsc /Zi^
+%compiler_dir% /EHsc /Zi /WX^
  /DEBUG:FULL^
- /INCREMENTAL:NO^
+ /INCREMENTAL:YES^
  /Fe:"space-game"^
  /std:c++20^
  ../main.cpp^
@@ -46,6 +48,7 @@ pushd %BUILD_DIR%
  ../src/ObjectPipe.cpp^
  ../src/objects/PlayerShip.cpp^
  ../src/Parser.cpp^
+ ../src/cursor.cpp^
  /I%raylib_include_dir%^
  /link /LIBPATH:%raylib_link_dir% /NODEFAULTLIB:libcmt^
  raylib.lib gdi32.lib User32.lib Shell32.lib winmm.lib kernel32.lib

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _H_GRAPHICS
+#define _H_GRAPHICS
+
 #include <math.h>
 #include "Utils.h"
 #include "scenes/include/Scene.h"
@@ -6,6 +8,8 @@
 #include "scenes/include/SceneGame.h"
 #include "scenes/include/SceneMainMenu.h"
 #include "Console.h"
+
+class Console;
 
 class Graphics
 {
@@ -43,3 +47,5 @@ private:
 	const float secondRangeZoom = 0.5f;
 	const float speedToOffsetFactor = 2.0f;
 };
+
+#endif /* _H_GRAPHICS */

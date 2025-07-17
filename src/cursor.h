@@ -16,7 +16,7 @@ enum class CursorType
 
 };
 
-static class Cursor
+class Cursor
 {
 		
 

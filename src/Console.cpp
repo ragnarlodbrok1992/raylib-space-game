@@ -21,6 +21,9 @@ Console::Console()
     const float height = 10 + (GetScreenHeight() / 3.0f);
     // Create parser object
     this->parser = new Parser();
+    
+    // Register callbacks
+    this->register_callbacks();
 
     // Assume font is 20 px in height
     rect = { x, y, width, height };
@@ -158,6 +161,9 @@ void Console::process_input() {
   if (key_code_event == KEY_ENTER) {
     this->parser->parse_command(std::string(this->command_buffer.begin(), this->command_buffer.end()));
 
+    // Run callback function
+    this->commands_callbacks(this->parser->parsed_command);
+
     // Cleaning buffer
     this->clear_cmd_buf();
   }
@@ -193,4 +199,18 @@ void Console::clear_cmd_buf() {
   // Reset cursor values
   this->cursor_max_placement = 0;
   this->cursor_placement = 0;
+}
+
+void Console::register_callbacks() {
+  // Registering callbacks
+  this->callbacks[Command::EXIT] = []() {
+    // How to get access to this resource?
+    mainRes.camera->close_window();
+  };
+}
+
+void Console::commands_callbacks(Command command) {
+  if (this->callbacks.find(command) != this->callbacks.end()) {
+    this->callbacks[command]();
+  }
 }
