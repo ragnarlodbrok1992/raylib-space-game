@@ -69,7 +69,7 @@
     <ClCompile Include="src\Graphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cmd_handler\CmdHandler.cpp">
+    <ClCompile Include="src\cursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -140,10 +140,7 @@
     <ClInclude Include="src\raylibTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\toRaylibConversion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\cmd_handler\CmdHandler.h">
+    <ClInclude Include="src\cursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

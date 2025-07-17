@@ -1,17 +1,16 @@
 #include "include/SmokeParticle.h"
-#include "../toRaylibConversion.h"
 
 
-SmokeParticle::SmokeParticle(rVector2 position, rVector2 velocity, unsigned int lifetime) : InertObject(position, velocity), fadingStrength(255.0f / lifetime)
+SmokeParticle::SmokeParticle(Vector2 position, Vector2 velocity, unsigned int lifetime) : InertObject(position, velocity), fadingStrength(255.0f / lifetime)
 {
 	this->lifetime = lifetime;
-	this->color = convert(RED);
+	this->color = RED;
 	this->objectType = objType::UNKNOWN;
 	this->objectShape = objShape::CIRCLE;
 }
 
 //not using acceleration. It is just for type prototype compatibility
-void SmokeParticle::Update(rVector2 acceleration)
+void SmokeParticle::Update(Vector2 acceleration)
 {
 	this->UpdatePosition();
 	if (this->lifetime > 0) lifetime--;
@@ -21,6 +20,6 @@ void SmokeParticle::Update(rVector2 acceleration)
 
 void SmokeParticle::Draw()
 {
-	DrawCircleV(convert(this->position), this->radius, convert(this->color));
+	DrawCircleV(this->position, this->radius, this->color);
 }
 

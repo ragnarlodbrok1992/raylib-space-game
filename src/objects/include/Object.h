@@ -3,7 +3,6 @@
 #define H_OBJECT
 
 #include <raylib.h>
-#include "../../raylibTypes.h"
 
 enum class objType
 {
@@ -26,14 +25,14 @@ protected:
 	static unsigned int objectCount;
 
 public:
-	rVector2 position;
+	Vector2 position;
 	unsigned int objectId;
 	objType objectType;
 	objShape objectShape;
 
 	void* shapeClassObject;
 
-	Object(rVector2 position);
+	Object(Vector2 position);
 	~Object();
 
 	virtual void Draw() = 0;

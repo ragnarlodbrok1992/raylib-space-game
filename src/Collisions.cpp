@@ -1,7 +1,7 @@
 #include"Collisions.h"
 
 //source: https://gamedev.stackexchange.com/questions/7735/how-do-i-test-if-a-circle-and-concave-polygon-intersect
-static bool CollisionDoCircleCollidedWithPolygon(rVector2 polygonEdges[], unsigned int numberOfEgdes, rVector2 circleCenter, float circleRadius)
+static bool CollisionDoCircleCollidedWithPolygon(Vector2 polygonEdges[], unsigned int numberOfEgdes, Vector2 circleCenter, float circleRadius)
 {
 	// Polygon must have at least 3 edges
 	if (numberOfEgdes < 3)
@@ -41,8 +41,8 @@ bool IsCollisionCircleCircle(Object* firstCircle, Object* secondCircle)
 {
 	float firstRadius = (static_cast<ShapeCircle*>(firstCircle->shapeClassObject))->radius;
 	float secondRadius = (static_cast<ShapeCircle*>(secondCircle->shapeClassObject))->radius;
-	rVector2 firstPosition = firstCircle->position;
-	rVector2 secondPosition = secondCircle->position;
+	Vector2 firstPosition = firstCircle->position;
+	Vector2 secondPosition = secondCircle->position;
 	float distance = GetDistance(firstPosition, secondPosition);
 	if (distance <= firstRadius + secondRadius)
 	{
@@ -51,7 +51,7 @@ bool IsCollisionCircleCircle(Object* firstCircle, Object* secondCircle)
 	return false;
 }
 
-bool IsCollisionCircleCircle(rVector2 firstPosition, float firstRadius, rVector2 secondPosition, float secondRadius)
+bool IsCollisionCircleCircle(Vector2 firstPosition, float firstRadius, Vector2 secondPosition, float secondRadius)
 {
 	float distance = GetDistance(firstPosition, secondPosition);
 	if (distance <= firstRadius + secondRadius)

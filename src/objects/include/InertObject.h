@@ -10,17 +10,17 @@
 class InertObject : public Object
 {
 protected:
-	virtual void UpdateVelocity(rVector2 acceleration);
+	virtual void UpdateVelocity(Vector2 acceleration);
 	virtual void UpdatePosition();
 
 public:
-	rVector2 velocity;
-	InertObject(rVector2 position);
-	InertObject(rVector2 position, rVector2 velocity);
-	InertObject(rVector2 position, objType objectType);
-	InertObject(rVector2 position, rVector2 velocity, objType objectType);
+	Vector2 velocity;
+	InertObject(Vector2 position);
+	InertObject(Vector2 position, Vector2 velocity);
+	InertObject(Vector2 position, objType objectType);
+	InertObject(Vector2 position, Vector2 velocity, objType objectType);
 
-	virtual void Update(rVector2 acceleration);
+	virtual void Update(Vector2 acceleration);
 
 };
 

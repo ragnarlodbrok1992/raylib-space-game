@@ -20,21 +20,21 @@ public:
   float health = 100.0f;
   int reload = 0; //when 100 you will be able to fire. Currently checked in main
   const int reloaded = 100;
-  rVector2 shipMoveVector = { 0.0f, -1.0f };
+  Vector2 shipMoveVector = { 0.0f, -1.0f };
 
 protected:
   void calculate_ship_shape();
-  rVector2 ship_coords[4];
+  Vector2 ship_coords[4];
 
   void UpdatePosition();
   
 public:
-  Ship(rVector2 position, const float Size);
+  Ship(Vector2 position, const float Size);
   ~Ship();
 
   void Draw();
   void Rotate(rotationDirection direction);
-  void MoveByVector(rVector2& move_vector);
+  void MoveByVector(Vector2& move_vector);
   SmokeParticle* Accelerate();
   Particle* FireMissile();
 };

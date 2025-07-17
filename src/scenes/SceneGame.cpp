@@ -1,18 +1,13 @@
 #include "include/SceneGame.h"
 
-#include <raylib.h>
-
-#include "../toRaylibConversion.h"
-
-
 //true when collided with any planet
 static inline bool UpdateGivenObjectAndCheckPlanetCollision(std::list<Planet*> planets, InertObject* object)
 {
-    rVector2 acceleration{ 0.0f,0.0f };
+    Vector2 acceleration{ 0.0f,0.0f };
     bool particleCollided = false;
     for (Planet* currentPlanet : planets)
     {
-        rVector2 partialAcceleration = currentPlanet->GetAcceleration((object)->position);
+        Vector2 partialAcceleration = currentPlanet->GetAcceleration((object)->position);
         acceleration.x += partialAcceleration.x;
         acceleration.y += partialAcceleration.y;
         if (!particleCollided)
@@ -162,9 +157,9 @@ SceneGame :: SceneGame(SceneEnum se) : Scene(se) {
 
   this->shipsList.push_back(ship);
 
-  Planet* planet  = new Planet(this->planetPlacement,  50, 50000,  convert(BLUE));
-  Planet* planet2 = new Planet(this->planet2Placement, 60, 170000, convert(DARKBLUE));
-  Planet* planet3 = new Planet(this->planet3Placement, 30, 30000,  convert(BROWN));
+  Planet* planet  = new Planet(this->planetPlacement,  50, 50000,  BLUE);
+  Planet* planet2 = new Planet(this->planet2Placement, 60, 170000, DARKBLUE);
+  Planet* planet3 = new Planet(this->planet3Placement, 30, 30000,  BROWN);
 
   this->gravitySources.push_back(planet);
   this->gravitySources.push_back(planet2);
@@ -174,6 +169,14 @@ SceneGame :: SceneGame(SceneEnum se) : Scene(se) {
 
 SceneGame::~SceneGame() {
 };
+
+Vector2 SceneGame::calculate_cursor_game_position() {
+    Vector2 gamePosition;
+    Vector2 mousePosition = GetMousePosition();
+    gamePosition.x = (mousePosition.x - this->cameraOffset.x) / this->cameraZoom + this->cameraTarget.x;
+    gamePosition.y = (mousePosition.y - this->cameraOffset.y) / this->cameraZoom + this->cameraTarget.y;
+    return gamePosition;
+}
 
 void SceneGame::render() {
   // Drawing planets
@@ -207,8 +210,14 @@ void SceneGame::process_input() {
       if (is_local_player_ship(ship))
       {
           dynamic_cast<PlayerShip*>(ship)->HandlePressedKeys();
-      }       
+      }
   }
+}
+
+void SceneGame::prepare_scene()
+{
+    HideCursor();
+    cursor.type = (CursorType::GAME_DEFAULT);
 }
 
 void SceneGame::simulate() {
@@ -231,11 +240,17 @@ void SceneGame::simulate() {
   {
       if (ship->health > 0)
       {
-          WriteMessage("Ship health: ", ship->health, 20, screenHeight - 80);
-          WriteMessage("Velocity: ", VectorLength(ship->velocity), 20, screenHeight - 60);
-          WriteMessage("Reload: ", ship->reload, 20, screenHeight - 40);
-          WriteMessage("Missile speed: ", ship->missileSpeed, 20, screenHeight - 20);
+          WriteMessage("mouse X: ", GetMousePosition().x, 20, screenHeight - 180);
+          WriteMessage("mouse y: ", GetMousePosition().y, 20, screenHeight - 160);
+          WriteMessage("mouse x on game: ", this->calculate_cursor_game_position().x, 20, screenHeight - 140);
+          WriteMessage("mouse y on game: ", this->calculate_cursor_game_position().y, 20, screenHeight - 120);
+          WriteMessage("camera x on game: ", this->cameraOffset.x, 20, screenHeight - 100);
+          WriteMessage("camera y on game: ", this->cameraOffset.y, 20, screenHeight - 80);
+          WriteMessage("camera zoom: ", this->cameraZoom, 20, screenHeight - 60);
+          WriteMessage("ship x: ", ship->position.x, 20, screenHeight - 40);
+          WriteMessage("ship y: ", ship->position.y, 20, screenHeight - 20);
       }
+
   }
   if(0==shipsList.size())
   {
@@ -244,7 +259,12 @@ void SceneGame::simulate() {
 
 };
 
-rVector2 SceneGame::get_player_position()
+void SceneGame::render_cursor()
+{
+   cursor.draw(GetMousePosition());
+}
+
+Vector2 SceneGame::get_player_position()
 {
     for (Ship* ship : shipsList)
     {
@@ -256,7 +276,7 @@ rVector2 SceneGame::get_player_position()
     return { 0.0f, 0.0f };
 }
 
-rVector2 SceneGame::get_player_velocity()
+Vector2 SceneGame::get_player_velocity()
 {
     for (Ship* ship : shipsList)
     {
