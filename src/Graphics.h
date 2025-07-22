@@ -27,6 +27,8 @@ public:
 	Graphics() { init_camera(); }
 	~Graphics() {}
 
+	Camera2D cameraProperties;
+
 private:
 	SceneEnum selectedScene;
 	SceneGame* sceneGame;

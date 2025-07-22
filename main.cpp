@@ -21,6 +21,7 @@ int main(int charc, char** argv) {
 
   mainRes.camera = new Graphics();
   mainRes.console = new Console();
+  mainRes.cursor = new Cursor();
   mainRes.camera->register_scene(mainRes.sceneGame);
   mainRes.camera->register_scene(mainRes.sceneMainMenu);
   mainRes.camera->register_console(mainRes.console);

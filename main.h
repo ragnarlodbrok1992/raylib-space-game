@@ -3,6 +3,8 @@
 
 #include "src/globals.h"
 // #include "submodules/network/src/host.h"
+#include "src/Graphics.h"
+#include "src/Console.h"
 
 #include <raylib.h>
 

@@ -12,6 +12,7 @@
 #include "../../ObjectPipe.h"
 #include "../../objects/include/PlayerShip.h"
 #include "../../cursor.h"
+#include "../../globals.h"
 
 
 class SceneGame : public Scene {
@@ -19,7 +20,6 @@ private:
   // Init control values here
   double angle = 0.04f;
   Vector2 shipMoveVector;
-  Cursor cursor;
 
   // Init control structures here
   std::list <Planet*>                  gravitySources;
@@ -33,12 +33,8 @@ private:
   Vector2 planet2Placement = { 650.0f,  350.0f };
   Vector2 planet3Placement = { 100.0f,  120.0f };
 
-  Vector2 calculate_cursor_game_position();
 
 public:
-	Vector2 cameraTarget;
-	Vector2 cameraOffset;
-	float cameraZoom;
   SceneGame(SceneEnum se);
   ~SceneGame();
 

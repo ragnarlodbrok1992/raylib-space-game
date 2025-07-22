@@ -3,6 +3,9 @@
 
 #include "Parser.h"
 #include "globals.h"
+#include "Graphics.h"
+
+#include <raylib.h>
 
 #include <unordered_map>
 #include <functional>

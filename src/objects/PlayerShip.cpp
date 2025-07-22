@@ -1,5 +1,6 @@
 #include "include/PlayerShip.h"
-
+#include "../globals.h"
+#include "../cursor.h"
 
 // Constructor for remote player... maybe some AI?
 PlayerShip::PlayerShip(Vector2 position, const float size) : Ship(position, size)
@@ -43,30 +44,18 @@ void PlayerShip::HandlePressedKeys()
         AddSmokeParticleToPipe(this->Accelerate());
     }
 
-    if (IsKeyPressed(this->keymap.fire))
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
-        if (this->reload >= this->reloaded)
-        {
-            this->chargingMissile = true;
-            this->missileSpeed = 3.0f;
+        if(mainRes.cursor->isInAimingTriangle)
+            if (this->reload >= this->reloaded)
+            {
             this->reload = 0;
-        }
-    }
-    if (IsKeyDown(this->keymap.fire))
-    {
-        if (true == this->chargingMissile)
-        {
-            this->missileSpeed += 0.5;
-        }
-    }
-    if (IsKeyReleased(this->keymap.fire))
-    {
-        if (this->chargingMissile == true)
-        {
+            this->missileSpeed = GetDistance(this->position, mainRes.cursor->positionInGame);
+			if (this->missileSpeed > 100.0f) this->missileSpeed = 100.0f; // limit missile speed
+
+			this->aimingVector = CalculateUnitVector(this->position, mainRes.cursor->positionInGame);
             AddInertObjectToPipe(this->FireMissile());
-            this->missileSpeed = 0.0f;
-            this->chargingMissile = false;
-        }
+            }
     }
     if (!this->chargingMissile)
     {

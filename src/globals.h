@@ -1,17 +1,15 @@
+#pragma once
+
 #ifndef _H_GLOBALS
 #define _H_GLOBALS
 
-#include "Utils.h"
-#include "scenes/include/Scene.h"
-#include "scenes/include/SceneMainMenu.h"
-#include "scenes/include/SceneGame.h"
-#include "scenes/include/SceneEditor.h"
-#include "Console.h"
-#include "Graphics.h"
-
 class Graphics;
 class Console;
-
+class SceneGame;
+class Scene;
+class SceneMainMenu;
+class SceneEditor;
+class Cursor;
 typedef struct 
 {
 	SceneMainMenu* sceneMainMenu;
@@ -20,6 +18,7 @@ typedef struct
 	Scene* selectedScene;
 	Graphics* camera;
 	Console* console;
+	Cursor* cursor;
 } mainResources_t;
 
 extern mainResources_t mainRes;

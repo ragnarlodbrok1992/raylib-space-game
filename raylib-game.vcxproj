@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="main.h" />
     <ClInclude Include="src\cursor.h" />
+    <ClInclude Include="src\globals.h" />
     <ClInclude Include="src\Graphics.h" />
     <ClInclude Include="src\Collisions.h" />
     <ClInclude Include="src\Console.h" />

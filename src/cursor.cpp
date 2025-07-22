@@ -1,4 +1,6 @@
 #include "cursor.h"
+#include "globals.h"
+#include "Graphics.h"
 
 Cursor::Cursor()
 {
@@ -26,4 +28,11 @@ void Cursor::draw(Vector2 position)
 		return;
 	}
 	DrawCircleV(position, 2, BLACK);
+}
+
+void Cursor::calculate_cursor_game_position()
+{
+	Vector2 mousePosition = GetMousePosition();
+	this->positionInGame.x = (mousePosition.x - mainRes.camera->cameraProperties.offset.x) / mainRes.camera->cameraProperties.zoom + mainRes.camera->cameraProperties.target.x;
+	this->positionInGame.y = (mousePosition.y - mainRes.camera->cameraProperties.offset.y) / mainRes.camera->cameraProperties.zoom + mainRes.camera->cameraProperties.target.y;
 }
