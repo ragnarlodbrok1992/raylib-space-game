@@ -13,7 +13,6 @@ enum class CursorType
 	GAME_DEFAULT,	// cursor out of available angle for shoot
 	GAME_TARGET,	// cursor in available angle for shoot
 	UNDEFINED
-
 };
 
 class Cursor
@@ -22,9 +21,12 @@ class Cursor
 
 public:
 	bool isHidden = false;
+	bool isInAimingTriangle = false; // used to check if cursor is in aiming triangle of ship
+	Vector2 positionInGame;
 	Cursor();
 	~Cursor();
 	void draw(Vector2 position);
+	void calculate_cursor_game_position();
 	CursorType type = CursorType::UNDEFINED;
 	void set_type(CursorType type) { this->type = type; }
 };

@@ -21,10 +21,16 @@ public:
   int reload = 0; //when 100 you will be able to fire. Currently checked in main
   const int reloaded = 100;
   Vector2 shipMoveVector = { 0.0f, -1.0f };
+  Vector2 aimingVector = { 0.0f, -1.0f }; // vector that shows where ship is aiming
+
+  const float aiming_line_length = 10000.0f; // length of aiming lines
+  const float aiming_line_angle = 0.08f; // width of aiming lines
 
 protected:
   void calculate_ship_shape();
+  void calculate_aiming_triangle();
   Vector2 ship_coords[4];
+  Vector2 aiming_triangle[3]; //used for drawing aiming triangle (area where missiles can hit without turning the ship)
 
   void UpdatePosition();
   

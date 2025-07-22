@@ -2,19 +2,18 @@
 #include "raylib.h"
 
 
-Camera2D cameraProperties;
 
 void Graphics::init_camera()
 {
     InitWindow(screenWidth, screenHeight, "RayLib Space Game");
 
     SetTargetFPS(60);
-    cameraProperties.offset.x = GetScreenWidth() / 2.0f;
-    cameraProperties.offset.y = GetScreenHeight() / 2.0f;
-    cameraProperties.target.x = 0.0f;
-    cameraProperties.target.y = 0.0f;
-    cameraProperties.rotation = 0.0f;
-    cameraProperties.zoom = 1.0f;
+    this->cameraProperties.offset.x = GetScreenWidth() / 2.0f;
+    this->cameraProperties.offset.y = GetScreenHeight() / 2.0f;
+    this->cameraProperties.target.x = 0.0f;
+    this->cameraProperties.target.y = 0.0f;
+    this->cameraProperties.rotation = 0.0f;
+    this->cameraProperties.zoom = 1.0f;
 }
 
 void Graphics::set_scene(SceneEnum selectedScene)
@@ -69,12 +68,7 @@ void Graphics::render()
         calculate_player_camera(sceneGame->get_player_position(),
             sceneGame->get_player_velocity());
 
-		sceneGame->cameraZoom = cameraProperties.zoom;
-        sceneGame->cameraTarget.x = cameraProperties.target.x;
-		sceneGame->cameraTarget.y = cameraProperties.target.y;
-		sceneGame->cameraOffset.x = cameraProperties.offset.x;
-		sceneGame->cameraOffset.y = cameraProperties.offset.y;
-        BeginMode2D(cameraProperties);
+        BeginMode2D(this->cameraProperties);
     }
     renderScene->render();
     EndMode2D();
@@ -95,57 +89,57 @@ bool Graphics::should_window_close()
 
 void Graphics::calculate_player_camera(Vector2 playerPosition, Vector2 playerVelocityVector)
 {
-    cameraProperties.offset.x = GetScreenWidth() / 2.0f;
-    cameraProperties.offset.y = GetScreenHeight() / 2.0f;
+    this->cameraProperties.offset.x = GetScreenWidth() / 2.0f;
+    this->cameraProperties.offset.y = GetScreenHeight() / 2.0f;
     float playerVelocity = VectorLength(playerVelocityVector);
-    cameraProperties.target = playerPosition;
+    this->cameraProperties.target = playerPosition;
     if (((GetScreenWidth() / 3) < abs(playerVelocityVector.x * speedToOffsetFactor)))
     {
         if (0 < playerVelocityVector.x)
         {
-            cameraProperties.offset.x -= GetScreenWidth() / 3;
+            this->cameraProperties.offset.x -= GetScreenWidth() / 3;
         }
         else
         {
-            cameraProperties.offset.x += GetScreenWidth() / 3;
+            this->cameraProperties.offset.x += GetScreenWidth() / 3;
         }
     }
     else
     {
-        cameraProperties.offset.x -= playerVelocityVector.x * speedToOffsetFactor;
+        this->cameraProperties.offset.x -= playerVelocityVector.x * speedToOffsetFactor;
     }
 
     if (((GetScreenHeight() / 3) < abs(playerVelocityVector.y * speedToOffsetFactor)))
     {
         if (0 < playerVelocityVector.y)
         {
-            cameraProperties.offset.y -= GetScreenHeight() / 3;
+            this->cameraProperties.offset.y -= GetScreenHeight() / 3;
         }
         else
         {
-            cameraProperties.offset.y += GetScreenHeight() / 3;
+            this->cameraProperties.offset.y += GetScreenHeight() / 3;
         }
     }
     else
     {
-        cameraProperties.offset.y -= playerVelocityVector.y * speedToOffsetFactor;
+        this->cameraProperties.offset.y -= playerVelocityVector.y * speedToOffsetFactor;
     }
 
     if (playerVelocity < fullZoomMaxVelocity)
     {
-        cameraProperties.zoom = maxZoom;
+        this->cameraProperties.zoom = maxZoom;
     }
     else if (playerVelocity < firstRange)
     {
-        cameraProperties.zoom = maxZoom - (playerVelocity - fullZoomMaxVelocity) / (firstRangeAdd / (maxZoom - firstRangeZoom));
+        this->cameraProperties.zoom = maxZoom - (playerVelocity - fullZoomMaxVelocity) / (firstRangeAdd / (maxZoom - firstRangeZoom));
     }
     else
     {
-        cameraProperties.zoom = firstRangeZoom - (playerVelocity - firstRange) / (secondRangeAdd / firstRangeZoom - secondRangeZoom);
+        this->cameraProperties.zoom = firstRangeZoom - (playerVelocity - firstRange) / (secondRangeAdd / firstRangeZoom - secondRangeZoom);
     }
-    if (cameraProperties.zoom < 0.5f)
+    if (this->cameraProperties.zoom < 0.5f)
     {
-        cameraProperties.zoom = 0.5f;
+        this->cameraProperties.zoom = 0.5f;
     }
-	cameraProperties.zoom *= this->zoom; // Apply zoom factor from Graphics class
+    this->cameraProperties.zoom *= this->zoom; // Apply zoom factor from Graphics class
 }

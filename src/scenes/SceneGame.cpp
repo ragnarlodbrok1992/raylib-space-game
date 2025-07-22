@@ -1,4 +1,7 @@
 #include "include/SceneGame.h"
+#include "../globals.h"
+#include "../cursor.h"
+#include "../Graphics.h"
 
 //true when collided with any planet
 static inline bool UpdateGivenObjectAndCheckPlanetCollision(std::list<Planet*> planets, InertObject* object)
@@ -164,19 +167,10 @@ SceneGame :: SceneGame(SceneEnum se) : Scene(se) {
   this->gravitySources.push_back(planet);
   this->gravitySources.push_back(planet2);
   this->gravitySources.push_back(planet3);
-
 };
 
 SceneGame::~SceneGame() {
 };
-
-Vector2 SceneGame::calculate_cursor_game_position() {
-    Vector2 gamePosition;
-    Vector2 mousePosition = GetMousePosition();
-    gamePosition.x = (mousePosition.x - this->cameraOffset.x) / this->cameraZoom + this->cameraTarget.x;
-    gamePosition.y = (mousePosition.y - this->cameraOffset.y) / this->cameraZoom + this->cameraTarget.y;
-    return gamePosition;
-}
 
 void SceneGame::render() {
   // Drawing planets
@@ -205,6 +199,7 @@ void SceneGame::render() {
 
 void SceneGame::process_input() {
   // Handling input events
+
   for (Ship* ship : shipsList)
   {
       if (is_local_player_ship(ship))
@@ -217,7 +212,7 @@ void SceneGame::process_input() {
 void SceneGame::prepare_scene()
 {
     HideCursor();
-    cursor.type = (CursorType::GAME_DEFAULT);
+    mainRes.cursor->type = (CursorType::GAME_DEFAULT);
 }
 
 void SceneGame::simulate() {
@@ -242,11 +237,11 @@ void SceneGame::simulate() {
       {
           WriteMessage("mouse X: ", GetMousePosition().x, 20, screenHeight - 180);
           WriteMessage("mouse y: ", GetMousePosition().y, 20, screenHeight - 160);
-          WriteMessage("mouse x on game: ", this->calculate_cursor_game_position().x, 20, screenHeight - 140);
-          WriteMessage("mouse y on game: ", this->calculate_cursor_game_position().y, 20, screenHeight - 120);
-          WriteMessage("camera x on game: ", this->cameraOffset.x, 20, screenHeight - 100);
-          WriteMessage("camera y on game: ", this->cameraOffset.y, 20, screenHeight - 80);
-          WriteMessage("camera zoom: ", this->cameraZoom, 20, screenHeight - 60);
+          WriteMessage("mouse x on game: ", mainRes.cursor->positionInGame.x, 20, screenHeight - 140);
+          WriteMessage("mouse y on game: ", mainRes.cursor->positionInGame.y, 20, screenHeight - 120);
+          WriteMessage("camera x on game: ", mainRes.camera->cameraProperties.offset.x, 20, screenHeight - 100);
+          WriteMessage("camera y on game: ", mainRes.camera->cameraProperties.offset.y, 20, screenHeight - 80);
+          WriteMessage("camera zoom: ", mainRes.camera->cameraProperties.zoom, 20, screenHeight - 60);
           WriteMessage("ship x: ", ship->position.x, 20, screenHeight - 40);
           WriteMessage("ship y: ", ship->position.y, 20, screenHeight - 20);
       }
@@ -261,7 +256,7 @@ void SceneGame::simulate() {
 
 void SceneGame::render_cursor()
 {
-   cursor.draw(GetMousePosition());
+   mainRes.cursor->draw(GetMousePosition());
 }
 
 Vector2 SceneGame::get_player_position()

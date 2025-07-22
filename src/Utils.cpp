@@ -59,6 +59,34 @@ float DistancePointToSegment(Vector2 segmentFirst, Vector2 segmentSecond, Vector
 
 }
 
+bool IsPointInTriangle(Vector2 point, Vector2 triangle[3])
+{
+    // Using barycentric coordinates to check if point is inside triangle
+    float denominator = ((triangle[1].y - triangle[2].y) * (triangle[0].x - triangle[2].x) + 
+                         (triangle[2].x - triangle[1].x) * (triangle[0].y - triangle[2].y));
+    float a = ((triangle[1].y - triangle[2].y) * (point.x - triangle[2].x) + 
+               (triangle[2].x - triangle[1].x) * (point.y - triangle[2].y)) / denominator;
+    float b = ((triangle[2].y - triangle[0].y) * (point.x - triangle[2].x) + 
+               (triangle[0].x - triangle[2].x) * (point.y - triangle[2].y)) / denominator;
+    float c = 1.0f - a - b;
+	return (a >= 0 && b >= 0 && c >= 0);
+}
+
+Vector2 CalculateVector(Vector2 firstPoint, Vector2 secondPoint) 
+{
+	return { secondPoint.x - firstPoint.x, secondPoint.y - firstPoint.y };
+}
+
+Vector2 CalculateUnitVector(Vector2 firstPoint, Vector2 secondPoint)
+{
+    Vector2 vector = CalculateVector(firstPoint, secondPoint);
+    float length = VectorLength(vector);
+    if (length == 0.0f) {
+        return { 0.0f, 0.0f }; // Avoid division by zero
+    }
+	return { vector.x / length, vector.y / length };
+}
+
 void SwapPointers(void** first, void** second)
 {
     void* temp = *first;

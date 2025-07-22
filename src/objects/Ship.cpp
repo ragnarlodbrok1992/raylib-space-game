@@ -2,6 +2,9 @@
 #include <raylib.h>
 
 #include "include/Ship.h"
+#include "../globals.h"
+#include "../scenes/include/SceneGame.h"
+#include "../cursor.h"
 
 
 Ship::Ship(Vector2 position, const float size) : InertObject(position), Size(size){
@@ -18,6 +21,33 @@ void Ship::calculate_ship_shape() {
   ship_coords[1] = Vector2{ this->position.x - ( (float) this->Size / 2.0f), this->position.y + ( (float) this->Size / 2.0f) };
   ship_coords[2] = Vector2{ this->position.x,                                this->position.y - ( (float) this->Size / 2.0f) };
   ship_coords[3] = Vector2{ this->position.x + ( (float) this->Size / 2.0f), this->position.y + ( (float) this->Size / 2.0f) };
+}
+
+void Ship::calculate_aiming_triangle() {
+	// calculate unit vectors for aiming lines based on shipMoveVector
+  Vector2 aiming_line_clockwise = this->shipMoveVector, aiming_line_counter_clockwise = this->shipMoveVector;
+  RotateUnitVector(aiming_line_clockwise, -aiming_line_angle);
+  RotateUnitVector(aiming_line_counter_clockwise, aiming_line_angle);
+
+  // Calculate aiming triangle
+  aiming_triangle[0] = this->ship_coords[2]; // ship tip
+  aiming_triangle[1] = Vector2{ aiming_triangle[0].x + this->aiming_line_length * aiming_line_clockwise.x,
+                                aiming_triangle[0].y + this->aiming_line_length * aiming_line_clockwise.y };
+  aiming_triangle[2] = Vector2{ aiming_triangle[0].x + aiming_line_length * aiming_line_counter_clockwise.x,
+                                aiming_triangle[0].y + aiming_line_length * aiming_line_counter_clockwise.y };
+
+  // Check if cursor is in aiming triangle TBD: move it somewhere else?
+  mainRes.cursor->calculate_cursor_game_position();
+
+  if (IsPointInTriangle(mainRes.cursor->positionInGame, aiming_triangle))
+  {
+	  mainRes.cursor->set_type(CursorType::GAME_TARGET);
+	  mainRes.cursor->isInAimingTriangle = true;
+  }
+  else {
+      mainRes.cursor->set_type(CursorType::GAME_DEFAULT);
+	  mainRes.cursor->isInAimingTriangle = false;
+  }
 
 }
 
@@ -30,6 +60,7 @@ void Ship::Draw() {
   DrawLineEx(ship_coords[2], ship_coords[3], 2.0f, PURPLE);
   DrawLineEx(ship_coords[3], ship_coords[0], 2.0f, PURPLE);
 
+  DrawTriangleLines(aiming_triangle[0], aiming_triangle[1], aiming_triangle[2], GREEN);
 }
 
 void Ship::Rotate(rotationDirection direction) {
@@ -76,6 +107,7 @@ void Ship::UpdatePosition()
         ship_coords[x].x += xChange;
         ship_coords[x].y += yChange;
     }
+	this->calculate_aiming_triangle();
 };
 
 // Returns new smoke pointer - should be handled otherwise memory leak
@@ -96,8 +128,8 @@ Particle* Ship::FireMissile()
 {
     Vector2 missileVelocity;
     Vector2 missilePosition;
-    missileVelocity.x = this->velocity.x + this->shipMoveVector.x * this->missileSpeed;
-    missileVelocity.y = this->velocity.y + this->shipMoveVector.y * this->missileSpeed;
+    missileVelocity.x = this->velocity.x + this->aimingVector.x * this->missileSpeed;
+    missileVelocity.y = this->velocity.y + this->aimingVector.y * this->missileSpeed;
     missilePosition.x = this->position.x + this->shipMoveVector.x * this->Size*2/3;
     missilePosition.y = this->position.y + this->shipMoveVector.y * this->Size*2/3;
     Particle* missile = new Particle(missilePosition, missileVelocity, BLUE);

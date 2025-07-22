@@ -24,6 +24,10 @@ float GetDistance(Vector2 firstObj, Vector2 secondObj);
 float VectorLength(Vector2 vector);
 void RotateUnitVector(Vector2& vectorToRotate, double angle);
 float DistancePointToSegment(Vector2 segmentFirst, Vector2 segmentSecond, Vector2 point);
+Vector2 CalculateVector(Vector2 firstPoint, Vector2 secondPoint); //calculates vector from first point to second
+Vector2 CalculateUnitVector(Vector2 firstPoint, Vector2 secondPoint); //calculates versor (unit vector) from first point to second
+
+bool IsPointInTriangle(Vector2 point, Vector2 triangle[3]); //checks if point is inside triangle
 
 // Code operations
 void SwapPointers(void** first, void** second); //swaps two pointers
