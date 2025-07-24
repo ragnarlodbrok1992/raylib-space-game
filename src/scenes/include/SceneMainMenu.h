@@ -7,14 +7,15 @@
 
 class SceneMainMenu : public Scene {
 public:
-  SceneMainMenu(SceneEnum se);
+  SceneMainMenu();
   ~SceneMainMenu();
 
-  void process_input();
-  void process_mouse();
-  void render();
-  void simulate();
-  void prepare_scene();
+  void process_input() override;
+  void process_mouse() override;
+  void render() override;
+  void simulate() override;
+  void prepare_scene() override;
+  void render_cursor() override;
 };
 
 #endif /* SCENEMAINMENU */

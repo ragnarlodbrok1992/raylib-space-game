@@ -25,7 +25,7 @@ static inline bool UpdateGivenObjectAndCheckPlanetCollision(std::list<Planet*> p
 
 // Calculates acceleration and colliosions for given lists of InertObjects.
 // Current collision efect: delete object that collided with planet
-//TBD: two functions with the same name can be merged into one somehow?
+// TODO: two functions with the same name can be merged into one somehow?
 static void CalculatePlanetsEffects(std::list<Planet*> &planets, std::list<InertObject*> &object)
 {
     if (object.size() == 0)
@@ -148,14 +148,15 @@ static bool is_local_player_ship(Ship* ship)
     return false;
 }
 
-SceneGame :: SceneGame(SceneEnum se) : Scene(se) {
-    this->shipMoveVector = { 0.0f, -1.0f };
+SceneGame :: SceneGame() {
+  this->scene = SceneEnum::GAMESCENE;
+  this->shipMoveVector = { 0.0f, -1.0f };
   // Init objects here
-    playerKeyMap_t player1Keys;
-    player1Keys.accelerate = KEY_W;
-    player1Keys.fire = KEY_SPACE;
-    player1Keys.rotateClockwise = KEY_D;
-    player1Keys.rotateCounterclockwise = KEY_A;
+  playerKeyMap_t player1Keys;
+  player1Keys.accelerate = KEY_W;
+  player1Keys.fire = KEY_SPACE;
+  player1Keys.rotateClockwise = KEY_D;
+  player1Keys.rotateCounterclockwise = KEY_A;
   PlayerShip* ship = new PlayerShip(shipPlacement, 20.0f, player1Keys);
 
   this->shipsList.push_back(ship);
@@ -207,6 +208,10 @@ void SceneGame::process_input() {
           dynamic_cast<PlayerShip*>(ship)->HandlePressedKeys();
       }
   }
+}
+
+void SceneGame::process_mouse() {
+
 }
 
 void SceneGame::prepare_scene()

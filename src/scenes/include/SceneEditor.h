@@ -7,12 +7,16 @@
 
 class SceneEditor : public Scene {
 public:
-  SceneEditor(SceneEnum se);
+  SceneEditor();
   ~SceneEditor();
 
-  void process_input();
-  void render();
-  void simulate();
+  void process_input() override;
+  void process_mouse() override;
+  void render() override;
+  void simulate() override;
+  void prepare_scene() override;
+  void render_cursor() override;
+
 };
 
 #endif /* H_SCENEEDITOR */

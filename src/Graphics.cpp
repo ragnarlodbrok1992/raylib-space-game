@@ -22,33 +22,18 @@ void Graphics::set_scene(SceneEnum selectedScene)
     switch (this->selectedScene)
     {
     case SceneEnum::MAINMENU:
-        change_scene(sceneMainMenu);
+        change_scene(mainRes.sceneMainMenu);
         break;
     case SceneEnum::GAMESCENE:
-        change_scene(sceneGame);
+        change_scene(mainRes.sceneGame);
         break;
     }
 }
 
 void Graphics::change_scene(Scene* scene)
 {
-    renderScene = scene;
+    // renderScene = scene;
     scene->prepare_scene();
-}
-
-void Graphics::register_scene(SceneGame* sceneGame)
-{
-    this->sceneGame = sceneGame;
-}
-
-void Graphics::register_scene(SceneMainMenu* sceneMainMenu)
-{
-    this->sceneMainMenu = sceneMainMenu;
-}
-
-void Graphics::register_console(Console* console)
-{
-    this->console = console;
 }
 
 bool Graphics::is_key_pressed(uint16_t key)
@@ -65,15 +50,16 @@ void Graphics::render()
     ClearBackground(RAYWHITE);
     if (this->selectedScene == SceneEnum::GAMESCENE)
     {
-        calculate_player_camera(sceneGame->get_player_position(),
-            sceneGame->get_player_velocity());
+        calculate_player_camera(mainRes.sceneGame->get_player_position(),
+            mainRes.sceneGame->get_player_velocity());
 
         BeginMode2D(this->cameraProperties);
     }
-    renderScene->render();
+    mainRes.selectedScene->render();
     EndMode2D();
-	renderScene->render_cursor();
-    console->render();
+	
+    mainRes.selectedScene->render_cursor();
+    mainRes.console->render();
 
     EndDrawing();
 }

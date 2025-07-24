@@ -18,9 +18,7 @@ Console::Console()
     const float y = 10.0f;
     const float width = GetScreenWidth() - (x * 2.0f); // Obvious math for borders
     const float height = 10 + (GetScreenHeight() / 3.0f);
-    // Create parser object
-    this->parser = new Parser();
-    
+
     // Register callbacks
     this->register_callbacks();
 
@@ -36,9 +34,6 @@ Console::Console()
 }
 
 Console::Console(float x, float y, float width, float height) {
-  // Create parser object
-  this->parser = new Parser();
-
   // Assume font is 20 px in height
   rect = {x, y, width, height};
   float input_rect_x = x + (width * 0.01f);
@@ -50,8 +45,8 @@ Console::Console(float x, float y, float width, float height) {
   // Font in raylib by default (I think) are 7 px width for capital and 6 px width for normal
 };
 
+// TODO: remove?
 Console::~Console() {
-  delete this->parser;
 };
 
 void Console::render() {
@@ -158,10 +153,10 @@ void Console::process_input() {
 
   // Check press enter
   if (key_code_event == KEY_ENTER) {
-    this->parser->parse_command(std::string(this->command_buffer.begin(), this->command_buffer.end()));
+    mainRes.parser->parse_command(std::string(this->command_buffer.begin(), this->command_buffer.end()));
 
     // Run callback function
-    this->commands_callbacks(this->parser->parsed_command);
+    this->commands_callbacks(mainRes.parser->parsed_command);
 
     // Cleaning buffer
     this->clear_cmd_buf();

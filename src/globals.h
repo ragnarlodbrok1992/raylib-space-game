@@ -10,6 +10,8 @@ class Scene;
 class SceneMainMenu;
 class SceneEditor;
 class Cursor;
+class Parser;
+
 typedef struct 
 {
 	SceneMainMenu* sceneMainMenu;
@@ -19,6 +21,7 @@ typedef struct
 	Graphics* camera;
 	Console* console;
 	Cursor* cursor;
+  Parser* parser;
 } mainResources_t;
 
 extern mainResources_t mainRes;

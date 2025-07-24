@@ -14,17 +14,15 @@ mainResources_t mainRes = {0};
 int main(int charc, char** argv) {
   int status = 0;
   // Init scenes here
-  mainRes.sceneMainMenu = new SceneMainMenu(SceneEnum::MAINMENU);
-  mainRes.sceneGame = new SceneGame(SceneEnum::GAMESCENE);
-  mainRes.sceneEditor = new SceneEditor(SceneEnum::EDITOR);
+  mainRes.sceneMainMenu = new SceneMainMenu();
+  mainRes.sceneGame = new SceneGame();
+  mainRes.sceneEditor = new SceneEditor();
  
-
   mainRes.camera = new Graphics();
   mainRes.console = new Console();
   mainRes.cursor = new Cursor();
-  mainRes.camera->register_scene(mainRes.sceneGame);
-  mainRes.camera->register_scene(mainRes.sceneMainMenu);
-  mainRes.camera->register_console(mainRes.console);
+  mainRes.parser = new Parser();
+
   mainRes.camera->set_scene(SceneEnum::MAINMENU);
 
   // Start scene is main menu
