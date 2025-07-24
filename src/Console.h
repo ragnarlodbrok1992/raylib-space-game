@@ -11,10 +11,6 @@
 #include <functional>
 
 class Console {
-  private:
-    // Composite objects
-    Parser *parser;
-
   public:
     // Console geometry
     unsigned int render_time = 0;

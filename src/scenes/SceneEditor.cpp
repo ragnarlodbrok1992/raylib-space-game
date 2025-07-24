@@ -1,7 +1,7 @@
 #include "include/SceneEditor.h"
 
-SceneEditor :: SceneEditor(SceneEnum se) : Scene(se) {
-
+SceneEditor :: SceneEditor() {
+  this->scene = SceneEnum::EDITOR;
 };
 
 SceneEditor::~SceneEditor() {
@@ -9,6 +9,10 @@ SceneEditor::~SceneEditor() {
 };
 
 void SceneEditor::process_input() {
+
+}
+
+void SceneEditor::process_mouse() {
 
 }
 
@@ -20,3 +24,9 @@ void SceneEditor::simulate() {
   
 };
 
+void SceneEditor::prepare_scene() {
+}
+
+void SceneEditor::render_cursor() {
+
+}

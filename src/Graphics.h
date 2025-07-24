@@ -4,10 +4,12 @@
 #include <math.h>
 #include "Utils.h"
 #include "scenes/include/Scene.h"
+#include "Console.h"
+
 #include "scenes/include/SceneEditor.h"
 #include "scenes/include/SceneGame.h"
 #include "scenes/include/SceneMainMenu.h"
-#include "Console.h"
+
 
 class Console;
 
@@ -19,9 +21,6 @@ public:
 	void close_window();
 	bool should_window_close();
 	void set_scene(SceneEnum selectedScene);
-	void register_scene(SceneGame* sceneGame);
-	void register_scene(SceneMainMenu* sceneMainMenu);
-	void register_console(Console* console);
 
 	bool is_key_pressed(uint16_t key);
 	Graphics() { init_camera(); }
@@ -31,13 +30,8 @@ public:
 
 private:
 	SceneEnum selectedScene;
-	SceneGame* sceneGame;
-	SceneMainMenu* sceneMainMenu;
-	Scene* renderScene;
-	Console* console;
-	Cursor cursor;
 	void init_camera();
-	void change_scene(Scene*);
+	void change_scene(Scene* scene);
 	float zoom = 1.0f;
 	const float minZoom = 0.04f; // Minimum zoom to prevent too much zoom out
 	const float maxZoom = 2.0f;

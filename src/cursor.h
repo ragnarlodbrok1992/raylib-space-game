@@ -20,11 +20,12 @@ class Cursor
 		
 
 public:
+	Cursor();
+	~Cursor();
+
 	bool isHidden = false;
 	bool isInAimingTriangle = false; // used to check if cursor is in aiming triangle of ship
 	Vector2 positionInGame;
-	Cursor();
-	~Cursor();
 	void draw(Vector2 position);
 	void calculate_cursor_game_position();
 	CursorType type = CursorType::UNDEFINED;

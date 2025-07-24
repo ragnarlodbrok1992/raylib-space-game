@@ -1,8 +1,8 @@
 #include "include/SceneMainMenu.h"
 
 
-SceneMainMenu::SceneMainMenu(SceneEnum se) : Scene(se) {
-
+SceneMainMenu::SceneMainMenu(){
+  this->scene = SceneEnum::MAINMENU;
 };
 
 SceneMainMenu::~SceneMainMenu() {
@@ -13,13 +13,11 @@ void SceneMainMenu::process_input() {
 
 }
 
-void SceneMainMenu::process_mouse()
-{
+void SceneMainMenu::process_mouse() {
 
 }
 
-void SceneMainMenu::prepare_scene()
-{
+void SceneMainMenu::prepare_scene() {
 	HideCursor();
 }
 
@@ -28,5 +26,9 @@ void SceneMainMenu::render() {
 };
 
 void SceneMainMenu::simulate() {
+
+};
+
+void SceneMainMenu::render_cursor() {
 
 };

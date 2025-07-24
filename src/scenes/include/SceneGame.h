@@ -35,14 +35,15 @@ private:
 
 
 public:
-  SceneGame(SceneEnum se);
+  SceneGame();
   ~SceneGame();
 
-  void process_input();
-  void render();
-  void simulate();
-  void prepare_scene();
-  void render_cursor();
+  void process_input() override;
+  void render() override;
+  void simulate() override;
+  void prepare_scene() override;
+  void render_cursor() override;
+  void process_mouse() override;
   Vector2 get_player_position();
   Vector2 get_player_velocity();
 };
