@@ -23,14 +23,13 @@ public:
 	void set_scene(SceneEnum selectedScene);
 
 	bool is_key_pressed(uint16_t key);
-	Graphics() { init_camera(); }
+	Graphics(int windowWidth, int windowHeight, bool fullscreen);
 	~Graphics() {}
 
 	Camera2D cameraProperties;
 
 private:
 	SceneEnum selectedScene;
-	void init_camera();
 	void change_scene(Scene* scene);
 	float zoom = 1.0f;
 	const float minZoom = 0.04f; // Minimum zoom to prevent too much zoom out

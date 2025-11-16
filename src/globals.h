@@ -11,6 +11,7 @@ class SceneMainMenu;
 class SceneEditor;
 class Cursor;
 class Parser;
+class OptionParser;
 
 typedef struct 
 {
@@ -22,6 +23,7 @@ typedef struct
 	Console* console;
 	Cursor* cursor;
   Parser* parser;
+  OptionParser* optionParser;
 } mainResources_t;
 
 extern mainResources_t mainRes;

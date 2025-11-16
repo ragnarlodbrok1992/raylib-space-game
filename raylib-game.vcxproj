@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\cursor.cpp" />
+    <ClCompile Include="src\file_parsers\optionParser.cpp" />
     <ClCompile Include="src\Graphics.cpp" />
     <ClCompile Include="src\Collisions.cpp" />
     <ClCompile Include="src\Console.cpp" />
@@ -150,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="main.h" />
     <ClInclude Include="src\cursor.h" />
+    <ClInclude Include="src\file_parsers\optionParser.h" />
     <ClInclude Include="src\globals.h" />
     <ClInclude Include="src\Graphics.h" />
     <ClInclude Include="src\Collisions.h" />
@@ -177,6 +179,9 @@
     <ProjectReference Include="submodules\network\network.vcxproj">
       <Project>{63b704cb-1ab7-4da7-84e8-59350f3e8fa7}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
