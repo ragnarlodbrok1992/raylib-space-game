@@ -14,11 +14,12 @@ mainResources_t mainRes = {0};
 int main(int charc, char** argv) {
   int status = 0;
   // Init scenes here
+  mainRes.optionParser = new OptionParser(argv[0]);
   mainRes.sceneMainMenu = new SceneMainMenu();
   mainRes.sceneGame = new SceneGame();
   mainRes.sceneEditor = new SceneEditor();
  
-  mainRes.camera = new Graphics();
+  mainRes.camera = new Graphics(mainRes.optionParser->screenWidth, mainRes.optionParser->screenHeight, mainRes.optionParser->fullscreen);
   mainRes.console = new Console();
   mainRes.cursor = new Cursor();
   mainRes.parser = new Parser();

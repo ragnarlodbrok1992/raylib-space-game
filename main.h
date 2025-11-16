@@ -5,6 +5,7 @@
 // #include "submodules/network/src/host.h"
 #include "src/Graphics.h"
 #include "src/Console.h"
+#include "src/file_parsers/optionParser.h"
 
 #include <raylib.h>
 

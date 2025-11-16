@@ -3,9 +3,18 @@
 
 
 
-void Graphics::init_camera()
+Graphics::Graphics(int windowWidth, int windowHeight, bool fullscreen)
 {
-    InitWindow(screenWidth, screenHeight, "RayLib Space Game");
+    if ((windowWidth <= 0) || (windowHeight <= 0))
+    {
+        // TODO: message box with error
+    }
+    InitWindow(windowWidth, windowHeight, "RayLib Space Game");
+
+    if (fullscreen)
+    {
+        ToggleBorderlessWindowed();
+    }
 
     SetTargetFPS(60);
     this->cameraProperties.offset.x = GetScreenWidth() / 2.0f;
